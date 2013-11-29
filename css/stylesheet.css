@@ -81,7 +81,7 @@ select{
 #userprofile_icon
 {
     float:left; width:60px;
-    background-image:url("/css/images/calendar.gif");
+    background-image:url("/css/icons/top_left_side_bar_btn.png");
     background-repeat:no-repeat;
     min-height:80px;
     min-width:80px;
