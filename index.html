@@ -30,7 +30,7 @@
         <div id="page-login">
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
-            <p><input data-bind="value: LoginName" /></p>
+            <p><input type="email" pattern="[^ @]*@[^ @]*" data-bind="value: LoginName" /></p>
             <p><input data-bind="value: UserPassword" /></p>
             <p><strong data-bind="text: ErrorMessage, visible:LoginFail"></strong></p>
             <button data-bind="click: doLogin">Login</button>
