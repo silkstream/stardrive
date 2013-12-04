@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns = "http://www.w3.org/ns/widgets"
     xmlns:gap = "http://phonegap.com/ns/1.0"
-    id        = "Stardrive"
-    version   = "0.0.1">
-        
-<name>UBI</name>
+    id        = "Stardrive UBI"
+    version   = "1.0.0">
+
+<name>Stardrive Mobile</name>
 <icon src="icon.png" />
 <description>
-UBI Application
+Netstar Mobile Application
 </description>
+
 <author href="" email="mobile@altechisis.com">
 Altech ISIS (PTY) Ltd
 </author>
-  <access origin="*" subdomains="true" />
+  
+<access origin="*" subdomains="true" />
 <access uri="*" subdomains="true" />
+
 <preference name="orientation" value="portrait" />
 <preference name="phonegap-version" value="2.9.0" />
 <preference name="exit-on-suspend" value="true" />
@@ -21,8 +24,9 @@ Altech ISIS (PTY) Ltd
 <preference name="webviewbounce" value="false" />
 <preference name="auto-hide-splash-screen" value="true" />
 <preference name="android-minSdkVersion" value="15" />
-<gap:splash src="splash/Default-Landscape.png" 		gap:platform="ios" 	width="1024" height="768" />
-<gap:splash src="splash/Default-Landscape_at_2x.png"	gap:platform="ios" 	width="2048" height="1496" />
+
+<gap:splash src="splash/Default-Landscape.png"                         gap:platform="ios"         width="1024" height="768" />
+<gap:splash src="splash/Default-Landscape_at_2x.png"        gap:platform="ios"         width="2048" height="1496" />
 <gap:splash src="splash/screen-ldpi-portrait.png"  gap:platform="android" gap:density="ldpi" />
 <gap:splash src="splash/screen-mdpi-portrait.png"  gap:platform="android" gap:density="mdpi" />
 <gap:splash src="splash/screen-hdpi-portrait.png"  gap:platform="android" gap:density="hdpi" />
