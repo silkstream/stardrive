@@ -1,128 +1,49 @@
-
-<html>
+﻿<html>
 	<head>
-		<meta charset="utf-8">
+        <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10, chrome=1">
 		<meta name='apple-mobile-web-app-capable' content='yes' />
 		<meta http-equiv="Access-Control-Allow-Origin" content="*"> 
+        <meta name="format-detection" content="telephone=no" />
 		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
-		<title>StarDrive</title>
-  		<link rel="stylesheet" href="css/jquery-ui.css" />
-		<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
-		<script type="text/javascript" src="jquery/jquery-2.0.2.min.js"></script>
-		<script type="text/javascript" src="jquery/jquery-ui-1.10.3.custom.min.js"></script>
-		<script type="text/javascript" src="jquery/spin.min.js"></script>
-		<script type="text/javascript" src="jquery/jquery.cookie.js"></script>
-		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-		<script type="text/javascript" src="main.js"></script>
-        <script type="text/javascript" src="ui/landing_view.js"></script>
-        <script type="text/javascript" src="ui/controller.js"></script>
-	</head>
-    <body>           
-        <div id="mnu_main" style="display:none;">      
-                    <ul>
-                        <li>
-                            <div id="mnu_item_userprofile"><div id="mnu_item_userprofile_icon" class="menuicon"></div>Joe</div>
-                        </li>
-                        <li>
-                            <div id="mnu_item_alerts"><div id="mnu_item_alerts_icon"></div>Alerts</div>
-                        </li>
-                        <li>
-                            <div id="mnu_items_messages"><div id="mnu_items_messages_icon"></div>Messages<div>(15)</div></div>
-                        </li>
-                        <li>
-                            <div id="mnu_items_rewards"> <div id="mnu_items_rewards_icon"></div>Rewards</div>
-                        </li>
-                        <li>
-                            <div id="mnu_items_starrate"><div id="mnu_items_starrate_icon"></div>StarRate</div>
-                        </li>
-                        <li>
-                            <div id="mnu_items_starsafe"><div id="mnu_items_starsafe_icon"></div>StarSafe</div>
-                        </li>
-                        <li>
-                            <div id="mnu_items_starsocial"><div id="mnu_items_starsocial_icon"></div>StarSocial</div>
-                        </li>
-                        <li>
-                            <div id="mnu_items_starsight"><div id="mnu_items_starsight_icon"></div>StarSight</div>
-                        </li>
-                           <li>
-                            <div id="mnu_items_account"><div id="mnu_items_account_icon"></div>Account</div>
-                        </li>
-                        <li>
-                            <div id="mnu_items_settings"><div id="mnu_items_settings_icon"></div> Settings</div>
-                        </li>
-                        <li>
-                            <div id="mnu_items_logout"><div id="mnu_items_logout_icon"></div>Logout</div>
-                        </li>
-                    </ul>
-          
+        <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
+        <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
+        <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
+        <script type="text/javascript" src="js/app/main.js"></script>       
+    </head>
+    <body>
+        <div id="menu">
+            <ul>
+               <li><a href="" onclick="return Application.gotoPage('page-profile');">PROFILE</a></li>           
+               <li><a href="" onclick="return Application.gotoPage('page-alerts');">ALERTS</a></li>           
+               <li><a href="" onclick="return Application.gotoPage('page-messages');">MESSAGES</a></li>           
+               <li><a href="" onclick="return Application.gotoPage('page-starrate');">STAR RATE</a></li>           
+            </ul>
         </div>
-        <div id="mnu_prompt">
-            <div id="btn_showMenu" onclick="showMainMenu();"></div>
-        </div>
+        <div id="page-login">
+            <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
+            <p><input data-bind="value: LoginName" /></p>
+            <p><input data-bind="value: UserPassword" /></p>
+            <p><strong data-bind="text: ErrorMessage, visible:LoginFail"></strong></p>
+            <button data-bind="click: doLogin">Login</button>
+        </div>       
+        <div id="page-profile">            
+             <h1>PROFILE</h1>
+            <p><div data-bind="text: FirstName"></div></p>
+            <p><div data-bind="text: Surname"></div></p>
 
-        <div id="page_login" class="pages loginpage" style="display:none;">
-            <div id="view_register" class="registerview">
-                <div>
-                    <label>Email:</label>
-                    <input type="text" />
-                </div>
-                <div>
-                    <label>Mobile Number:</label>
-                    <input type="text" />
-                </div>
-            </div>            
-        </div>
-     
-        <div id="tray_navigation"></div>
-        <div id="drawer_navigation"></div>
-            <div id="page_home" class="pages homepage" style="display:none;">
-            <div id="page_home_elements">
-                <div id="page_home_title"><h2>STARDRIVE</h2></div>
-                <div id="page_home_content"></div>
-            </div>
-       </div>
-            <div id="page_profile" class="pages profilepage">
-            <div id="page_profile_elements">
-                <br />
-                <div id="page_profile_title"><h2>JOE</h2></div>             
-            </div>
-           <div class="blueline"></div>
-           <div id="container">
-                <div id="userprofile_icon">
-                    
-                </div>
-                <div>
-                    <h3>Welcome</h3>
-                    <div class="container blue_h1">Joe</div>
-                </div>
-           </div>
-           <div id="container">
-               <div id="container_left">
-                   <div id="userprofile_starrating">STAR RATING</div>
-               </div>
-               <div id="container_right">
-                  <div id="userprofile_starpoints">STAR POINTS</div>
-               </div>            
-           </div>
-           <div id="container">
-               <div id="container_left">Route </div>
-               <div id="container_right">Clear</div>
-           </div>
-           <div id="container">
-               MAPS
-           </div>
-           <div id="container">
-               24 Buitengracht Str Cape Town South Africa
-               <div>CHANGE LOCATION</div>
-           </div>
-
-       </div>
-       <div id="container_menu"></div>
-       <div id="container_footer"></div>
-       <div>
-          <!-- <script type="text/javascript" language="JavaScript" src="http://ad.za.doubleclick.net/adj/P4306.sa.24.com.mweb/Homepage;sz=300x250;tile=4;posno=1;ord=774934458960261?"></script>-->
-
-       </div>
+        </div>         
+        <div id="page-alerts">            
+            <h1>ALERTS</h1>
+            
+        </div>         
+        
+        <div id="page-messages">            
+            <h1>MESSAGES</h1>
+        </div>         
+        
+        <div id="page-starrate">            
+            <h1>STAR RATE</h1>
+        </div>         
     </body>
 </html>
