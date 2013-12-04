@@ -1,0 +1,39 @@
+﻿body {
+
+}
+input
+{
+    -webkit-border-radius: 5px; //For Safari, etc.
+    -moz-border-radius: 5px; //For Mozilla, etc.
+    border-radius: 5px; //CSS3 Feature
+}
+h1
+{
+    color:white;
+}
+#pagebody
+{
+    width:100%;
+    background-color:blue;
+    overflow:hidden;
+    height:100%;
+        
+}
+#menu
+{
+    height:100px;    
+    overflow-y:scroll;
+}
+
+#menu ul
+{
+    padding-left:0px;
+    list-style:none;    
+}
+#menu .menuitem
+{
+    color:white;
+    padding:10px;
+    border-bottom:1pt solid #d7d7d7;
+}
+

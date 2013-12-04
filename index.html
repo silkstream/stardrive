@@ -6,18 +6,20 @@
 		<meta http-equiv="Access-Control-Allow-Origin" content="*"> 
         <meta name="format-detection" content="telephone=no" />
 		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="app.css" />
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
         <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
         <script type="text/javascript" src="js/app/main.js"></script>       
     </head>
     <body>
+        <div id="pagebody">
         <div id="menu">
             <ul>
-               <li><a href="" onclick="return Application.gotoPage('page-profile');">PROFILE</a></li>           
-               <li><a href="" onclick="return Application.gotoPage('page-alerts');">ALERTS</a></li>           
-               <li><a href="" onclick="return Application.gotoPage('page-messages');">MESSAGES</a></li>           
-               <li><a href="" onclick="return Application.gotoPage('page-starrate');">STAR RATE</a></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');">PROFILE</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');">ALERTS</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-messages');">MESSAGES</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');">STAR RATE</div></li>                       
             </ul>
         </div>
         <div id="page-login">
@@ -35,7 +37,24 @@
         </div>         
         <div id="page-alerts">            
             <h1>ALERTS</h1>
-            
+            <ul>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+               <li><div class="menuitem">Space</div></li>
+            </ul>
         </div>         
         
         <div id="page-messages">            
@@ -44,6 +63,7 @@
         
         <div id="page-starrate">            
             <h1>STAR RATE</h1>
-        </div>         
+        </div>     
+      </div>    
     </body>
-</html>
+</html> 

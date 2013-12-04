@@ -1,7 +1,9 @@
 ﻿function LoginViewModel() {
 
     this.LoginName = ko.observable("Email");
-    this.UserPassword = ko.observable("Password");
+
+    this.UserPassword = ko.observable("$quirrel060");
+
     this.LoginFail = ko.observable(false);
 
     this.ErrorMessage = ko.computed(function () {
@@ -10,11 +12,13 @@
 
     this.doLogin = function () {
         //Do a login
-        if (this.UserPassword() == "$quirrel060") {
+        if (this.UserPassword() == "$quirrel060")
+        {
             Application.masterVM.vmProfile.FirstName(this.LoginName());
             Application.gotoPage('page-profile')
         }
-        else {
+        else
+        {
             this.LoginFail(true);
         }
     }
@@ -27,7 +31,6 @@ function ProfileViewModel() {
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
     }, self);
-
 }
 
 function MessagesViewModel() {
