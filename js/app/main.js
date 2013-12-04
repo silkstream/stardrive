@@ -29,7 +29,8 @@ function APPMANAGER() {
     }
     APPMANAGER.prototype.gotoPage = function (pageName) {
         //CLOSE ALL WINDOWS
-        this.closePages();        
+        this.closePages();
+        $("#menu").hide();
         //SHOW THE SELECTED WINDOW        
         $("#" + pageName).show();
         return false;
