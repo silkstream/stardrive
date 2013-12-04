@@ -1,6 +1,6 @@
 ﻿function LoginViewModel() {
 
-    this.LoginName = ko.observable("Email");
+    this.LoginName = ko.observable("Email Address");
 
     this.UserPassword = ko.observable("$quirrel060");
 

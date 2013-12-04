@@ -1,28 +1,40 @@
 ﻿body {
-
+ background-color:white;
+ 
 }
 input
 {
-    -webkit-border-radius: 5px; //For Safari, etc.
-    -moz-border-radius: 5px; //For Mozilla, etc.
-    border-radius: 5px; //CSS3 Feature
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color:#808080;
+    font-size:13px;
+
 }
 h1
 {
-    color:white;
+    color:#00C3FF;
+    font-size:13px;
 }
+
 #pagebody
 {
-    width:100%;
-    background-color:blue;
+    width:100%;   
     overflow:hidden;
-    height:100%;
-        
+    height:100%;        
 }
+
 #menu
 {
-    height:100px;    
+    position:absolute;
+    float:left;
+    top:50px;
+    width:300px;
+    left:20px;
+    height:300px;    
     overflow-y:scroll;
+    background-color:white;
+
 }
 
 #menu ul
@@ -32,8 +44,30 @@ h1
 }
 #menu .menuitem
 {
-    color:white;
+    color:#00C3FF;
     padding:10px;
     border-bottom:1pt solid #d7d7d7;
 }
 
+#top-nav
+{
+    width:320px;
+    background-image:url('images/top_bar.png');
+    background-repeat:no-repeat;
+    background-position:bottom;
+    height:40px;
+    font-family:Arial;
+}
+    #top-nav .title
+    {
+    
+    }
+    #top-nav .logo
+    {
+        padding-top:5px;
+    }
+    #top-nav .drawer
+    {
+        float:right;
+        left:10px;        
+    }

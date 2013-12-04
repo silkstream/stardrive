@@ -12,7 +12,7 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     ko.applyBindings(Application.masterVM.vmLogin, $(Application.pages[0])[0]);
     ko.applyBindings(Application.masterVM.vmProfile, $(Application.pages[1])[0]);
     ko.applyBindings(Application.masterVM.vmMessages, $(Application.pages[3])[0]);
-
+    $("#menu").hide();
     $("#page-login").show();
 });
 
@@ -24,7 +24,9 @@ function APPMANAGER() {
         vmProfile: new ProfileViewModel(),
         vmMessages: new MessagesViewModel(),
     }
-    
+    APPMANAGER.prototype.toggleMenu = function () {
+        $("#menu").toggle();
+    }
     APPMANAGER.prototype.gotoPage = function (pageName) {
         //CLOSE ALL WINDOWS
         this.closePages();        

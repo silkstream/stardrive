@@ -16,14 +16,20 @@
         <div id="pagebody">
         <div id="menu">
             <ul>
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');">PROFILE</div></li>           
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');">ALERTS</div></li>           
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-messages');">MESSAGES</div></li>           
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');">STAR RATE</div></li>                       
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');">Joe</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');"><img src="images/alerts_btn.png" />&nbsp;ALERTS</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-messages');"><img src="images/messaging_btn.png" />&nbsp;MESSAGES</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/rewards_btn.png" />&nbsp;REWARDS</div></li>                       
             </ul>
+        </div>
+        <div id="top-nav">
+           <img src="images/top_left_side_bar_btn.png" class="logo" onclick="Application.toggleMenu();"/>
+           <img src="images/star_drive_icon.png" /><span class="title">&nbsp;StarDrive</span>
+           <img src="images/top_right_corner_menu_btn.png" class="drawer" onclick="Application.toggleMenu();"/>
         </div>
         <div id="page-login">
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
+            <div></div>
             <p><input data-bind="value: LoginName" /></p>
             <p><input data-bind="value: UserPassword" /></p>
             <p><strong data-bind="text: ErrorMessage, visible:LoginFail"></strong></p>
@@ -33,7 +39,6 @@
              <h1>PROFILE</h1>
             <p><div data-bind="text: FirstName"></div></p>
             <p><div data-bind="text: Surname"></div></p>
-
         </div>         
         <div id="page-alerts">            
             <h1>ALERTS</h1>
@@ -56,11 +61,9 @@
                <li><div class="menuitem">Space</div></li>
             </ul>
         </div>         
-        
         <div id="page-messages">            
             <h1>MESSAGES</h1>
-        </div>         
-        
+        </div>                 
         <div id="page-starrate">            
             <h1>STAR RATE</h1>
         </div>     
