@@ -8,26 +8,55 @@
 		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
         <link rel="stylesheet" type="text/css" href="app.css" />
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
+        <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
         <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
         <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
         <script type="text/javascript" src="js/app/main.js"></script>       
     </head>
     <body>
-        <div id="pagebody">
         <div id="menu">
+
+        <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/top_left_side_bar_btn.png" onclick="Application.toggleMenu();"/></div></div>
             <ul>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');">Joe</div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');"><img src="images/alerts_btn.png" />&nbsp;ALERTS</div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-messages');"><img src="images/messaging_btn.png" />&nbsp;MESSAGES</div></li>           
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/rewards_btn.png" />&nbsp;REWARDS</div></li>                       
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starrate_btn.png" />&nbsp;StarRate</div></li>   
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starsafe_btn.png" />&nbsp;StarSafe</div></li>   
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starsocial.png" />&nbsp;StarSocial</div></li>   
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starsight_btn.png" />&nbsp;StarSight</div></li>   
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/account_btn.png" />&nbsp;Account</div></li>
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/settings_btn.png" />&nbsp;Settings</div></li>                 
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/logout_btn.png" />&nbsp;Logout</div></li> 
+               
+                                   
             </ul>
+            <div style="clear:both;"></div>
+
         </div>
+
+        <div id="pagebody">
+
         <div id="top-nav">
-           <img src="images/top_left_side_bar_btn.png" class="logo" onclick="Application.toggleMenu();"/>
-           <img src="images/star_drive_icon.png" /><span class="title">&nbsp;StarDrive</span>
-           <img src="images/top_right_corner_menu_btn.png" class="drawer" onclick="Application.toggleMenu();"/>
+           <div class="left selectable" id="nav-left" style="width:10% !important; min-height: 1px;"><img src="images/arrow_back.png" class="logo"/></div>
+           <div class="left" style="width:75%;text-align:center;"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span></div>
+           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;"><img src="images/top_right_corner_menu_btn.png" class="drawer" onclick="Application.toggleMenu();"/></div>
+           <div style="clear: both;"></div>
         </div>
-        <div id="page-login">
+        <div id="page-intro" title="Login" data-page-type="main" >
+            <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
+            <div></div>
+           <div class="maincontainer center">
+                <div class="logo">
+                    <div style="text-align:center;"><img src="images/blue_star.png"></div>
+                    <div style="text-align:center;"><img src="images/logo.png"></div>
+                </div>
+                <div class="bluebutton" onclick="return Application.gotoPage('page-login');">Login</div>
+                <div class="greybutton">Register</div>    
+            </div>
+        </div> 
+
+        <div id="page-login" title="Login">
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
             <p><input type="email" pattern="[^ @]*@[^ @]*" data-bind="value: LoginName" /></p>
@@ -35,12 +64,12 @@
             <p><strong data-bind="text: ErrorMessage, visible:LoginFail"></strong></p>
             <button data-bind="click: doLogin">Login</button>
         </div>       
-        <div id="page-profile">            
+        <div id="page-profile"  title="Profile" data-page-type="main">            
              <h1>PROFILE</h1>
             <p><div data-bind="text: FirstName"></div></p>
             <p><div data-bind="text: Surname"></div></p>
         </div>         
-        <div id="page-alerts">            
+        <div id="page-alerts" data-page-type="main"  title="Alerts">            
             <h1>ALERTS</h1>
             <ul>
                <li><div class="menuitem">Space</div></li>
@@ -61,10 +90,10 @@
                <li><div class="menuitem">Space</div></li>
             </ul>
         </div>         
-        <div id="page-messages">            
+        <div id="page-messages" data-page-type="main"  title="Alerts">            
             <h1>MESSAGES</h1>
         </div>                 
-        <div id="page-starrate">            
+        <div id="page-starrate" data-page-type="main"  title="Alerts">            
             <h1>STAR RATE</h1>
         </div>     
       </div>    
