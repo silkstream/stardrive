@@ -14,6 +14,11 @@
         <script type="text/javascript" src="js/app/main.js"></script>       
     </head>
     <body>
+
+
+
+<!-- Drawer Menu Starts -->
+
         <div id="menu">
 
         <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/top_left_side_bar_btn.png" onclick="Application.toggleMenu();"/></div></div>
@@ -35,7 +40,11 @@
 
         </div>
 
+<!-- Drawer Menu Ends -->
+
         <div id="pagebody">
+
+<!-- Top Navigation Starts -->
 
         <div id="top-nav">
            <div class="left selectable" id="nav-left" style="width:10% !important; min-height: 1px;"><img src="images/arrow_back.png" class="logo"/></div>
@@ -43,6 +52,12 @@
            <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;"><img src="images/top_right_corner_menu_btn.png" class="drawer" onclick="Application.toggleMenu();"/></div>
            <div style="clear: both;"></div>
         </div>
+
+<!-- Top Navigation Ends -->
+
+
+
+<!-- Login Screen Starts -->
         <div id="page-intro" title="Login" data-page-type="main" >
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
@@ -51,19 +66,32 @@
                     <div style="text-align:center;"><img src="images/blue_star.png"></div>
                     <div style="text-align:center;"><img src="images/logo.png"></div>
                 </div>
-                <div class="bluebutton" onclick="return Application.gotoPage('page-login');">Login</div>
+                <div class="blue button" onclick="return Application.gotoPage('page-login');">Login</div>
                 <div class="greybutton">Register</div>    
             </div>
         </div> 
-
+<!-- Login Screen Ends -->
+<!-- Login Form Screen Starts -->
         <div id="page-login" title="Login">
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
             <p><input type="email" pattern="[^ @]*@[^ @]*" data-bind="value: LoginName" /></p>
             <p><input data-bind="value: UserPassword" /></p>
             <p><strong data-bind="text: ErrorMessage, visible:LoginFail"></strong></p>
-            <button data-bind="click: doLogin">Login</button>
+
+            <div class="blue button" data-bind="click: doLogin">Login</div>
+            <div class="darkblue button" data-bind="click: doLogin">Connect with Facebook</div>
+            <div class="greybutton" onclick="return Application.gotoPage('page-forgotpw');">Forgot Password?</div>   
         </div>       
+<!-- Login Form Screen Ends -->
+<!-- Login Form Screen Starts -->
+        <div id="page-forgotpw" title="Forgot Password">
+            <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
+            <div></div>
+            <p><input type="email" pattern="[^ @]*@[^ @]*" placeholder="Email Address"/></p>
+            <div class="blue button" data-bind="click: doLogin">Submit</div>
+        </div>       
+<!-- Login Form Screen Ends -->
         <div id="page-profile"  title="Profile" data-page-type="main">            
              <h1>PROFILE</h1>
             <p><div data-bind="text: FirstName"></div></p>

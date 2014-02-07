@@ -7,7 +7,8 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     Application.pages[2] = "#page-alerts";
     Application.pages[3] = "#page-messages";
     Application.pages[4] = "#page-starrate";
-    Application.pages[5] = "#page-intro"; 
+    Application.pages[5] = "#page-intro";
+    Application.pages[6] = "#page-forgotpw"; 
     
     Application.closePages();
 
@@ -19,9 +20,10 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
 
 
    $("#top-nav .logo").click(function(){
-                
-                Application.gotoPage(Application.pagetrail[Application.pagetrail.length -2]);
-            
+             console.log(Application.pagetrail);
+                Application.pagetrail.pop();
+                Application.gotoPage(Application.pagetrail[Application.pagetrail.length -1]);                
+                console.log(Application.pagetrail);
    });
 
 
@@ -59,7 +61,7 @@ function APPMANAGER() {
         $("#" + pageName).show();
 
 
-        if($("#" + pageName).attr('title') == "Login"){
+        if($("#" + pageName).attr('title') == "Login" || $("#" + pageName).attr('title') == "Forgot Password"){
             $("#top-nav .drawer").hide();
         }else{
              $("#top-nav .drawer").show();
@@ -75,12 +77,12 @@ function APPMANAGER() {
 
         if($("#" + pageName).data('page-type') == "main"){
            if($("#" + pageName).attr('title') == "Login")
-                $("#top-nav .logo").hide();
-           
+                $("#top-nav .logo").hide();           
             this.pagetrail = [];
             this.pagetrail.push(pageName);
            
         }else{
+            if(pageName != this.pagetrail[this.pagetrail.length-1])
             this.pagetrail.push(pageName);
             $("#top-nav .logo").show();            
         }

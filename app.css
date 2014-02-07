@@ -1,5 +1,7 @@
 ﻿body {
  background-color:white;
+ width:320px;
+ font-family: Verdana, Geneva, sans-serif;
  
 }
 input
@@ -28,39 +30,42 @@ h1
 {
     position:absolute;
     float:left;
-    top:50px;
-    width:300px;
-    left:20px;
-    height:300px;    
+    top:0px;
+    width:320px;
+    left:7px;
+    height:100%;    
     overflow-y:scroll;
     background-color:white;
-
+    margin-top: 9px;
 }
 
 #menu ul
 {
-    padding-left:0px;
-    list-style:none;    
+    padding:0px;
+    margin:0;
+    list-style:none;  
+    float: left;  
+    width: 260px;
+    
 }
 #menu .menuitem
 {
     color:#00C3FF;
-    padding:10px;
+    padding:15px;
     border-bottom:1pt solid #d7d7d7;
 }
 
 #top-nav
 {
-    width:320px;
-    background-image:url('images/top_bar.png');
-    background-repeat:no-repeat;
-    background-position:bottom;
-    height:40px;
-    font-family:Arial;
+    background: #F5F6F7;
+    border-bottom: 1px #E7E7E8 solid;
+    padding: 10px;
+    color: #808282;
+
 }
     #top-nav .title
     {
-    
+       font-size: 20px;
     }
     #top-nav .logo
     {
@@ -71,3 +76,77 @@ h1
         float:right;
         left:10px;        
     }
+
+.maincontainer{
+  
+    padding: 10px;
+    
+}
+
+
+.left{
+    
+    float: left;
+    
+}
+
+.right{
+    
+    float: right;
+    
+}
+
+.logo{
+    text-align: center;  
+}
+
+.button{    
+    border-radius: 4px;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 0;
+    margin: 10px auto;
+}
+
+.blue
+{
+    background: #3AC1F0;    
+}
+
+.darkblue
+{
+    background: #0A73B9;
+}
+
+.greybutton{    
+    background: #ffffff;
+    border-radius: 4px;
+    border: 2px solid #E7E7E8;
+    color: #3AC1F0;
+    text-align: center;
+    padding: 10px 0;
+    width: 80%;
+    margin: 10px auto;
+}
+
+.center{
+    
+    text-align: center;
+    
+    
+}
+
+input{
+    border-radius: 4px;
+    border: 2px solid #E7E7E8;    
+    padding: 10px 10px;
+    color: #808282;
+    width: 100%;
+    margin: 5px auto;
+}
+
+
+.selectable{
+    cursor: pointer;
+    
+}
