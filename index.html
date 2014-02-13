@@ -21,7 +21,7 @@
 
         <div id="menu">
 
-        <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/top_left_side_bar_btn.png" onclick="Application.toggleMenu();"/></div></div>
+        <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/side_nav_btn.png" onclick="Application.toggleMenu();"/></div></div>
             <ul>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');">Joe</div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');"><img src="images/alerts_btn.png" />&nbsp;ALERTS</div></li>           
@@ -49,7 +49,7 @@
         <div id="top-nav">
            <div class="left selectable" id="nav-left" style="width:10% !important; min-height: 1px;"><img src="images/arrow_back.png" class="logo"/></div>
            <div class="left" style="width:75%;text-align:center;"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span></div>
-           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;"><img src="images/top_right_corner_menu_btn.png" class="drawer" onclick="Application.toggleMenu();"/></div>
+           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;"><img src="images/side_nav_btn.png" class="drawer" onclick="Application.toggleMenu();"/></div>
            <div style="clear: both;"></div>
         </div>
 
@@ -92,11 +92,107 @@
             <div class="blue button" data-bind="click: doLogin">Submit</div>
         </div>       
 <!-- Login Form Screen Ends -->
+
+
+<!-- Profile Screen Starts -->
         <div id="page-profile"  title="Profile" data-page-type="main">            
-             <h1>PROFILE</h1>
+        <div class="row" style="height: 14%;position:relative;" id="profileblock">
+                    <div style="width: 60px;height: 100%;"><div style="position: absolute; bottom: 10px;"><img data-bind="attr:{src: Image}"  class="profilepic" /></div></div>
+                    <div class="colorgrey" style="height:100%;position:relative;">
+                        <div style="position: absolute; bottom: 0px;margin-left: 10px;">Welcome<br>
+                            <span data-bind="text: FirstName" class="colorblue" style="font-size: 25px;"></span>
+                        </div>
+                    </div>
+                    <div style="float: right;height:100%;position:relative">
+                        <div style="position: absolute; bottom: 0px;left:-40px;"><img src="images/edit_icon.png" /> </div>
+                    </div>                    
+                    <div style="clear: both;float: none;"></div>
+        </div>
+
+        <!-- Weather -->
+        <div class="row" style="position:relative;height: 10%;" id="weather">
+        <!--<div style="width: 20%;"><div style="position: absolute; bottom: 10px;"><img data-bind="attr:{src: $data.pic}"  class="profilepic" /></div></div>-->
+       <div style="width: 60px;height: 100%;"><div style="position: absolute; bottom: 10px;margin-left: 10px;"><img data-bind="attr:{src: $data.pic}"  class="profilepic" /></div></div> 
+        <div class="colorgrey" style="margin: auto 10px ;">
+            <span data-bind="text: $data.town" class="colorblue" style="font-size: 15px;font-weight:bold;"></span><br>
+            <span data-bind="html: $data.degreedesc" style="font-size: 15px;"></span>
+        </div>
+
+         <div style="clear: both;float: none;"></div>
+        </div>
+        
+        <!-- Daily Route-->
+        <div class="row" style="position:relative;" id="Div1">
+        <div class="colorgrey" style="margin: auto 0px ;">
+            <span style="font-size: 15px;font-weight:bold;">Route</span><br>
+            <span class="colorblue" style="font-size: 20px;">Daily Work</span>
+        </div>
+
+
+        <div style="float:right;margin: 10px;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
+
+        <div style="clear: both;float: none;"></div>
+        </div>
+
+        <!-- Daily Route-->
+        <div class="row colorgrey" style="border-bottom: 1px solid #3AC1F0;" >
+        News Feed
+        </div>
+        <!--Latest  Alert -->
+        <div class="row colorgrey" data-bind="foreach: allalerts"  id="latestalert" style="position: relative;">      
+       <!-- ko if: ( $index() === ($parent.allalerts().length -1)) -->
+       <div style=""> <img src="images/alert_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
+       <div style="width: 70%;" class="colorgrey">
+       <span data-bind="text: alert_type" class="colorred"></span><br/>
+       <span class="colorblue" data-bind="text: alert_location">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
+       <p data-bind="text: alert_description"></p>
+       </div>
+       <div style="float: right;width: 5%;margin: 30px 0 20px 0;">
+       <img src="images/arrow_back.png">
+       </div>
+
+
+       <div style="clear:both;float:none;"></div>
+       <!-- /ko -->
+        </div>
+
+
+
+
+        <!--Latest  Message -->
+        <div class="row colorgrey" data-bind="foreach: allmessages"  id="latestmsg" style="position: relative;">      
+       <!-- ko if: ( $index() === ($parent.allmessages().length -1)) -->
+       <div style=""> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
+       <div style="width: 85%;" class="colorgrey">
+       <img src="images/account_btn.png" align="left" style="" width="50px;"/><span data-bind="text: fromname" class="colorblue"></span><br/>
+       <span style="color: #000000;">Message</span> (<span data-bind="text: msgdate" class="colorgrey"></span>)
+       <p data-bind="text: message"></p>
+       </div>
+       <div style="float: right;width: 5%;margin: 30px 0 20px 0;">
+       <img src="images/arrow_back.png">
+       </div>
+
+
+       <div style="clear:both;float:none;"></div>
+       <!-- /ko -->
+        </div>
+
+
+        <!-- Bottom buttons -->
+        <div class="row grey" style="position: relative;padding: 0;">
+        <div style="width: 30%; border-right: solid 2px #E7E7E8;" id="msgtotal" class="profilemsgbutton"><div class="circleBase blue colorwhite" style="padding: 6px 10px;" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
+        <div style="width: 30%;" class="profilealertbutton"><div class="circleBase red colorwhite" style="padding: 6px 10px;" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
+        <div style="clear:both;float:none;"></div>
+        </div>
+
+
+            <!-- <h1>PROFILE</h1> -->
             <p><div data-bind="text: FirstName"></div></p>
             <p><div data-bind="text: Surname"></div></p>
         </div>         
+<!-- Profile Screen Starts -->
+
+
         <div id="page-alerts" data-page-type="main"  title="Alerts">            
             <h1>ALERTS</h1>
             <ul>

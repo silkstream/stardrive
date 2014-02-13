@@ -8,23 +8,38 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     Application.pages[3] = "#page-messages";
     Application.pages[4] = "#page-starrate";
     Application.pages[5] = "#page-intro";
-    Application.pages[6] = "#page-forgotpw"; 
-    
+    Application.pages[6] = "#page-forgotpw";
+
     Application.closePages();
+    //console.log(Application.masterVM);
+    //console.log($("#weather"));
+
+    //bindings for profile home
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('profileblock'));
+    ko.applyBindings(Application.masterVM.vmWeather, document.getElementById('weather'));
+    ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('latestmsg'));
+    ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('latestalert'));
+    ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('alerttotal'));
+    ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('msgtotal'));
+
 
     ko.applyBindings(Application.masterVM.vmLogin, $(Application.pages[0])[0]);
-    ko.applyBindings(Application.masterVM.vmProfile, $(Application.pages[1])[0]);
+    //ko.applyBindings(Application.masterVM.vmProfile, $(Application.pages[1])[0]);
+    
     ko.applyBindings(Application.masterVM.vmMessages, $(Application.pages[3])[0]);
+
+
+
     $("#menu").hide();
     Application.showpage("page-intro");
 
 
-   $("#top-nav .logo").click(function(){
-             console.log(Application.pagetrail);
-                Application.pagetrail.pop();
-                Application.gotoPage(Application.pagetrail[Application.pagetrail.length -1]);                
-                console.log(Application.pagetrail);
-   });
+    $("#top-nav .logo").click(function () {
+        //console.log(Application.pagetrail);
+        Application.pagetrail.pop();
+        Application.gotoPage(Application.pagetrail[Application.pagetrail.length - 1]);
+        //console.log(Application.pagetrail);
+    });
 
 
 
@@ -38,6 +53,8 @@ function APPMANAGER() {
         vmLogin: new LoginViewModel(),
         vmProfile: new ProfileViewModel(),
         vmMessages: new MessagesViewModel(),
+        vmWeather: new WeatherViewModel(),
+        vmAlerts: new AlertsViewModel()
     }
     APPMANAGER.prototype.toggleMenu = function () {
         $("#menu").toggle('slide', {
@@ -65,7 +82,7 @@ function APPMANAGER() {
             $("#top-nav .drawer").hide();
         }else{
              $("#top-nav .drawer").show();
-             $("#top-nav .logo").attr('src', "images/decline_icon.png");
+             $("#top-nav .logo").attr('src', "images/home-button.png");
              var self = this;
 
              $("#top-nav .logo").click(function(){             
