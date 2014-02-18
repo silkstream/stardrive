@@ -40,6 +40,7 @@
             Application.masterVM.vmWeather.pullWeather();
             Application.masterVM.vmMessages.pullMessages();
             Application.masterVM.vmAlerts.pullAlerts();
+            Application.masterVM.vmFriends.pullFriends();
 
            
 
@@ -66,11 +67,12 @@ function ProfileViewModel() {
     }, self);
 }
 
-function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder) {
+function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg) {
     var self = this;
     self.msgid = ko.observable(msgid);
     self.fromid = ko.observable(fromid);
     self.fromname = ko.observable(fromname);
+    self.fromimg = ko.observable(fromimg);
     self.toid = ko.observable(toid);
     self.toname = ko.observable(toname);
     self.subject = ko.observable(subject);
@@ -82,6 +84,51 @@ function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdat
 function MessagesViewModel() {
     var self = this;
     self.allmessages = ko.observableArray();
+    self.outbox = ko.observableArray();
+
+
+    self.chosenmsg = ko.observable();
+
+    self.setchosenmsg = function (msgobj) {
+    
+        Application.masterVM.vmMessages.chosenmsg(msgobj);
+        Application.gotoPage('page-messages');
+    }
+
+
+    self.setchosenmsgfrnd = function (friend_id) {
+        var theid = $("#friend_id").val();
+        var thename = $("#friend_name").val();
+        var myname = Application.masterVM.vmProfile.FirstName + " " + Application.masterVM.vmProfile.SurName;
+        var myid = Application.masterVM.vmProfile.UserId
+
+        msgobj = new Message('zz', theid, thename, myname, myid, "", "", "2014-02-02", "0", "")
+        Application.masterVM.vmMessages.chosenmsg(msgobj);
+        //Application.masterVM.vmMessages.chosenmsg();
+        $('.friendModal').dialog('close');
+        Application.gotoPage('page-messages');
+    }
+
+
+    self.delmessage = function () {
+
+        Application.masterVM.vmMessages.allmessages.remove(this);
+
+    }
+
+
+    self.sendmessage = function (mydata) {
+
+        //alert($("#newmessage").val());
+
+        Application.masterVM.vmMessages.outbox.push(new Message('zz', mydata.toid(), mydata.toname(), mydata.fromid(), mydata.fromname(), mydata.subject(), $("#newmessage").val(), "2014-02-02", "0", ""));
+
+        Application.gotoPage('page-starsocial');
+
+    }
+
+
+
 
     self.pullMessages = function () {
 
@@ -101,6 +148,7 @@ function MessagesViewModel() {
                     var subject = data[i].Message.heading;
                     var message = data[i].Message.message;
                     var msgdate = data[i].Message.time_sent;
+                    var fromimg = "http://stardrive.cloudapp.net/" + data[i].From.userimage
                     msgdate = msgdate.split("-");
                     msgdate = new Date(msgdate[0], msgdate[1], msgdate[2]);
 
@@ -113,9 +161,7 @@ function MessagesViewModel() {
                         fromname = "Reminder";
                     }
 
-                    Application.masterVM.vmMessages.allmessages.push(new Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder));
-
-
+                    Application.masterVM.vmMessages.allmessages.push(new Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg));
 
                 }
                 console.log(Application.masterVM.vmMessages.allmessages);
@@ -246,3 +292,56 @@ function AlertsViewModel() {
 }
 
 
+function Friend(friendid, friend_name, friend_img) {
+    var self = this;
+    self.friend_id = ko.observable(friendid);
+    self.friend_name = ko.observable(friend_name);
+    self.friend_img = ko.observable(friend_img);
+
+}
+
+function FriendsViewModel() {
+    var self = this;
+    self.allfriends = ko.observableArray();
+
+
+    self.pullFriends = function () {
+
+        $.ajax({
+            url: '/json/getfriends.js',
+            data: {},
+            success: function (data) {
+
+                for (var i = 0; i < data.length; i++) {
+
+                    var friend_id = "";
+                    var friend_name = "";
+                    var friend_img = "";
+
+                    if (Application.masterVM.vmProfile.UserId == data[i].UserFrom.id) {
+
+                        friend_id = data[i].UserTo.id;
+                        friend_name = data[i].UserTo.username + " " + data[i].UserTo.surname;
+                        friend_img = data[i].UserTo.userimage;
+                    } else {
+
+
+                        friend_id = data[i].UserFrom.id;
+                        friend_name = data[i].UserFrom.username + " " + data[i].UserFrom.surname;
+                        friend_img = data[i].UserFrom.userimage;
+
+                    }
+
+                    Application.masterVM.vmFriends.allfriends.push(new Friend(friend_id, friend_name, friend_img));
+                }
+
+
+            },
+            dataType: 'json'
+
+
+        });
+
+
+    };
+}

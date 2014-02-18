@@ -9,6 +9,8 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     Application.pages[4] = "#page-starrate";
     Application.pages[5] = "#page-intro";
     Application.pages[6] = "#page-forgotpw";
+    Application.pages[7] = "#page-starsocial";
+    Application.pages[8] = "#page-friends";
 
     Application.closePages();
     //console.log(Application.masterVM);
@@ -22,11 +24,22 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('alerttotal'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('msgtotal'));
 
+    //bindings for starsocial messages
+    ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('allmessages'));
+    ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('chosenmsgn'));
+
+    //bindings for starsocial friends
+    ko.applyBindings(Application.masterVM.vmFriends, document.getElementById('allfriends'));
+    ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('chosenfriend'));
+
+
+
+
 
     ko.applyBindings(Application.masterVM.vmLogin, $(Application.pages[0])[0]);
     //ko.applyBindings(Application.masterVM.vmProfile, $(Application.pages[1])[0]);
-    
-    ko.applyBindings(Application.masterVM.vmMessages, $(Application.pages[3])[0]);
+
+    //ko.applyBindings(Application.masterVM.vmMessages, $(Application.pages[3])[0]);
 
 
 
@@ -42,8 +55,37 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     });
 
 
+    $('#allfriends').on('click', '*', function () {
+
+        // alert($(this).attr('rel'));
+        $("#friend_id").val($(this).attr('data-fid'));
+        $("#friend_name").val($(this).attr('data-fname'));
+        $("#friend_name_title").html($(this).attr('data-fname'));
+
+
+        $(".friendModal").dialog({
+            dialogClass: "no-close",
+            draggable: false,
+            resizable: false,
+            width: '60%',
+            modal: true,
+            show: { effect: "slideDown", duration: 300 },
+            close: function (event, ui) {
+                $(".friendModal").hide();
+            }
+        });
+
+
+
+
+    });
+
+
+
+
 
 });
+
 
 function APPMANAGER() {
     //DECLARE LOCAL PROPERTIES AS NULL
@@ -54,7 +96,8 @@ function APPMANAGER() {
         vmProfile: new ProfileViewModel(),
         vmMessages: new MessagesViewModel(),
         vmWeather: new WeatherViewModel(),
-        vmAlerts: new AlertsViewModel()
+        vmAlerts: new AlertsViewModel(),
+        vmFriends: new FriendsViewModel()
     }
     APPMANAGER.prototype.toggleMenu = function () {
         $("#menu").toggle('slide', {
@@ -70,6 +113,7 @@ function APPMANAGER() {
         return false;
     }
     APPMANAGER.prototype.showpage = function (pageName) {
+        var self = this;
         //SHOW THE SELECTED WINDOW        
         $("#title").html($("#" + pageName).attr('title'));
 
@@ -77,31 +121,40 @@ function APPMANAGER() {
 
         $("#" + pageName).show();
 
-
-        if($("#" + pageName).attr('title') == "Login" || $("#" + pageName).attr('title') == "Forgot Password"){
+        if ($("#" + pageName).attr('title') == "Login" || $("#" + pageName).attr('title') == "Forgot Password") {
             $("#top-nav .drawer").hide();
-        }else{
-             $("#top-nav .drawer").show();
-             $("#top-nav .logo").attr('src', "images/home-button.png");
-             var self = this;
+        } else {
+            $("#top-nav .drawer").show();
 
-             $("#top-nav .logo").click(function(){             
-                    self.gotoPage("page-profile");             
-             });
+           
+
+
         }
 
+        $("#top-nav .logo").unbind("click");
 
-
-        if($("#" + pageName).data('page-type') == "main"){
-           if($("#" + pageName).attr('title') == "Login")
-                $("#top-nav .logo").hide();           
+        if ($("#" + pageName).data('page-type') == "main") {
+            $("#top-nav .logo").attr('src', "images/home-button.png");
+            if ($("#" + pageName).attr('title') == "Login")
+                $("#top-nav .logo").hide();
             this.pagetrail = [];
             this.pagetrail.push(pageName);
-           
-        }else{
-            if(pageName != this.pagetrail[this.pagetrail.length-1])
-            this.pagetrail.push(pageName);
-            $("#top-nav .logo").show();            
+            $("#top-nav .logo").click(function () {
+                self.gotoPage("page-profile");
+             
+            });
+         
+        } else {
+            $("#top-nav .logo").attr('src', "images/arrow_back.png");
+            if (pageName != this.pagetrail[this.pagetrail.length - 1]) {
+                self.pagetrail.push(pageName);
+                $("#top-nav .logo").click(function () {
+                   
+                    self.gotoPage(self.pagetrail[self.pagetrail.length - 2]);
+                });
+
+            }
+            $("#top-nav .logo").show();
         }
 
 
@@ -115,4 +168,16 @@ function APPMANAGER() {
         }
     }
 
+}
+
+function showmsgcontrol(element) {
+    console.log($(element));
+    $(".msgcontrol").slideUp();
+    //$(element + " .msgcontrol").show();
+    if ($(element).parent().find(".msgcontrol").is(":visible"))
+        $(element).parent().find(".msgcontrol").slideUp();
+    else
+        $(element).parent().find(".msgcontrol").slideDown();
+    //alert("fd");
+    //console.log();
 }
