@@ -7,11 +7,18 @@
         <meta name="format-detection" content="telephone=no" />
 		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
         <link rel="stylesheet" type="text/css" href="app.css" />
+        <link rel="stylesheet" type="text/css" href="Styles/deCarta/core.css" />
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
         <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
+        <script type="text/javascript" src="js/app/netstar_mapit.js"></script>
         <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
         <script type="text/javascript" src="js/app/main.js"></script>       
+
+        <script type="text/javascript" src="js/lib/deCarta/deCarta.JS3.js"></script>
+       
+
+
     </head>
     <body>
 
@@ -23,7 +30,7 @@
 
         <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/side_nav_btn.png" onclick="Application.toggleMenu();"/></div></div>
             <ul>
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');">Joe</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');" id="menutitle"><img src="images/alerts_btn.png" data-bind="attr: {src: Image}" style="width: 30px;"/>&nbsp;<span data-bind="text: FirstName"></span></div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');"><img src="images/alerts_btn.png" />&nbsp;ALERTS</div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsocial');"><img src="images/messaging_btn.png" />&nbsp;MESSAGES</div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starrate_btn.png" />&nbsp;StarRate</div></li>   
@@ -46,10 +53,10 @@
 
 <!-- Top Navigation Starts -->
 
-        <div id="top-nav">
-           <div class="left selectable" id="nav-left" style="width:10% !important; min-height: 1px;"><img src="images/arrow_back.png" class="logo"/></div>
-           <div class="left" style="width:75%;text-align:center;"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span></div>
-           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;"><img src="images/side_nav_btn.png" class="drawer" onclick="Application.toggleMenu();"/></div>
+        <div id="top-nav" style="vertical-align: middle;">
+           <div class="left selectable" id="nav-left" style="width:10% !important; min-height: 1px;" data-bind="attr: {'data-mypic' : Image}"><img src="images/arrow_back.png" class="logo"/></div>
+           <div class="left" style="width:75%;text-align:center;margin-top: 15px;"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span></div>
+           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;margin-top: 15px;"><img src="images/side_nav_btn.png" class="drawer" onclick="Application.toggleMenu();"/></div>
            <div style="clear: both;"></div>
         </div>
 
@@ -96,7 +103,7 @@
 
 <!-- Profile Screen Starts -->
         <div id="page-profile"  title="Profile" data-page-type="main">            
-        <div class="row" style="height: 14%;position:relative;" id="profileblock">
+       <!-- <div class="row" style="height: 14%;position:relative;" id="profileblock">
                     <div style="width: 60px;height: 100%;"><div style="position: absolute; bottom: 10px;"><img data-bind="attr:{src: Image}"  class="profilepic" /></div></div>
                     <div class="colorgrey" style="height:100%;position:relative;">
                         <div style="position: absolute; bottom: 0px;margin-left: 10px;">Welcome<br>
@@ -107,7 +114,7 @@
                         <div style="position: absolute; bottom: 0px;left:-40px;"><img src="images/edit_icon.png" /> </div>
                     </div>                    
                     <div style="clear: both;float: none;"></div>
-        </div>
+        </div> -->
 
         <!-- Weather -->
         <div class="row" style="position:relative;height: 10%;" id="weather">
@@ -229,29 +236,53 @@
         </div>         
 <!-- Profile Screen Ends -->
 
-
-        <div id="page-alerts" data-page-type="main"  title="Alerts">            
-            <h1>ALERTS</h1>
-            <ul>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-            </ul>
-        </div>      
+<!-- Alert Screen Starts -->
+        <div id="page-alerts" data-page-type="main"  title="Alerts">  
         
+        <div class="row colorgrey grey">Last 3 days</div>
+       
+       
+        <div  data-bind="foreach: allalerts"  id="allalerts" style="position: relative;">      
+       <div  class="row colorgrey" style="padding-bottom: 0;">
+                  <div style="width: 100%;position: relative;"   onclick="showmsgcontrol(this);">
+                       <div style="width: 70%;" class="colorgrey">
+                       <span data-bind="text: alert_type" class="colorred"></span><br/>
+                       <span class="colorblue" data-bind="text: alert_location">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
+                       <p data-bind="text: alert_description"></p>
+                       </div>
+                       <div style="float: right;width: 5%;margin: 30px 0 20px 0;">
+                       <img src="images/arrow_back.png">
+                       </div>
+                        <div style="clear:both;float:none;"></div>
+                  </div>
+                   <div style="clear:both;float:none;"></div>
+                   <div class="msgcontrol grey blue" style="display: none;width: 100%;padding: 10px;">
+                                        <div style="float: left;margin-left: 10px;" data-bind="click: $parent.setchosenalert">
+                                            <div style="float: left;margin-left: 10px;"><img src="images/location_icon.png"/></div>
+                                            <div style="float: left;margin-left: 10px;">Location</div>
+                                        </div>
+                                        <div style="float: left;margin-left: 10px;">
+                                            <div style="float: left;margin-left: 10px;"><img src="images/tips_icon.png"/></div>
+                                            <div style="float: left;margin-left: 10px;">Trip</div>
+                                        </div>
+
+                                        <div style="float: left;margin-left: 10px;" >
+                                            <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
+                                            <div style="float: left;margin-left: 10px;">Clear</div>
+                                        </div>
+                                        <div style="float: none; clear: both;"></div>
+        
+                   </div>
+                   <div style="float: none; clear: both;"></div>
+       </div>
+       </div>
+     
+        </div>       
+        
+        
+                 
+        </div>      
+ <!-- Alert Screen Ends -->       
         
         
         
@@ -390,11 +421,30 @@
         </div>  
         <!-- StarSocial Friends Starts -->
 
+        <!-- Alert Location Starts -->   
+        <div id="page-location"  title="Location" style="height: 100%;">
+        <div id="alertlocation" data-bind="with: chosenalert" style="height: 100%;position: relative;">
+           <div class="row">
+           
+                <span data-bind="text: alert_type" class="colorred"></span><br/>
+                <span class="colorblue" data-bind="text: alert_location()">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
+            </div>
 
-
+      
+                <div id="mapContainerzzz" name="mapContainerzzz" style="position:relative;backgound: #666666;float:none;overflow: visible;">
+               <div style="display:block; width: 100%; height: 100%;"></div>
+                </div>
+        
+         
+        </div>
+        </div>
+        <!-- Alert Location Ends -->
         <div id="page-starrate" data-page-type="main"  title="Alerts">            
             <h1>STAR RATE</h1>
         </div>     
       </div>    
+
+
+
     </body>
 </html> 

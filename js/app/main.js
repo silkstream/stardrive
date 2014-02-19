@@ -11,13 +11,20 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     Application.pages[6] = "#page-forgotpw";
     Application.pages[7] = "#page-starsocial";
     Application.pages[8] = "#page-friends";
+    Application.pages[9] = "#page-location";
 
     Application.closePages();
     //console.log(Application.masterVM);
     //console.log($("#weather"));
 
+    //top nav binding
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('top-nav'));
+
+
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('menutitle'));
+
     //bindings for profile home
-    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('profileblock'));
+    //ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('profileblock'));
     ko.applyBindings(Application.masterVM.vmWeather, document.getElementById('weather'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('latestmsg'));
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('latestalert'));
@@ -33,6 +40,11 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('chosenfriend'));
 
 
+    //bindings for alerts page
+    ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('allalerts'));
+
+    //bindings for alert location page
+    ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('alertlocation')); 
 
 
 
@@ -126,7 +138,7 @@ function APPMANAGER() {
         } else {
             $("#top-nav .drawer").show();
 
-           
+
 
 
         }
@@ -134,22 +146,25 @@ function APPMANAGER() {
         $("#top-nav .logo").unbind("click");
 
         if ($("#" + pageName).data('page-type') == "main") {
-            $("#top-nav .logo").attr('src', "images/home-button.png");
+            $("#top-nav .logo").attr('src', $("#nav-left").data('mypic')).css({ 'width': '60px', 'margin': '0' });
             if ($("#" + pageName).attr('title') == "Login")
                 $("#top-nav .logo").hide();
+
+            if ($("#" + pageName).attr('title') == "Profile")
+                $("#title").html(Application.masterVM.vmProfile.FirstName());
             this.pagetrail = [];
             this.pagetrail.push(pageName);
             $("#top-nav .logo").click(function () {
                 self.gotoPage("page-profile");
-             
+
             });
-         
+
         } else {
-            $("#top-nav .logo").attr('src', "images/arrow_back.png");
+            $("#top-nav .logo").attr('src', "images/arrow_back.png").css({ 'width': 'auto', 'margin-top': '15px' });
             if (pageName != this.pagetrail[this.pagetrail.length - 1]) {
                 self.pagetrail.push(pageName);
                 $("#top-nav .logo").click(function () {
-                   
+
                     self.gotoPage(self.pagetrail[self.pagetrail.length - 2]);
                 });
 
@@ -178,6 +193,19 @@ function showmsgcontrol(element) {
         $(element).parent().find(".msgcontrol").slideUp();
     else
         $(element).parent().find(".msgcontrol").slideDown();
+    //alert("fd");
+    //console.log();
+}
+
+
+function showalertcontrol(element) {
+    console.log($(element));
+    $(".alertcontrol").slideUp();
+    //$(element + " .msgcontrol").show();
+    if ($(element).parent().find(".alertcontrol").is(":visible"))
+        $(element).parent().find(".alertcontrol").slideUp();
+    else
+        $(element).parent().find(".alertcontrol").slideDown();
     //alert("fd");
     //console.log();
 }

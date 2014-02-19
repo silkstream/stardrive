@@ -19,7 +19,7 @@
 
 
             $.ajax({
-                url: '/json/successlogin.js',
+                url: window.location.pathname + '/../json/successlogin.js',
                 data: { username: this.LoginName(), password: this.UserPassword() },
                 success: function (data) {
                     // console.log(data[0].Stardriveuser);
@@ -31,6 +31,7 @@
                     Application.masterVM.vmProfile.Email(data[0].Stardriveuser.emailaddress);
                     Application.masterVM.vmProfile.HomeAddress(data[0].Stardriveuser.homeaddresscords);
                     Application.masterVM.vmProfile.WorkAddress(data[0].Stardriveuser.workaddrresscords);
+
                     Application.gotoPage('page-profile');
                 },
                 dataType: 'json'
@@ -42,7 +43,7 @@
             Application.masterVM.vmAlerts.pullAlerts();
             Application.masterVM.vmFriends.pullFriends();
 
-           
+
 
         }
         else {
@@ -118,9 +119,7 @@ function MessagesViewModel() {
 
 
     self.sendmessage = function (mydata) {
-
         //alert($("#newmessage").val());
-
         Application.masterVM.vmMessages.outbox.push(new Message('zz', mydata.toid(), mydata.toname(), mydata.fromid(), mydata.fromname(), mydata.subject(), $("#newmessage").val(), "2014-02-02", "0", ""));
 
         Application.gotoPage('page-starsocial');
@@ -133,7 +132,7 @@ function MessagesViewModel() {
     self.pullMessages = function () {
 
         $.ajax({
-            url: '/json/getmessages.js',
+            url: window.location.pathname + '/../json/getmessages.js',
             data: {},
             success: function (data) {
                 // console.log(data);
@@ -226,11 +225,28 @@ function AlertsViewModel() {
     var self = this;
     self.allalerts = ko.observableArray();
 
+    self.chosenalert = ko.observable();
+
+
+    self.placechosenAlert = function (msgobj) {
+        alert("running");
+        placealertpin(msgobj);
+
+    }
+
+
+    self.setchosenalert = function (msgobj) {
+
+        Application.masterVM.vmAlerts.chosenalert(msgobj);
+        Application.gotoPage('page-location');
+        mapINIT();
+        placealertpin(msgobj);
+    }
 
     self.pullAlerts = function () {
 
         $.ajax({
-            url: '/json/getalerts.js',
+            url: window.location.pathname + '/../json/getalerts.js',
             data: {},
             success: function (data) {
                 console.log(data);
@@ -239,7 +255,7 @@ function AlertsViewModel() {
                     var alert_id = data[i].Useralert.id;
                     var alert_type = data[i].Useralert.alert_type;
 
-                    var alert_location = data[i].Alertcords[0] + " - " + data[i].Alertcords[1];
+                    var alert_location = data[i].Alertcords[0] + " , " + data[i].Alertcords[1];
                     Date.prototype.addHours = function (h) {
                         this.setHours(this.getHours() + h);
                         return this;
@@ -308,7 +324,7 @@ function FriendsViewModel() {
     self.pullFriends = function () {
 
         $.ajax({
-            url: '/json/getfriends.js',
+            url: window.location.pathname + '/../json/getfriends.js',
             data: {},
             success: function (data) {
 
@@ -345,3 +361,7 @@ function FriendsViewModel() {
 
     };
 }
+
+
+
+
