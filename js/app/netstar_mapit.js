@@ -70,7 +70,7 @@ function placealertpin(pinobj) {
     var alertpin = new deCarta.Core.Pin({
         position: new deCarta.Core.Position(pinobj.alert_location()),
         text: pinobj.alert_description(),
-    imageSrc: "images/startpoint_icon_1.png"
+        imageSrc: "images/startpoint_icon_1.png"
 
 });
 
