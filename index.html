@@ -7,23 +7,35 @@
         <meta name="format-detection" content="telephone=no" />
 		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
         <link rel="stylesheet" type="text/css" href="app.css" />
+        <link rel="stylesheet" type="text/css" href="Styles/deCarta/core.css" />
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
         <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
+        <script type="text/javascript" src="js/app/netstar_mapit.js"></script>
         <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
         <script type="text/javascript" src="js/app/main.js"></script>       
+
+        <script type="text/javascript" src="js/lib/deCarta/deCarta.JS3.js"></script>
+       
+
+
     </head>
     <body>
+
+
+
+<!-- Drawer Menu Starts -->
+
         <div id="menu">
 
-        <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/top_left_side_bar_btn.png" onclick="Application.toggleMenu();"/></div></div>
+        <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/side_nav_btn.png" onclick="Application.toggleMenu();"/></div></div>
             <ul>
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');">Joe</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');" id="menutitle"><img src="images/alerts_btn.png" data-bind="attr: {src: Image}" style="width: 30px;"/>&nbsp;<span data-bind="text: FirstName"></span></div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');"><img src="images/alerts_btn.png" />&nbsp;ALERTS</div></li>           
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-messages');"><img src="images/messaging_btn.png" />&nbsp;MESSAGES</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starsocial');"><img src="images/messaging_btn.png" />&nbsp;MESSAGES</div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starrate_btn.png" />&nbsp;StarRate</div></li>   
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starsafe_btn.png" />&nbsp;StarSafe</div></li>   
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starsocial.png" />&nbsp;StarSocial</div></li>   
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starsocial');"><img src="images/starsocial.png" />&nbsp;StarSocial</div></li>   
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starsight_btn.png" />&nbsp;StarSight</div></li>   
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/account_btn.png" />&nbsp;Account</div></li>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/settings_btn.png" />&nbsp;Settings</div></li>                 
@@ -35,14 +47,24 @@
 
         </div>
 
+<!-- Drawer Menu Ends -->
+
         <div id="pagebody">
 
-        <div id="top-nav">
-           <div class="left selectable" id="nav-left" style="width:10% !important; min-height: 1px;"><img src="images/arrow_back.png" class="logo"/></div>
-           <div class="left" style="width:75%;text-align:center;"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span></div>
-           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;"><img src="images/top_right_corner_menu_btn.png" class="drawer" onclick="Application.toggleMenu();"/></div>
+<!-- Top Navigation Starts -->
+
+        <div id="top-nav" style="vertical-align: middle;">
+           <div class="left selectable" id="nav-left" style="width:10% !important; min-height: 1px;" data-bind="attr: {'data-mypic' : Image}"><img src="images/arrow_back.png" class="logo"/></div>
+           <div class="left" style="width:75%;text-align:center;margin-top: 15px;"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span></div>
+           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;margin-top: 15px;"><img src="images/side_nav_btn.png" class="drawer" onclick="Application.toggleMenu();"/></div>
            <div style="clear: both;"></div>
         </div>
+
+<!-- Top Navigation Ends -->
+
+
+
+<!-- Login Screen Starts -->
         <div id="page-intro" title="Login" data-page-type="main" >
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
@@ -51,51 +73,378 @@
                     <div style="text-align:center;"><img src="images/blue_star.png"></div>
                     <div style="text-align:center;"><img src="images/logo.png"></div>
                 </div>
-                <div class="bluebutton" onclick="return Application.gotoPage('page-login');">Login</div>
+                <div class="blue button" onclick="return Application.gotoPage('page-login');">Login</div>
                 <div class="greybutton">Register</div>    
             </div>
         </div> 
-
+<!-- Login Screen Ends -->
+<!-- Login Form Screen Starts -->
         <div id="page-login" title="Login">
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
             <p><input type="email" pattern="[^ @]*@[^ @]*" data-bind="value: LoginName" /></p>
             <p><input data-bind="value: UserPassword" /></p>
             <p><strong data-bind="text: ErrorMessage, visible:LoginFail"></strong></p>
-            <button data-bind="click: doLogin">Login</button>
+
+            <div class="blue button" data-bind="click: doLogin">Login</div>
+            <div class="darkblue button" data-bind="click: doLogin">Connect with Facebook</div>
+            <div class="greybutton" onclick="return Application.gotoPage('page-forgotpw');">Forgot Password?</div>   
         </div>       
+<!-- Login Form Screen Ends -->
+<!-- Login Form Screen Starts -->
+        <div id="page-forgotpw" title="Forgot Password">
+            <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
+            <div></div>
+            <p><input type="email" pattern="[^ @]*@[^ @]*" placeholder="Email Address"/></p>
+            <div class="blue button" data-bind="click: doLogin">Submit</div>
+        </div>       
+<!-- Login Form Screen Ends -->
+
+
+<!-- Profile Screen Starts -->
         <div id="page-profile"  title="Profile" data-page-type="main">            
-             <h1>PROFILE</h1>
-            <p><div data-bind="text: FirstName"></div></p>
-            <p><div data-bind="text: Surname"></div></p>
+       <!-- <div class="row" style="height: 14%;position:relative;" id="profileblock">
+                    <div style="width: 60px;height: 100%;"><div style="position: absolute; bottom: 10px;"><img data-bind="attr:{src: Image}"  class="profilepic" /></div></div>
+                    <div class="colorgrey" style="height:100%;position:relative;">
+                        <div style="position: absolute; bottom: 0px;margin-left: 10px;">Welcome<br>
+                            <span data-bind="text: FirstName" class="colorblue" style="font-size: 25px;"></span>
+                        </div>
+                    </div>
+                    <div style="float: right;height:100%;position:relative">
+                        <div style="position: absolute; bottom: 0px;left:-40px;"><img src="images/edit_icon.png" /> </div>
+                    </div>                    
+                    <div style="clear: both;float: none;"></div>
+        </div> -->
+
+        <!-- Weather -->
+        <div class="row" style="position:relative;height: 10%;" id="weather">
+        <!--<div style="width: 20%;"><div style="position: absolute; bottom: 10px;"><img data-bind="attr:{src: $data.pic}"  class="profilepic" /></div></div>-->
+       <div style="width: 60px;height: 100%;"><div style="position: absolute; bottom: 10px;margin-left: 10px;"><img data-bind="attr:{src: $data.pic}"  class="profilepic" /></div></div> 
+        <div class="colorgrey" style="margin: auto 10px ;">
+            <span data-bind="text: $data.town" class="colorblue" style="font-size: 15px;font-weight:bold;"></span><br>
+            <span data-bind="html: $data.degreedesc" style="font-size: 15px;"></span>
+        </div>
+
+         <div style="clear: both;float: none;"></div>
+        </div>
+        
+        <!-- Daily Route-->
+        <div class="row" style="position:relative;" id="Div1">
+        <div class="colorgrey" style="margin: auto 0px ;">
+            <span style="font-size: 15px;font-weight:bold;">Route</span><br>
+            <span class="colorblue" style="font-size: 20px;">Daily Work</span>
+        </div>
+
+
+        <div style="float:right;margin: 10px;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
+
+        <div style="clear: both;float: none;"></div>
+        </div>
+
+        <!-- Daily Route-->
+        <div class="row colorgrey" style="border-bottom: 1px solid #3AC1F0;" >
+        News Feed
+        </div>
+        <!--Latest  Alert -->
+        <div class="row colorgrey" data-bind="foreach: allalerts"  id="latestalert" style="position: relative;">      
+       <!-- ko if: ( $index() === ($parent.allalerts().length -1)) -->
+       <div style=""> <img src="images/alert_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
+       <div style="width: 70%;" class="colorgrey">
+       <span data-bind="text: alert_type" class="colorred"></span><br/>
+       <span class="colorblue" data-bind="text: alert_location">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
+       <p data-bind="text: alert_description"></p>
+       </div>
+       <div style="float: right;width: 5%;margin: 30px 0 20px 0;">
+       <img src="images/arrow_back.png">
+       </div>
+        <div style="clear:both;float:none;">
+       
+       
+       
+       
+       </div>
+       <!-- /ko -->
+        </div>
+
+
+
+
+
+
+
+
+
+        <!--Latest  Message -->
+        <div data-bind="foreach: allmessages"  id="latestmsg" style="position: relative;">
+        
+  
+       <!-- ko if: ( $index() === ($parent.allmessages().length -1)) -->
+              <div class="row colorgrey" style="position: relative;width: 100%;padding-left: 0;padding-bottom: 0;">    
+       
+       
+                       <div style="margin: 0 10px 0 10px;width:100%;" class="colorgrey"  onclick="showmsgcontrol(this);">
+                               <div style=""> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
+                               <div style="width: 85%;" class="colorgrey">
+                                       <!-- ko if: ( reminder() != '0') -->
+                                       <img   src="images/account_btn.png" align="left" style="" width="50px;"/>
+                                       <!-- /ko -->
+                                       <!-- ko if: ( reminder() == '0') -->
+                                       <img  data-bind="src: fromimg" src="images/account_btn.png" align="left" style="" width="50px;"/>
+                                        <!-- /ko -->
+                                       <span data-bind="text: fromname" class="colorblue"></span><br/>             
+                                       <span style="color: #000000;">Message</span> (<span data-bind="text: msgdate" class="colorgrey"></span>)              
+                                       <p data-bind="text: message"></p>
+                                </div>
+                               <div style="float: right;width: 5%;margin: 30px 0 20px 0;">
+                                        <img src="images/arrow_back.png"> 
+                               </div>
+
+
+                               <div style="clear:both;float:none;"></div>
+
+                       </div>
+      
+                       <div style="clear:both;float:none;"></div>
+                       <div class="msgcontrol grey blue" style="display: none;width: 100%;padding: 10px;">
+                            <div style="float: left;margin-left: 10px;" data-bind="click: $parent.setchosenmsg">
+                                <div style="float: left;margin-left: 10px;"><img src="images/reply_icon.png"/></div>
+                                <div style="float: left;margin-left: 10px;">Reply</div>
+                            </div>
+                            <div style="float: left;margin-left: 10px;" data-bind="click: $parent.delmessage">
+                                <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
+                                <div style="float: left;margin-left: 10px;">Delete</div>
+                            </div>
+                            <div style="float: none; clear: both;"></div>
+        
+                       </div>
+                       <div style="float: none; clear: both;"></div>
+                </div>
+               <div style="float: none; clear: both;"></div>
+       <!-- /ko -->
+        </div>
+
+
+        <!-- Bottom buttons -->
+        <div class="row grey" style="position: relative;padding: 0;">
+        <div style="width: 30%; border-right: solid 2px #E7E7E8;" id="msgtotal" class="profilemsgbutton"><div class="circleBase blue colorwhite" style="padding: 6px 10px;" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
+        <div style="width: 30%;" class="profilealertbutton"><div class="circleBase red colorwhite" style="padding: 6px 10px;" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
+        <div style="clear:both;float:none;"></div>
+        </div>
+
+
+
         </div>         
-        <div id="page-alerts" data-page-type="main"  title="Alerts">            
-            <h1>ALERTS</h1>
-            <ul>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-               <li><div class="menuitem">Space</div></li>
-            </ul>
-        </div>         
-        <div id="page-messages" data-page-type="main"  title="Alerts">            
-            <h1>MESSAGES</h1>
-        </div>                 
+<!-- Profile Screen Ends -->
+
+<!-- Alert Screen Starts -->
+        <div id="page-alerts" data-page-type="main"  title="Alerts">  
+        
+        <div class="row colorgrey grey">Last 3 days</div>
+       
+       
+        <div  data-bind="foreach: allalerts"  id="allalerts" style="position: relative;">      
+       <div  class="row colorgrey" style="padding-bottom: 0;">
+                  <div style="width: 100%;position: relative;"   onclick="showmsgcontrol(this);">
+                       <div style="width: 70%;" class="colorgrey">
+                       <span data-bind="text: alert_type" class="colorred"></span><br/>
+                       <span class="colorblue" data-bind="text: alert_location">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
+                       <p data-bind="text: alert_description"></p>
+                       </div>
+                       <div style="float: right;width: 5%;margin: 30px 0 20px 0;">
+                       <img src="images/arrow_back.png">
+                       </div>
+                        <div style="clear:both;float:none;"></div>
+                  </div>
+                   <div style="clear:both;float:none;"></div>
+                   <div class="msgcontrol grey blue" style="display: none;width: 100%;padding: 10px;">
+                                        <div style="float: left;margin-left: 10px;" data-bind="click: $parent.setchosenalert">
+                                            <div style="float: left;margin-left: 10px;"><img src="images/location_icon.png"/></div>
+                                            <div style="float: left;margin-left: 10px;">Location</div>
+                                        </div>
+                                        <div style="float: left;margin-left: 10px;">
+                                            <div style="float: left;margin-left: 10px;"><img src="images/tips_icon.png"/></div>
+                                            <div style="float: left;margin-left: 10px;">Trip</div>
+                                        </div>
+
+                                        <div style="float: left;margin-left: 10px;" >
+                                            <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
+                                            <div style="float: left;margin-left: 10px;">Clear</div>
+                                        </div>
+                                        <div style="float: none; clear: both;"></div>
+        
+                   </div>
+                   <div style="float: none; clear: both;"></div>
+       </div>
+       </div>
+     
+        </div>       
+        
+        
+                 
+        </div>      
+ <!-- Alert Screen Ends -->       
+        
+        
+        
+        <!-- StarSocial Messages Starts -->   
+        <div id="page-starsocial" data-page-type="main"  title="StarSocial">            
+            <!-- Subnavigation -->
+            <div class="row colorblue grey" style="position: relative;padding:0;">
+            
+                <div style="padding:15px; margin: 0;border-right: 1px solid #E7E7E8;" onclick="return Application.gotoPage('page-friends');">Friends</div>
+                <div class="colorgrey" style="padding:15px; margin: 0;;border-right: 1px solid #E7E7E8;" onclick="return Application.gotoPage('page-starsocial');">Messages</div>
+                <div style="clear: both;float: none;"></div>
+            
+            </div>
+
+
+           <div id="allmessages"  data-bind="foreach: allmessages" style="position: relative;width: 100%;">
+           <!-- ko if:  reminder() !== '0' || fromid() !== '30' -->
+                <div class="row colorgrey" style="position: relative;width: 100%;padding-left: 0;padding-bottom: 0;">    
+       
+       
+                       <div style="margin: 0 10px 0 10px;width:100%;" class="colorgrey"  onclick="showmsgcontrol(this);">
+                               <!-- ko if: ( reminder() != '0') -->
+                               <img   src="images/account_btn.png" align="left" style="" width="50px;"/>
+                               <!-- /ko -->
+                               <!-- ko if: ( reminder() == '0') -->
+                               <img  data-bind="src: fromimg" src="images/account_btn.png" align="left" style="" width="50px;"/>
+                                <!-- /ko -->
+                               <span data-bind="text: fromname" class="colorblue"></span><br/>             
+                               <span style="color: #000000;">Message</span> (<span data-bind="text: msgdate" class="colorgrey"></span>)              
+                               <p data-bind="text: message"></p>
+                       </div>
+      
+                       <div style="clear:both;float:none;"></div>
+                       <div class="msgcontrol grey blue" style="display: none;width: 100%;padding: 10px;">
+                            <div style="float: left;margin-left: 10px;" data-bind="click: $parent.setchosenmsg">
+                                <div style="float: left;margin-left: 10px;"><img src="images/reply_icon.png"/></div>
+                                <div style="float: left;margin-left: 10px;">Reply</div>
+                            </div>
+                            <div style="float: left;margin-left: 10px;" data-bind="click: $parent.delmessage">
+                                <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
+                                <div style="float: left;margin-left: 10px;">Delete</div>
+                            </div>
+                            <div style="float: none; clear: both;"></div>
+        
+                       </div>
+                       <div style="float: none; clear: both;"></div>
+                </div>
+            <!-- /ko  -->
+            </div>   
+        </div>    
+        <!-- StarSocial Messages Starts -->
+
+        <!-- StarSocial Send Message Starts -->
+        <div id="page-messages" title="StarSocial">    
+        
+            <div class="row colorblue grey" style="position: relative;padding:0;">       
+          
+                <div style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-friends');">Friends</div>
+                <div class="colorgrey" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starsocial');">Messages</div>
+                <div style="clear: both;float: none;"></div>            
+            </div>
+
+           <div id="chosenmsgn"  data-bind="with: chosenmsg" class="row" style="position: relative;">
+                                       <div data-bind="blur: console.log(fromid())"  style="margin: 0 10px 0 10px;width:100%;" class="colorgrey"  onclick="showmsgcontrol(this);">
+                       <!-- ko if: ( reminder != 0) -->
+                       <img   src="images/account_btn.png" align="left" style="" width="70px;"/>
+                       <!-- /ko -->
+                       <!-- ko if: ( reminder == 0) -->
+                       <img  data-bind="src: fromimg" src="images/account_btn.png" align="left" style="" width="70px;"/>
+                        <!-- /ko -->
+                       
+                       <span data-bind="text: fromname" class="colorblue"></span><br/>             
+                       <!-- ko if: ( subject() != "" && message() != "") -->
+                       <span style="color: #000000;">Message</span> (<span data-bind="text: msgdate" class="colorgrey"></span>)              
+                       <p data-bind="text: message"></p>
+                       <!-- /ko -->
+                       <!-- ko if: ( subject() == "" && message() == "") -->
+                       <input type="text" placeholder="Subject" data-bind="value: subject" style="width: auto;">
+                       <!-- /ko -->
+
+                       </div>
+                       <div style="clear:both;float:none;"></div>
+      
+                       <textarea id="newmessage"></textarea>
+            
+                       <div style="clear:both;float:none;"></div>
+                       <div class="blue button" style="float:none;" data-bind="click: $parent.sendmessage, text: (message() != '' && subject != '')? 'Reply':'Send'">Reply</div>
+                       <div style="clear:both;float:none;"></div> 
+
+            </div>   
+        </div>  
+        <!-- StarSocial Send Message Ends -->
+                <div class="friendModal" title="myfriend" style="display: none;" id="chosenfriend">
+                <div class="bluegradientbg" id="friend_name_title">njk</div>
+                <input type="hidden" id="friend_id" />    
+                <input type="hidden" id="friend_name" />  
+            <div>
+
+                <div class="top"  data-bind="click: setchosenmsgfrnd.bind($data, document.getElementById('friend_id'), 'param2')"><div><img src="images/messaging_btn.png" style="width: 40%;"></div>Message</div>
+                <div class="top"><div><img src="images/account_btn.png" style="width: 40%;"></div>View Profile</div>
+                <div class="top"><div><img src="images/account_btn.png" style="width: 40%;"></div>Delete Friend</div>                    
+                <div class="top" onclick="javascript:  $('.friendModal').dialog('close');"><div><img src="images/clear_icon_delete_btn.png" style="width: 40%;"></div>Close</div>            
+            </div>
+
+        
+        </div>
+        <!-- StarSocial Friends Starts -->
+        <div id="page-friends" title="StarSocial" data-page-type="main">    
+        
+
+
+
+
+            <div class="row colorblue grey" style="position: relative;padding:0;">            
+                <div class="colorgrey" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-friends');">Friends</div>
+                <div style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starsocial');">Messages</div>
+                <div style="clear: both;float: none;"></div>            
+            </div>
+
+             <div id="allfriends"  data-bind="foreach: allfriends" style="position: relative;width: 100%;">
+         
+                <div class="row colorgrey" style="position: relative;padding-left: 0;padding-bottom: 0;" data-bind="attr: { 'data-fid': friend_id, 'data-fname': friend_name}">    
+       
+       
+                       <div style="margin: 0 10px 0 10px;" class="colorgrey" >
+                               <img  data-bind="src: friend_img" src="images/account_btn.png" align="left" style="" width="50px;"/>                               
+                               <span data-bind="text: friend_name" class="colorblue"></span>
+                       </div>
+                       <div style="float: right;width: 5%;margin: 20px 0 20px 0;">
+                            <img src="images/arrow_back.png">
+                       </div>
+                       <div style="clear:both;float:none;"></div>                      
+                </div>
+        
+            </div>      
+        </div>  
+        <!-- StarSocial Friends Starts -->
+
+        <!-- Alert Location Starts -->   
+        <div id="page-location"  title="Location" style="height: 100%;">
+        <div id="alertlocation" data-bind="with: chosenalert" style="height: 100%;position: relative;">
+           <div class="row">
+           
+                <span data-bind="text: alert_type" class="colorred"></span><br/>
+                <span class="colorblue" data-bind="text: alert_location()">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
+            </div>
+
+      
+                <div id="mapContainerzzz" name="mapContainerzzz" style="position:relative;backgound: #666666;float:none;overflow: visible;">
+               <div style="display:block; width: 100%; height: 100%;"></div>
+                </div>
+        
+         
+        </div>
+        </div>
+        <!-- Alert Location Ends -->
         <div id="page-starrate" data-page-type="main"  title="Alerts">            
             <h1>STAR RATE</h1>
         </div>     
       </div>    
+
+
+
     </body>
 </html> 
