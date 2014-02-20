@@ -1,0 +1,25 @@
+.deCarta-control-traffic {
+	height: 35px;
+	width: 52px;	
+	margin:10px;
+}
+/*.deCarta-control-traffic-on:hover {
+	background-image : url("../../img/traffic_roll.png");
+	height: 35px;
+	width: 52px;	
+}
+.deCarta-control-traffic-off:hover {
+	background-image : url("../../img/traffic_roll.png");
+	height: 35px;
+	width: 52px;	
+}*/
+.deCarta-control-traffic-off {
+	background-image : url("../../img/traffic.png");
+	height: 35px;
+	width: 52px;	
+}
+.deCarta-control-traffic-on {
+	background-image : url("../../img/traffic_on.png");
+	height: 35px;
+	width: 52px;	
+}
