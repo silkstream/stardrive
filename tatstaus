@@ -1,0 +1,71 @@
+[33mcommit 5b3e4c100937816325f37a8b4e9fb40c1ea68eeb[m
+Author: Clayton Abrahams <abrahamsc@altechisis.com>
+Date:   Fri Feb 7 13:22:30 2014 +0200
+
+    finished login screen. added forgot password screen. fixed page trail navigation
+
+[33mcommit 911892e5e09957cecc131697c623f04e89d57709[m
+Author: unknown <AbrahamsC@CP-ST0170.isiscpt.co.za>
+Date:   Fri Feb 7 10:51:02 2014 +0200
+
+    implemented navigation and drawer menu. added first login screen
+
+[33mcommit 7e30d711c2c5e8ce346dbb283b0dd8cb6eedab9c[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Thu Dec 5 00:03:19 2013 +0200
+
+    input types as email
+
+[33mcommit f4982373fb6fafa5a18ba0b98d2c45cf0f198053[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Wed Dec 4 23:34:02 2013 +0200
+
+    menu adjusted
+
+[33mcommit bba1627fc35cc9eac161b98aaf4b404c89ec955a[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Wed Dec 4 23:12:31 2013 +0200
+
+    removed pdf
+
+[33mcommit c78ce743a26c3b1ebe43c4bb63b8da64ba278e41[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Wed Dec 4 23:10:15 2013 +0200
+
+    more styling
+
+[33mcommit aabe9fe77b18bd853d4120d553456ca638c39e69[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Wed Dec 4 22:00:05 2013 +0200
+
+    styling changes
+
+[33mcommit 99f251684b32e55b7fe573d6d89417edb1ebc273[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Wed Dec 4 20:40:24 2013 +0200
+
+    Reverted config file
+
+[33mcommit f7628f987a91e5e54b765ff4b84762505e521f7a[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Wed Dec 4 17:27:54 2013 +0200
+
+    Removed .Net dll's
+
+[33mcommit b435109bcf9a78d4fe6e3792fbb7e9803f526a5b[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Fri Nov 29 16:25:18 2013 +0200
+
+    Changed menu image
+
+[33mcommit 68b39aadf27ed44445b320d9ff24de0c8bfaf426[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Fri Nov 29 15:04:27 2013 +0200
+
+    First commit
+
+[33mcommit 15cbe2752522f40a9c0b2acb4191e1c5a3b72d6e[m
+Author: Andre Carstens <andrejcarstens@gmail.com>
+Date:   Fri Nov 29 04:52:08 2013 -0800
+
+    Initial commit

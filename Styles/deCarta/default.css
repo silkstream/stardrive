@@ -1,0 +1,196 @@
+.blur {-webkit-filter: blur(4px);}
+
+.brightness {-webkit-filter: brightness(0.35);}
+
+.contrast {-webkit-filter: contrast(140%);}
+
+.grayscale {-webkit-filter: grayscale(100%);}
+
+.huerotate {-webkit-filter: hue-rotate(180deg);}
+
+.invert {-webkit-filter: invert(100%);}
+
+.opacity {-webkit-filter: opacity(60%);}
+
+.saturate {-webkit-filter: saturate(4);}
+
+.sepia {-webkit-filter: sepia(100%);}
+/* default.css */
+body { 
+	font: 14px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif; 
+	width: 90%; 
+	background:#fff;
+	line-height:1.2;
+}
+
+.new_feature{font-weight:bold;color:red;font-style:italic;}
+.updated_feature{font-weight:bold;color:red;font-style:italic;}
+
+/* begin deCarta summary page specific css. This should be absorbed into the regular css eventually */
+.summarypagecontent     {
+	width:800px; 
+	border:solid 1px gray; 
+	padding:0px 30px 30px 30px; 
+	background-color:#FFFFFF; 
+	margin-left: 280px;
+}
+/* end deCarta specific summary page css */
+.header { clear: both; background-color: #ccc; padding: 8px; }
+
+a:link, a:visited, a:active {
+	color: #993333;
+	text-decoration:none;
+	line-height:15px;
+}
+
+p {
+	line-height:1.7;
+	text-align:justify;
+	padding:10px;
+
+}
+
+h1 { font-size: 30px; ; line-height:30px;}
+.title{
+	width:860px;
+	top:-30px;	
+	position:relative;
+	font-family: 'Open Sans', sans-serif;
+	color:#555555; 
+	text-shadow:1px 1px 0px #333; 
+	box-shadow:0px 1px 3px #333;
+	background-color:#fff;
+	font-weight:bold;
+	padding:10px; 
+	border:1px solid #333; 
+	margin-left:-50px;
+	margin-bottom:0;
+	background: #b6b6b6; /* Old browsers */    
+	background: -moz-linear-gradient(top, #f0b47b 0%, #b74d1a 100%); /* FF3.6+ */   
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0b47b),  color-stop(100%,#b74d1a)); /* Chrome,Safari4+ */    
+	background: -webkit-linear-gradient(top, #f0b47b 0%,#b74d1a 100%); /* Chrome10+,Safari5.1+ */    
+	background: -o-linear-gradient(top, #f0b47b 0%,#b74d1a 100%); /* Opera11.10+ */    background: -ms-linear-gradient(top, #8f8f8f 0%,#b6b6b6 100%); /* IE10+ */    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8f8f8f', endColorstr='#b6b6b6',GradientType=0 ); /* IE6-9 */    
+	background: linear-gradient(top, #f0b47b 0%,#b74d1a 100%); /* W3C */    
+	color:#fff;
+}
+
+.summarypagesection     {
+	position:relative;
+	color:#cf7946; 
+	width:858px;
+	font-family: sans-serif;
+	font-weight:bold;
+	font-family: 'Open Sans', sans-serif;
+	padding:5px;
+	font-size:28px;
+	line-height:28px;
+}
+
+.summarypagesubsection  {
+
+	position:relative;
+	color:#cf7946; 
+	width:858px;
+	font-family: sans-serif;
+	font-weight:bold;
+	font-family: 'Open Sans', sans-serif;
+	padding:5px;
+	font-size:18px;
+	line-height:18px;
+
+}
+.summarypagesubsubsection  {
+
+    border: 1px solid #888;
+	padding:5px;
+	font-size:15px;
+	line-height:15px;
+
+
+}
+.example{
+    margin-top:10px;
+
+    border: 1px solid #888;
+	padding:5px;
+	font-size:15px;
+	line-height:15px;
+}
+
+hr { border: none 0; border-top: 1px solid #7F8FB1; height: 1px; }
+
+#index { margin-top: 0px; float: left; width: 220px;  left: 8px; background-color: #F3F3F3; padding: 8px;}
+#content { margin-left: 290px; width: 600px; }
+
+.classList { list-style-type: none; padding: 0; margin: 0 0 0 8px; font-family: arial, sans-serif; font-size: 1em; overflow: auto; }
+.classList li { padding: 0; margin: 0 0 8px 0; }
+
+caption, div.sectionTitle { color:#333333; background-color:#eeeeee; font-size:130%; text-align: left; border-bottom: 1px #7F8FB1 solid; padding: 2px 6px 2px 6px; }
+
+div.sectionTitle { margin-bottom: 8px; }
+
+td.attributes, .fixedFont { line-height: 15px; color: #002EBE; font-family: "Courier New",Courier,monospace; font-size: 13px; }
+
+.summaryTable { width: 100%; margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+.summaryTable td { vertical-align: top; padding: 4px; border-bottom: 1px #7F8FB1 solid; border-right: 1px #7F8FB1 solid; }
+.summaryTable td.attributes { border-left: 1px #7F8FB1 solid; width: 140px; text-align: right; }
+.summaryTable td.nameDescription { text-align: left; font-size: 13px; line-height: 15px; }
+.summaryTable td.nameDescription, .description { line-height: 15px; padding: 4px; padding-left: 4px; }
+
+.compatibilityTable{ color:#333;border-collapse: collapse; width:100%; }
+.compatibilityTable td {padding:5px; border:1px solid #BBBBBB; }
+.compatibilityTable th { padding:5px; border:1px solid #BBBBBB; background-color:#eee; }
+
+
+ul.inheritsList { list-style: square; margin-left: 20px; padding-left: 0; }
+
+.detailList { margin-left: 20px; line-height: 15px; }
+.detailList dt { margin-left: 20px; }
+.detailList .heading { font-weight: bold; padding-bottom: 6px; margin-left: 0; }
+
+.light, td.attributes, .light a:link, .light a:visited { color: #777; font-style: italic; }
+
+.fineprint { text-align: right;	font-size: 10px; }
+
+.titleBlingLeft{
+	position: absolute;
+	bottom:-11px;
+	left:-1px;
+	width: 0;
+	height: 0;
+	border-left: 20px solid transparent;
+	border-right: 0px solid transparent;
+	border-top: 10px solid #b74d1a;
+}
+.titleBlingRight{
+	position: absolute;
+	bottom:-11px;
+	right:1px;
+	width: 0;
+	height: 0;
+	border-right: 20px solid transparent;
+	border-left: 0px solid transparent;
+	border-top: 10px solid #b74d1a;
+}
+.more{
+  border: 1px solid #ccc; 
+  background:#f1f2f2; 
+  font-size:9pt; 
+  padding: 33px 10px 10px 10px; 
+  margin:0;
+}
+.moreTop{
+  position:relative;
+  height:21px;
+  top:23px;
+  left:2px;
+  line-height:21px;
+  text-align:left;
+  padding:0px;
+  vertical-align: middle;
+  padding-right:0px;
+  margin-bottom:0;
+  font-size:12px;
+  font-weight:bold;
+}

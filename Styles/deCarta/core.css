@@ -1,0 +1,184 @@
+/***********************/
+/* STYLES FOR THE PINS */
+/***********************/
+.deCarta-Pin-Default{
+	position: absolute;
+	height: 13px;
+	width: 13px;
+	top: -8px; /* we need to center it*/
+	left: -8px;
+	border: 1px inset #eee;
+
+	background: rgb(42,211,16); /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(42,211,16,1) 0%, rgba(32,130,10,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(42,211,16,1)), color-stop(100%,rgba(32,130,10,1))); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(42,211,16,1) 0%,rgba(32,130,10,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  rgba(42,211,16,1) 0%,rgba(32,130,10,1) 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(42,211,16,1) 0%,rgba(32,130,10,1) 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center,  rgba(42,211,16,1) 0%,rgba(32,130,10,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2ad310', endColorstr='#20820a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+    -webkit-border-radius: 100em;
+	-moz-border-radius: 100em;
+	border-radius: 100em;
+}
+
+
+.deCarta-Pin-Cluster-Default{
+	position: absolute;
+	height: 20px;
+	width: 20px;
+	top: -10px; /* we need to center it*/
+	left: -10px;
+	border: 1px inset #eee;
+
+	background: rgb(247,65,0); /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(247,65,0,1) 0%, rgba(204,0,0,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(247,65,0,1)), color-stop(100%,rgba(204,0,0,1))); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(247,65,0,1) 0%,rgba(204,0,0,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  rgba(247,65,0,1) 0%,rgba(204,0,0,1) 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(247,65,0,1) 0%,rgba(204,0,0,1) 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center,  rgba(247,65,0,1) 0%,rgba(204,0,0,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f74100', endColorstr='#cc0000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+    -webkit-border-radius: 100em;
+	-moz-border-radius: 100em;
+	border-radius: 100em;
+}
+
+.deCarta-Pin-Cluster-label{
+	text-align: center; 
+	width: 20px;
+	height: 18px;
+	border-radius: 10px; 
+	-moz-border-radius: 10px; 
+	position: absolute; 
+	top: -5px; 
+	left: -5px; 
+	padding: 0px; 
+	border: 2px solid white; 
+	background-color: #A00; 
+	color: #FFF; 
+	font-size: 12px; 
+	font-family: arial; 
+	font-weight: bold;
+	background-image: -webkit-gradient(radial, 12 12, 12, 12 12, 2, from(#FC0505), to(#9C090E));
+	background-image: -moz-radial-gradient(20% 20% 90deg,circle cover, #9C090E, #FC0505);
+	text-shadow: 1px 1px 1px #333333;
+	-moz-box-shadow: 2px 2px 2px #333;
+	-webkit-box-shadow: 2px 2px 2px #333;
+	box-shadow: 2px 2px 2px #333;
+	padding-top: 2px;
+}
+
+/*******************************************/
+/* These are the styles for the infoWindow */
+/*******************************************/
+
+.deCarta-InfoWindow-Content-External{
+	min-width: 150px;
+	max-width: 400px;
+	min-height: 50px;
+	max-height: 300px;
+	margin: 3px;
+	padding: 4px;	
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: relative;
+	font-size:13px;
+}
+
+.deCarta-InfoWindow {	
+	position: absolute;	
+	padding:10px;
+	cursor: auto;
+	color:#FFF;
+	margin-top: -15px;	
+	/*z-index: 2147483647*/
+	z-index: -99999999;
+}
+
+.deCarta-InfoWindow-Background{
+	position: absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	background-color:#000;
+	opacity:0.8;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+}
+
+/* Variant : for top positioned triangle
+------------------------------------------ */
+.deCarta-InfoWindow.top {
+	margin-top: 15px;
+}
+
+/* Variant : for left/right positioned triangle
+------------------------------------------ */
+.deCarta-InfoWindow.left {
+	margin-left: 25px;
+    margin-right: -25px;
+}
+
+/* Variant : for right positioned triangle
+------------------------------------------ */
+.deCarta-InfoWindow.right {
+	margin-left: -25px;	
+}
+
+/* THE TRIANGLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+/* creates triangle */
+.deCarta-InfoWindow:after {
+	content:"";
+	position:absolute;
+	bottom:-15px; /* value = - border-top-width - border-bottom-width */
+	left:50%; /* controls horizontal position */
+	margin-left: -15px;
+	border-width:15px 15px 0; /* vary these values to change the angle of the vertex */
+	border-style:solid;
+	border-color:#737373 transparent;
+    /* reduce the damage in FF3.0 */
+    display:block; 
+    width:0;
+    opacity: 0.8;
+}
+
+/* Variant : top
+------------------------------------------ */
+.deCarta-InfoWindow.top:after {
+	top:-15px; /* value = - border-top-width - border-bottom-width */
+	right:50%; /* controls horizontal position */
+	margin-right: -15px;
+	bottom:auto;
+	left:auto;
+	border-width:0 15px 15px; /* vary these values to change the angle of the vertex */
+}
+
+/* Variant : left
+------------------------------------------ */
+.deCarta-InfoWindow.left:after {	
+    left: auto;
+	right: 25px;
+	margin-right: -15px;   
+}
+
+/* Variant : right
+------------------------------------------ */
+.deCarta-InfoWindow.right:after {	 
+    left: 25px;        
+}
+
+/********************************************/
+/* Other styles 							*/
+/********************************************/
+
+.deCarta-Core-TileImage.blank{
+	width: 256px;
+	height: 256px;
+	background:url(data:image/gif;base64,R0lGODlhAAEAAYABAJmZmf///yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RUI0MTgyQjczMzE1MTFFMDg5MTA5RTNDRDlERkUzMzMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RUI0MTgyQjgzMzE1MTFFMDg5MTA5RTNDRDlERkUzMzMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFQjQxODJCNTMzMTUxMUUwODkxMDlFM0NEOURGRTMzMyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFQjQxODJCNjMzMTUxMUUwODkxMDlFM0NEOURGRTMzMyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmo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);
+}

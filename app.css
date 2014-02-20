@@ -302,9 +302,10 @@ background: #ffffff;
 
 .friendModal
 {
-    width: 60%;
+    
      border: 0 !important;
       outline-color: transparent;
+      width: 220px !important;
 }
 
 
@@ -315,18 +316,34 @@ background: #ffffff;
     text-align:center;
     border: 0 !important;
     color: #ffffff;
+    
 }
 
 
 .friendModal div .top
 {
     border: 1px solid #000000;
-    
+    padding: 10px;
     border-radius: none;
     float: left;
-    width: 50%;
+    width: 90px;
+    height: 90px;
+    position: relative;
+    vertical-align: baseline;
+    font-size: 13px;
     
 }
+
+
+.friendModal div .top .imgdiv
+{
+    width: 55px !important;
+    height: 55px !important;
+    display: block;
+    margin: 0 auto 10px auto;
+    
+}
+
 .friendModal .bottom
 {
     margin-top: 10px;
