@@ -123,6 +123,7 @@ function APPMANAGER() {
         $("#menu").hide('slide', {direction: 'right'}, 300);
         //SHOW THE SELECTED WINDOW        
         this.showpage(pageName);
+        $('html, body').animate({ scrollTop: 0 }, 0);
         return false;
     }
     APPMANAGER.prototype.showpage = function (pageName) {
