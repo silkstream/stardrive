@@ -29,7 +29,7 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('latestmsg'));
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('latestalert'));
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('alerttotal'));
-    ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('msgtotal'));
+    ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('msgtotal')); 
 
     //bindings for starsocial messages
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('allmessages'));
@@ -44,8 +44,8 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('allalerts'));
 
     //bindings for alert location page
-    ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('alertlocation')); 
-
+    ko.applyBindings(Application.masterVM.vmMaps, document.getElementById('alertlocation'));
+    ko.applyBindings(Application.masterVM.vmMaps, document.getElementById('daylyroute'));
 
 
     ko.applyBindings(Application.masterVM.vmLogin, $(Application.pages[0])[0]);
@@ -109,7 +109,8 @@ function APPMANAGER() {
         vmMessages: new MessagesViewModel(),
         vmWeather: new WeatherViewModel(),
         vmAlerts: new AlertsViewModel(),
-        vmFriends: new FriendsViewModel()
+        vmFriends: new FriendsViewModel(),
+        vmMaps: new MapsViewModel()
     }
     APPMANAGER.prototype.toggleMenu = function () {
         $("#menu").toggle('slide', {

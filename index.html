@@ -10,7 +10,7 @@
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/core.css" />
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
-        <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
+        <script type="text/javascript" src="js/lib/knockout-3.0.0.js"></script>
         <script type="text/javascript" src="js/app/netstar_mapit.js"></script>
         <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
         <script type="text/javascript" src="js/app/main.js"></script>       
@@ -129,8 +129,8 @@
         </div>
         
         <!-- Daily Route-->
-        <div class="row" style="position:relative;" id="Div1">
-        <div class="colorgrey" style="margin: auto 0px ;">
+        <div class="row" style="position:relative;" id="daylyroute"  >
+        <div class="colorgrey" style="margin: auto 0px ;" data-bind="click: setchosenroute">
             <span style="font-size: 15px;font-weight:bold;">Route</span><br>
             <span class="colorblue" style="font-size: 20px;">Daily Work</span>
         </div>
@@ -148,21 +148,38 @@
         <!--Latest  Alert -->
         <div class="row colorgrey" data-bind="foreach: allalerts"  id="latestalert" style="position: relative;">      
        <!-- ko if: ( $index() === ($parent.allalerts().length -1)) -->
-       <div style=""> <img src="images/alert_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
-       <div style="width: 70%;" class="colorgrey">
-       <span data-bind="text: alert_type" class="colorred"></span><br/>
-       <span class="colorblue" data-bind="text: alert_location">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
-       <p data-bind="text: alert_description"></p>
-       </div>
-       <div style="float: right;width: 5%;margin: 30px 0 20px 0;">
-       <img src="images/starsocial_arrow.png">
-       </div>
-        <div style="clear:both;float:none;">
-       
-       
-       
-       
-       </div>
+       <div style="margin: 0 10px 0 10px;width:100%;" class="colorgrey"  onclick="showmsgcontrol(this);">
+               <div style=""> <img src="images/alert_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
+               <div style="width: 70%;" class="colorgrey">
+                    <span data-bind="text: alert_type" class="colorred"></span><br/>
+                    <span class="colorblue" data-bind="text: alert_address">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
+                    <p data-bind="text: alert_description"></p>
+               </div>
+               <div style="float: right;width: 5%;margin: 30px 0 20px 0;">
+                    <img src="images/starsocial_arrow.png">
+               </div>
+                <div style="clear:both;float:none;"></div>
+        </div>
+        <div style="clear:both;float:none;"></div>
+                           <div class="msgcontrol grey blue" style="display: none;width: 100%;padding: 10px;">
+                                        <div style="float: left;margin-left: 10px;" data-bind="click: function(){Application.masterVM.vmMaps.setchosenalert($data)}">
+                                            <div style="float: left;margin-left: 10px;"><img src="images/location_icon.png"/></div>
+                                            <div style="float: left;margin-left: 10px;">Location</div>
+                                        </div>
+                                        <div style="float: left;margin-left: 10px;">
+                                            <div style="float: left;margin-left: 10px;"><img src="images/tips_icon.png"/></div>
+                                            <div style="float: left;margin-left: 10px;">Trip</div>
+                                        </div>
+                                        <div style="float: left;margin-left: 10px;" >
+                                            <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
+                                            <div style="float: left;margin-left: 10px;">Clear</div>
+                                        </div>
+                                        <div style="float: none; clear: both;"></div>
+        
+                   </div>
+                   <div style="float: none; clear: both;"></div>
+
+
        <!-- /ko -->
         </div>
 
@@ -226,8 +243,8 @@
 
         <!-- Bottom buttons -->
         <div class="row grey" style="position: relative;padding: 0;position:relative;height: 100px;">
-        <div style="position:relative;height: 100%;width: 30%; border-right: solid 2px #E7E7E8;" id="msgtotal" class="profilemsgbutton"><div class="circleBase blue colorwhite" style="padding: 6px 10px;" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
-        <div style="width: 30%;height: 100%;" class="profilealertbutton"><div class="circleBase red colorwhite" style="padding: 6px 10px;" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
+        <div  onclick="return Application.gotoPage('page-starsocial');" style="position:relative;height: 100%;width: 30%; border-right: solid 2px #E7E7E8;" id="msgtotal" class="profilemsgbutton"><div class="circleBase blue colorwhite" style="padding: 6px 10px;" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
+        <div  onclick="return Application.gotoPage('page-alerts');" style="width: 30%;height: 100%;" class="profilealertbutton"><div class="circleBase red colorwhite" style="padding: 6px 10px;" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
         <div style="clear:both;float:none;"></div>
         </div>
 
@@ -247,7 +264,7 @@
                   <div style="width: 100%;position: relative;"   onclick="showmsgcontrol(this);">
                        <div style="width: 70%;" class="colorgrey">
                        <span data-bind="text: alert_type" class="colorred"></span><br/>
-                       <span class="colorblue" data-bind="text: alert_location">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
+                       <span class="colorblue" data-bind="text: alert_address">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
                        <p data-bind="text: alert_description"></p>
                        </div>
                        <div style="float: right;width: 5%;margin: 30px 0 20px 0;">
@@ -316,7 +333,7 @@
                        </div>
       
                        <div style="clear:both;float:none;"></div>
-                       <div class="msgcontrol grey blue" style="display: none;width: 100%;padding: 10px;">
+                       <div class="msgcontrol grey blue" style="display: none;width: 100%;padding: 10px;margin:0;">
                             <div style="float: left;margin-left: 10px;" data-bind="click: $parent.setchosenmsg">
                                 <div style="float: left;margin-left: 10px;"><img src="images/reply_icon.png"/></div>
                                 <div style="float: left;margin-left: 10px;">Reply</div>
@@ -423,14 +440,16 @@
 
         <!-- Alert Location Starts -->   
         <div id="page-location"  title="Location" style="height: 100%;">
-        <div id="alertlocation" data-bind="with: chosenalert" style="height: 100%;position: relative;">
-           <div class="row">
-           
+        <div  style="height: 100%;position: relative;">
+        <div id="alertlocation" >
+           <div class="row grey"   data-bind="visible: (whattoshow() === 'alert'),with:chosenalert">
                 <span data-bind="text: alert_type" class="colorred"></span><br/>
-                <span class="colorblue" data-bind="text: alert_location()">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
+                <span class="colorblue" data-bind="text: alert_address">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
             </div>
-
-      
+            <div class="row grey"   data-bind="visible: (whattoshow() === 'route'),with:chosenroute">
+                Home: <span class="colorblue" data-bind="text: from">Location</span> Work: <span class="colorblue" data-bind="text: to">Location</span>
+            </div>
+        </div>
                 <div id="mapContainerzzz" name="mapContainerzzz" style="position:relative;backgound: #666666;float:none;overflow: hidden;">
                <div style="display:block; width: 100%; height: 80%;position:relative;"></div>
                 </div>
