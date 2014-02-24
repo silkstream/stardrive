@@ -1,4 +1,85 @@
-﻿function LoginViewModel() {
+﻿ko.async = {
+    callbackParam: function (options) {
+        this.delegate = function () { };
+        this.completedSynchronously = false;
+        this.valueAccessor = function () { };
+        this.isLoaded = function () { };
+        $.extend(this, options);
+    }
+};
+
+ko.asyncComputed = function (evaluatorFunction, target) {
+
+    var loaded = ko.observable(false);
+    // will store the data from the callback
+    var _value = ko.observable();
+    _value.evaluatorFunction = evaluatorFunction;
+
+    var getFreshCallbackParam = function () {
+        return new ko.async.callbackParam({ valueAccessor: _value, isLoaded: loaded.peek() });
+    };
+
+    // make sure callbackParam is always set when evaulator is called (it won't be set when accessed by KO)
+    var _evaluatorFunction = function (_callbackParam) {
+        if (!_callbackParam) {
+            _callbackParam = getFreshCallbackParam();
+        }
+        return _value.evaluatorFunction.call(this, _callbackParam);
+    };
+    var _valueComp = ko.computed(_evaluatorFunction);
+
+    var write = function (newValue) {
+        //indicate that the value is now loaded and set it
+        result.loaded(true);
+        _value(newValue);
+    };
+    var read = function () {
+        //if it has not been loaded, execute the supplied function
+        //console.log('read');
+        if (!result.loaded()) {
+            // setup callback from inside evaluator and execute it
+            var callbackParam = getFreshCallbackParam();
+            var val = _evaluatorFunction.call(this, callbackParam);
+
+            if (typeof (val) !== "undefined") {
+                _value(val);
+                if (callbackParam.completedSynchronously) {
+                    result.loaded(true);
+                }
+            }
+            if (!callbackParam.completedSynchronously) {
+                callbackParam.delegate.call(target, write);
+            }
+        }
+        //always return the current value
+        return _value();
+    };
+
+    var result = ko.computed({
+        read: read,
+        write: write,
+        deferEvaluation: true  //do not evaluate immediately when created
+    });
+
+
+    //expose the current state, which can be bound against
+    result.loaded = loaded;
+    //load it again
+    result.refresh = function () {
+        result.loaded(false);
+    };
+    // respond to changes in dependencies
+    _valueComp.subscribe(function (newVal) {
+        result.refresh();
+    });
+
+    return result;
+};
+
+///*********************************
+
+
+function LoginViewModel() {
 
     this.LoginName = ko.observable("Email Address");
 
@@ -30,7 +111,7 @@
                     //Application.masterVM.vmProfile.Password(data[0].Stardriveuser.username);
                     Application.masterVM.vmProfile.Email(data[0].Stardriveuser.emailaddress);
                     Application.masterVM.vmProfile.HomeAddress(data[0].Stardriveuser.homeaddresscords);
-                    Application.masterVM.vmProfile.WorkAddress(data[0].Stardriveuser.workaddrresscords);
+                    Application.masterVM.vmProfile.WorkAddress(data[0].Stardriveuser.workaddresscords);
 
                     Application.gotoPage('page-profile');
                 },
@@ -217,6 +298,49 @@ function Alert(alert_id, alert_type, alert_location, alert_description, alert_da
     self.alert_id = ko.observable(alert_id);
     self.alert_description = ko.observable(alert_description);
     self.alert_date = ko.observable(alert_date);
+    self.alert_address = ko.asyncComputed(function () {
+        //var shouldDisplay = ReverseGeocode(self.alert_location());
+        //alert(shouldDisplay + "#");
+        //return shouldDisplay;
+        ////return ReverseGeocode(self.alert_location());
+
+        /*start pam*/
+        deCarta.Core.Configuration.clientName = 'Swisttech';
+        deCarta.Core.Configuration.defaultConfig = 'tomtom';
+        deCarta.Core.Configuration.defaultHiResConfig = 'tomtom';
+        deCarta.Core.Configuration.url = 'http://ws.mapit.co.za/openls/JSON';
+        deCarta.Core.Configuration.clientPassword = 'e35613cbc0f797747787ba1d936617a0';
+      
+        //console.log("before geocode");
+        //console.log(pinobj);
+        var start_loc;
+        deCarta.Core.Geocoder.reverseGeocode(
+			new deCarta.Core.Position(self.alert_location()),
+			 function (addressResults) {
+			     start_loc = addressResults;
+			    
+			     //$("#" + element).html(start_loc.Address.countrySubdivision + " - " + start_loc.Address.municipality + ' ' + start_loc.Address.municipalitySubdivision);
+			     //alert(start_loc.Address.countrySubdivision + " - " + start_loc.Address.municipality + ' ' + start_loc.Address.municipalitySubdivision);
+			     if (start_loc.Address.countrySubdivision) {
+			         start_loc = start_loc.Address.countrySubdivision;
+			         alert(start_loc.Address.countrySubdivision + " - " + start_loc.Address.municipality + ' ' + start_loc.Address.municipalitySubdivision);
+			         console.log(start_loc);
+			         // return start_loc.Address.countrySubdivision;
+			        
+			     } else {
+			         start_loc = "boendoes";
+			         //return "boendoes";
+			     }
+			 }
+		);
+
+        return start_loc;
+
+
+
+    }, self).extend({ async: true });
+
+
 
 }
 
@@ -225,14 +349,24 @@ function AlertsViewModel() {
     var self = this;
     self.allalerts = ko.observableArray();
 
-    self.chosenalert = ko.observable();
 
 
-    self.placechosenAlert = function (msgobj) {
-        alert("running");
-        placealertpin(msgobj);
 
-    }
+    /*
+    ko.bindingHandlers.reversegeocode = {
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            // On update, fade in/out
+            console.log("accessor");
+            console.log(bindingContext.$data.alert_location());
+
+            var shouldDisplay = setTimeout( ReverseGeocode(bindingContext.$data.alert_location()), 500);
+            alert(shouldDisplay);
+            $(element).html(shouldDisplay);
+        }
+    };
+
+    */
+
 
 
     self.setchosenalert = function (msgobj) {
@@ -362,6 +496,75 @@ function FriendsViewModel() {
     };
 }
 
+function Routes(from, to) {
+    var self = this;
+    self.from = ko.observable(from);
+    self.to = ko.observable(to);
+   
+
+}
+
+function MapsViewModel() {
+    var self = this;
+    self.chosenalert = ko.observable();
+    self.chosenroute = ko.observable();
+    self.whattoshow = ko.observable();
+    self.initmap = '0';
+
+    self.abouttoshow = function (type) {
+        alert("checking");
+        return type === this.whattoshow();
+    };
 
 
 
+    self.setchosenalert = function (alertobj) {
+        self.whattoshow("alert");
+        Application.masterVM.vmMaps.chosenalert(alertobj);
+        Application.gotoPage('page-location');
+        if (self.initmap == '0') {
+            mapINIT();
+            self.initmap = "1";
+        }
+        clearmap();
+        placealertpin(alertobj);
+    }
+
+
+    self.setchosenroute = function () {
+        self.whattoshow("route");
+
+        // Application.masterVM.vmMaps.chosenroute(tripobj);
+       
+
+        if (self.initmap == '0') {
+            mapINIT();
+            self.initmap = "1";
+        }
+
+        clearmap();
+        Application.gotoPage('page-location');
+
+        homeaddress = Application.masterVM.vmProfile.HomeAddress().split(',');
+        workaddress = Application.masterVM.vmProfile.WorkAddress().split(',');
+
+        tripbobj = [{ lat: homeaddress[0], lon: homeaddress[1] }, { lat: workaddress[0], lon: workaddress[1]}];
+
+        showtrip(tripbobj);
+        
+         var   homeaddrezz = (Application.masterVM.vmProfile.HomeAddress());
+         var workaddrezz = (Application.masterVM.vmProfile.WorkAddress());
+
+      //  alert(homeaddrezz);
+       // alert(workaddrezz);
+
+        var routeobj = new Routes(homeaddrezz, workaddrezz);
+
+        Application.masterVM.vmMaps.chosenroute(routeobj);
+        
+
+    }
+
+
+
+}
