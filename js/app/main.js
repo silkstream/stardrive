@@ -52,7 +52,9 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     //ko.applyBindings(Application.masterVM.vmProfile, $(Application.pages[1])[0]);
 
     //ko.applyBindings(Application.masterVM.vmMessages, $(Application.pages[3])[0]);
-
+    //bindings for ratings
+   ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('plotGraphContainer'));
+    
 
 
     $("#menu").hide();
@@ -92,7 +94,57 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
 
     });
 
+var chart = new Highcharts.Chart({
+    chart: {
+        renderTo: 'plotGraphContainer',
+        type: 'column'
+    },
+    series: [{
+        data: {}
+    }],
+                title: { text: "" },
+                legend: { enabled: false },
+                credits: { enabled: false },
+                tooltip: { enabled: false },
+                exporting: { enabled: false },
+                xAxis: {labels: {
+                enabled: false
+            }//,
+               //     categories: cata
+                },
+                yAxis: {
+                    title: {
+                        enabled: false
+                    },		    
+                    gridLineColor: '#E6E6E6'
+                },
+				plotOptions: {
+		
+								//line: {
+								//dataLabels: {
+								//	color: "#ffffff",
+								//	enabled: true,
+								//	formatter: function() {
+								//		thisprev = prev; 
+								//		prev = this.y;																				
+								//		//return '<b>'+(this.y > thisprev ? '+' : '') + Math.floor(this.y-thisprev) + '%</b>';
+								//		//return '<b>'+(this.y > thisprev ? '+' : '')+(parseInt(this.y)-parseInt(thisprev)) +'</b>';
+								//	},
+								//	y: 12
+								//	}
+								//},
+								series: {
+                marker: {
+                    states: {
+                        hover: {
+                            enabled: false
+                        }
+                    }
+                }
+            }
+				},
 
+})
 
 
 
@@ -110,7 +162,8 @@ function APPMANAGER() {
         vmWeather: new WeatherViewModel(),
         vmAlerts: new AlertsViewModel(),
         vmFriends: new FriendsViewModel(),
-        vmMaps: new MapsViewModel()
+        vmMaps: new MapsViewModel(),
+        vmStarRating: new StarRatingViewModel()
     }
     APPMANAGER.prototype.toggleMenu = function () {
         $("#menu").toggle('slide', {
@@ -210,4 +263,38 @@ function showalertcontrol(element) {
         $(element).parent().find(".alertcontrol").slideDown();
     //alert("fd");
     //console.log();
+}
+
+function toggleratedays(){
+var days = [7, 30 ,90];
+$("#currentratedays").val();
+
+for(var  i = 0; i < days.length; i++){
+
+
+if($("#currentratedays").val() == days[i] && i !=  (days.length-1)){
+    Application.masterVM.vmStarRating.pullRatings(days[i+1]);
+    $("#currentratedays").val(days[i+1])
+    $("#rateday"+ days[i]).hide("slide",{direction: 'up'});
+    $("#rateday"+ days[i+1]).show("slide",{direction: 'down'});
+
+    return false;
+}
+
+if($("#currentratedays").val() == days[i] && i ==  (days.length-1)){
+    Application.masterVM.vmStarRating.pullRatings(7);
+    $("#currentratedays").val(7)
+    $("#rateday"+ days[i]).hide("slide",{direction: 'up'});
+    $("#rateday"+ days[0]).show("slide",{direction: 'down'});
+    return false;
+}
+
+
+
+
+
+}
+
+
+
 }
