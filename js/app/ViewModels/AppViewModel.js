@@ -79,6 +79,8 @@ ko.asyncComputed = function (evaluatorFunction, target) {
 ///*********************************
 
 
+
+
 function LoginViewModel() {
 
     this.LoginName = ko.observable("Email Address");
@@ -123,9 +125,7 @@ function LoginViewModel() {
             Application.masterVM.vmMessages.pullMessages();
             Application.masterVM.vmAlerts.pullAlerts();
             Application.masterVM.vmFriends.pullFriends();
-
-
-
+            Application.masterVM.vmStarRating.pullRatings(7);
         }
         else {
             this.LoginFail(true);
@@ -162,6 +162,9 @@ function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdat
     self.msgdate = ko.observable(msgdate);
     self.reminder = ko.observable(reminder);
 }
+
+
+
 
 function MessagesViewModel() {
     var self = this;
@@ -566,5 +569,147 @@ function MapsViewModel() {
     }
 
 
+}
+
+function StarRating(rating, speeding10, speeding15, speeding20, braking, lanechanges, accidents, acceleration, cornering, frequency, time, age, make, color, ratingchangecount, ratingchange){
+
+var self = this;
+self.rating = ko.observable(rating);
+self.speeding10 = ko.observable(speeding10);
+self.speeding15 = ko.observable(speeding15);
+self.speeding20 = ko.observable(speeding20); 
+self.braking = ko.observable(braking);
+self.lanechanges = ko.observable(lanechanges);
+self.accidents = ko.observable(accidents);
+self.acceleration = ko.observable(acceleration);
+self.cornering = ko.observable(cornering);
+self.frequency = ko.observable(frequency);
+self.time = ko.observable(time);
+self.age = ko.observable(age);
+self.make = ko.observable(make);
+self.color = ko.observable(color);
+self.ratingchangecount = ko.observable(ratingchangecount);
+self.ratingchange = ko.observable(ratingchange);
+
+}
+
+function StarRatingViewModel() {
+
+    var self = this;
+
+    self.sevendayrating = ko.observable();
+
+    self.pullRatings = function (numdays) {
+
+        $.ajax({
+            url: window.location.pathname + '/../json/'+numdays+'dayrating.js',
+            data: {},
+            success: function (data) {
+                var rating = data.rating;
+                var speeding10 = data.speeding10;
+                var speeding15 = data.speeding15;
+                var speeding20 = data.speeding20;
+                var braking = data.braking;
+                var lanechanges = data.lanechanges;
+                var accidents = data.accidents;
+                var acceleration = data.acceleration;
+                var cornering = data.cornering;
+                var frequency = data.frequency;
+                var time = data.time;
+                var age = data.age;
+                var make = data.make;
+                var color = data.color;
+                var ratingchangecount = data.ratingchangecount;
+                var ratingchange = data.ratingchange;
+                self.sevendayrating(new StarRating(rating, speeding10, speeding15, speeding20, braking, lanechanges, accidents, acceleration, cornering, frequency, time, age, make, color, ratingchangecount, ratingchange));
+                self.drawplotgraph(data);
+
+
+
+            },
+            dataType: 'json'
+        });
+    }
+
+
+    self.drawplotgraph = function (data) {
+        var cata = [];
+        var chartSeriesData = [{
+            name: 'Star Rating',
+            data: [],
+            color: "#00C3FF"
+        }];
+        var sym;
+        var pointcolor;
+        console.log("sdf");
+        console.log(data);
+        for (var i = 0; i < data.ratingchangecount; i++) {
+           // console.log("njkl");
+            cata.push(data.ratingchange[i].rating);
+            //if (i != 1 && i != 2) {
+            
+            if (i > 0) {
+                if (data.ratingchange[i].rating > data.ratingchange[i - 1].rating) {
+            sym = 'url(../img/1up.png)';
+            pointcolor = "#00FF00";
+            } else {
+            sym = 'url(../img/1down.png)';
+            pointcolor = "#FF0000";
+            }
+            } else {
+            sym = 'url(../img/1up.png)';
+            pointcolor = "#00FF00";
+            }
+
+            //chartSeriesData[0].data.push({y:starRate.ratingchange[i].rating,marker:{symbol:sym}});
+        if (i != data.ratingchangecount - 1) {
+            chartSeriesData[0].data.push({ y: data.ratingchange[i].rating });
+            } else {
+            //chartSeriesData[0].data.push({y:starRate.ratingchange[i].rating,marker:{fillColor:pointcolor, radius: 17, states: { hover :{enabled: false}}}});
+            chartSeriesData[0].data.push({ y: data.ratingchange[i].rating, marker: { symbol: "url(../img/vehicle_icons/star_orange_icon.png)"} });
+            //url(http://highcharts.com/demo/gfx/sun.png)
+
+            }
+            
+
+            //}
+        }
+
+        console.log("cata");
+        console.log(cata);
+
+ $('#plotGraphContainer').highcharts({				
+                title: { text: "" },
+                legend: { enabled: false },
+                credits: { enabled: false },
+                tooltip: { enabled: false },
+                exporting: { enabled: false },
+                xAxis: {labels: {
+                enabled: false
+            }//,
+               //     categories: cata
+                },
+                yAxis: {
+                    title: {
+                        enabled: false
+                    },		    
+                    gridLineColor: '#E6E6E6'
+                },
+                series: chartSeriesData,
+				plotOptions: {
+								series: {
+                marker: {
+                    states: {
+                        hover: {
+                            enabled: false
+                        }
+                    }
+                }
+            }
+				},				
+				
+            });
+
+    }
 
 }

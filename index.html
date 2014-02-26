@@ -11,12 +11,14 @@
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
         <script type="text/javascript" src="js/lib/knockout-3.0.0.js"></script>
+        <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
         <script type="text/javascript" src="js/app/netstar_mapit.js"></script>
+                <script type="text/javascript" src="js/app/main.js"></script>  
         <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
-        <script type="text/javascript" src="js/app/main.js"></script>       
+     
 
         <script type="text/javascript" src="js/lib/deCarta/deCarta.JS3.js"></script>
-       
+
 
 
     </head>
@@ -458,8 +460,31 @@
         </div>
         </div>
         <!-- Alert Location Ends -->
-        <div id="page-starrate" data-page-type="main"  title="Alerts">            
-            <h1>STAR RATE</h1>
+        <div id="page-starrate" data-page-type="main"  title="StarRate">            
+            <div class="grey row colorblue" syle="text-align: center;">
+             <div class="left" style="width:10% !important; min-height: 1px;" ></div>
+           <div class="left" style="width:75%;text-align:center;position: relative;" id="ratedays">           
+                    <div class="ratingrange" rel="7" id="rateday7" style="float:none;position: absolute;width: 100%;left: 0; top: 0;">Last 7 Days</div>
+                    <div class="ratingrange" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="30"  id="rateday30">Last 30 Days</div>
+                    <div class="ratingrange" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="40"  id="rateday90">Last 90 Days</div>   
+                    <input type="hidden" value="7" id="currentratedays">
+          
+          </div>
+
+
+                       <div style="float: right;width: 5%;margin: 5px 0 5px 0;"   onclick="toggleratedays();">
+                            <img src="images/starsocial_arrow.png">
+                       </div>
+
+                    <div style="clear: both;float:none;"></div>
+                                              
+            </div>
+            <div  id="plotGraphContainer" name="plotGraphContainer">
+
+            </div>
+
+
+
         </div>     
       </div>    
 
