@@ -177,6 +177,8 @@ function APPMANAGER() {
         //SHOW THE SELECTED WINDOW        
         this.showpage(pageName);
         $('html, body').animate({ scrollTop: 0 }, 0);
+        if ($("#" + pageName).attr('title') == "StarRate")
+            Application.masterVM.vmStarRating.pullRatings(7);
         return false;
     }
     APPMANAGER.prototype.showpage = function (pageName) {
@@ -226,7 +228,6 @@ function APPMANAGER() {
             }
             $("#top-nav .logo").show();
         }
-
 
 
         return false;
