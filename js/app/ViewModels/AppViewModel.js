@@ -125,7 +125,7 @@ function LoginViewModel() {
             Application.masterVM.vmMessages.pullMessages();
             Application.masterVM.vmAlerts.pullAlerts();
             Application.masterVM.vmFriends.pullFriends();
-            Application.masterVM.vmStarRating.pullRatings(7);
+            //Application.masterVM.vmStarRating.pullRatings(7);
         }
         else {
             this.LoginFail(true);
