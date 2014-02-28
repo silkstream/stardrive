@@ -598,11 +598,14 @@ function StarRatingViewModel() {
     var self = this;
 
     self.sevendayrating = ko.observable();
+    self.pieOptions = ko.observable();
+    self.sliderValues = ko.observable();
+
 
     self.pullRatings = function (numdays) {
 
         $.ajax({
-            url: window.location.pathname + '/../json/'+numdays+'dayrating.js',
+            url: window.location.pathname + '/../json/' + numdays + 'dayrating.js',
             data: {},
             success: function (data) {
                 var rating = data.rating;
@@ -622,6 +625,23 @@ function StarRatingViewModel() {
                 var ratingchangecount = data.ratingchangecount;
                 var ratingchange = data.ratingchange;
                 self.sevendayrating(new StarRating(rating, speeding10, speeding15, speeding20, braking, lanechanges, accidents, acceleration, cornering, frequency, time, age, make, color, ratingchangecount, ratingchange));
+
+
+                console.log("slider data 1");
+                console.log(self.sliderValues());
+                if (typeof self.sliderValues() === "undefined") {
+                    self.setsliders(data);
+
+                    console.log("slider data 2");
+                    console.log(self.sliderValues());
+
+
+
+                }
+
+                self.calculateRiskProfile(data);
+                console.log("options");
+                console.log(self.pieOptions);
                 self.drawplotgraph(data);
 
 
@@ -629,6 +649,152 @@ function StarRatingViewModel() {
             },
             dataType: 'json'
         });
+    }
+
+
+    self.setsliders = function (data) {
+
+        self.sliderValues([data.speeding10, data.accidents, data.acceleration, data.braking, data.cornering, data.frequency, data.time]);
+
+        var i = 0;
+       // alert(self.sliderValues()[i]);
+        var sliderID = "#slider" + i;
+        $(sliderID).slider('value', self.sliderValues()[i]);
+        /*Speeding over 10%*/
+        var value = 21 - self.sliderValues()[i];
+        if (value == 1) {
+            $("#slideBoxValue" + i).html(value + " Alert");
+        } else {
+            $("#slideBoxValue" + i).html(value + " Alerts");
+        }
+        i++;
+        var sliderID = "#slider" + i;
+        $(sliderID).slider('value', self.sliderValues()[i]);
+        /*Impacts*/
+        var value = 21 - self.sliderValues()[i];
+        if (value == 1) {
+            $("#slideBoxValue" + i).html(value + " Alert");
+        } else {
+            $("#slideBoxValue" + i).html(value + " Alerts");
+        }
+        i++;
+        var sliderID = "#slider" + i;
+        $(sliderID).slider('value', self.sliderValues()[i]);
+        /*Harsh Acceleration*/
+        var value = 21 - self.sliderValues()[i];
+        if (value == 1) {
+            $("#slideBoxValue" + i).html(value + " Alert");
+        } else {
+            $("#slideBoxValue" + i).html(value + " Alerts");
+        }
+        i++;
+        var sliderID = "#slider" + i;
+        $(sliderID).slider('value', self.sliderValues()[i]);
+        /*Harsh Braking*/
+        var value = 21 - self.sliderValues()[i];
+        if (value == 1) {
+            $("#slideBoxValue" + i).html(value + " Alert");
+        } else {
+            $("#slideBoxValue" + i).html(value + " Alerts");
+        }
+        i++;
+        //var sliderID = "#slider" + i;
+        //$(sliderID).slider('value', sliderValues[i]);
+        ///*Harsh Cornering*/
+        //var value = 21-sliderValues[i];
+        //	if (value == 1) {
+        //		$("#slideBoxValue"+i).html(value+" Alert");
+        //	} else {
+        //		$("#slideBoxValue"+i).html(value+" Alerts");
+        //	}
+        //i++;
+        var sliderID = "#slider" + i;
+        $(sliderID).slider('value', self.sliderValues()[i]);
+        /*Driving Frequency*/
+        switch (true) {
+            case self.sliderValues()[i] >= 16:
+
+                $("#slideBoxValue" + i).html("23-31 days");
+                break;
+            case self.sliderValues()[i] <= 15 && (self.sliderValues()[i] >= 10):
+                $("#slideBoxValue" + i).html("16-22 days");
+                break;
+            case self.sliderValues()[i] <= 10:
+                $("#slideBoxValue" + i).html("0-15 days");
+                break;
+        }
+        i++;
+        var sliderID = "#slider" + i;
+        $(sliderID).slider('value', self.sliderValues()[i]);
+        //alert(starRate.time +" "+i);
+        /*Driving Time*/
+        switch (true) {
+            case self.sliderValues()[i] >= 16:
+                $("#slideBoxValue" + i).html("04AM-11PM");
+                break;
+            case self.sliderValues()[i] <= 15:
+                $("#slideBoxValue" + i).html("11PM-04AM");
+                break;
+        }
+
+
+    }
+
+
+    self.calculateRiskProfile = function (data) {
+        //alert(self.sliderValues()[0]);
+        //static values. will be gotten from the profile.
+        var _speeding10 = 0.75;
+        var _speeding15 = 3.75;
+        var _speeding20 = 15;
+        var _acceleration = 0.35;
+        var _braking = 0.4;
+        var _cornering = 1;
+        var _time = [1.25, 5, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15];
+        var _frequency = [9, 12, 15, 18, 30, 35, 40, 50, 55, 57, 60, 62, 64, 68, 70, 72, 75, 80, 82, 85, 87, 86, 88, 90, 92, 95, 96, 97, 99, 100];
+        var _accidents = 5;
+
+
+        // alert((self.sevendayrating().age()) ? self.sevendayrating().age() : data.age + " !!!!!!!!!");
+        var ageAndSex = (self.sevendayrating().age()) ? self.sevendayrating().age() : data.age;
+        var vehicleMake = (self.sevendayrating().make()) ? self.sevendayrating().make() : data.make;
+        var vehicleColour = (self.sevendayrating().color()) ? self.sevendayrating().color() : data.color;
+        //variable values. changed on the sliders.
+        var speeding10 = 15 - (self.sliderValues()[0] - 1) * _speeding10;
+        //var speeding15 = 15-(sliderValues[1] -1) * _speeding15;
+        //var speeding20 = 15-(sliderValues[2] -1) * _speeding20;
+        //var speeding = 15-(speeding10+speeding15+speeding20);
+        var speeding = 15 - (speeding10);
+        if (speeding < 0) {
+            speeding = 0;
+        }
+        var harshAcceleration = (self.sliderValues()[2] - 1) * _acceleration;
+        var harshBraking = (self.sliderValues()[3] - 1) * _braking;
+        var harshCornering = (self.sliderValues()[4] - 1) * _cornering;
+        var frequency = _frequency[(self.sliderValues()[5] - 1)];
+        var time = _time[(self.sliderValues()[6] - 1)];
+
+        var laneChanges = (self.sliderValues()[2] - 1) * 25; //worthless
+        var accidents = (self.sliderValues()[1] - 1); 	//worthless
+
+        //risk calculations
+        var lc = laneChanges * 0;
+        var ac = accidents * 0;
+        var age = ageAndSex * 10 / 100;
+        var vm = vehicleMake * 15 / 100;
+        var vc = vehicleColour * 5 / 100;
+
+        riskTotal = (frequency + time + harshAcceleration + harshBraking + harshCornering + age + speeding + vm + vc);
+        //riskTotal = (frequency );
+        //alert(( harshAcceleration + harshBraking + harshCornering + age + speeding + vm + vc));
+        //console.log("%%%");
+        //console.log(sliderValues[7] + " - "+time);
+
+        //alert(self.pieOptions()[0]);
+        
+        self.pieOptions([15 - speeding10, harshAcceleration, harshBraking, harshCornering, frequency, time, accidents]);      
+
+        //alert(self.pieOptions()[0]);
     }
 
 
@@ -675,41 +841,85 @@ function StarRatingViewModel() {
             //}
         }
 
-        console.log("cata");
-        console.log(cata);
 
- $('#plotGraphContainer').highcharts({				
-                title: { text: "" },
-                legend: { enabled: false },
-                credits: { enabled: false },
-                tooltip: { enabled: false },
-                exporting: { enabled: false },
-                xAxis: {labels: {
-                enabled: false
-            }//,
-               //     categories: cata
-                },
-                yAxis: {
-                    title: {
+
+         $('#plotGraphContainer').highcharts({				
+                        title: { text: "" },
+                        legend: { enabled: false },
+                        credits: { enabled: false },
+                        tooltip: { enabled: false },
+                        exporting: { enabled: false },
+                        xAxis: {labels: {
                         enabled: false
-                    },		    
-                    gridLineColor: '#E6E6E6'
-                },
-                series: chartSeriesData,
-				plotOptions: {
-								series: {
-                marker: {
-                    states: {
-                        hover: {
-                            enabled: false
+                    }//,
+                       //     categories: cata
+                        },
+                        yAxis: {
+                            title: {
+                                enabled: false
+                            },		    
+                            gridLineColor: '#E6E6E6'
+                        },
+                        series: chartSeriesData,
+				        plotOptions: {
+								        series: {
+                        marker: {
+                            states: {
+                                hover: {
+                                    enabled: false
+                                }
+                            }
                         }
                     }
-                }
-            }
-				},				
-				
+				        }
+
             });
 
-    }
 
-}
+
+            $('#pieGraphContainer').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                credits: { enabled: false },
+                title: { text: "" },
+                tooltip: { enabled: true, formatter: function () {
+                    return '<b>' + this.point.name +
+                    '</b> is <b>' + Math.floor(this.y) + '</b>';
+                } 
+                },
+                exporting: { enabled: false },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: false,
+                        dataLabels: { enabled: false },
+                        showInLegend: true
+                    }
+                },
+                legend: {
+                    verticalAlign: 'top'
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Star Rating Composition',
+                    data: [
+					['Speeding', self.pieOptions()[0]],
+					['Acceleration', self.pieOptions()[1]],
+					['Braking', self.pieOptions()[2]],
+					['Cornering', self.pieOptions()[3]],
+					['Driving', self.pieOptions()[4]],
+					['Time', self.pieOptions()[5]],
+					['Impacts', self.pieOptions()[6]]
+				]
+                }]
+            });
+
+
+
+
+
+            }
+
+        }

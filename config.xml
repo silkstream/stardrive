@@ -23,7 +23,7 @@ Altech ISIS (PTY) Ltd
 <preference name="show-splash-screen-spinner" value="true" />
 <preference name="webviewbounce" value="false" />
 <preference name="auto-hide-splash-screen" value="true" />
-<preference name="android-minSdkVersion" value="15" />
+<preference name="android-minSdkVersion" value="1" />
 
 <gap:splash src="splash/Default-Landscape.png"                         gap:platform="ios"         width="1024" height="768" />
 <gap:splash src="splash/Default-Landscape_at_2x.png"        gap:platform="ios"         width="2048" height="1496" />

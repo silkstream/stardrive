@@ -12,6 +12,8 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     Application.pages[7] = "#page-starsocial";
     Application.pages[8] = "#page-friends";
     Application.pages[9] = "#page-location";
+    Application.pages[10] = "#page-starratecomposition";
+    Application.pages[11] = "#page-starratesliders";
 
     Application.closePages();
     //console.log(Application.masterVM);
@@ -145,6 +147,116 @@ var chart = new Highcharts.Chart({
 				},
 
 })
+
+
+			$(".slider").slider({
+				value: 1,
+				min: 1,
+				max: 21,
+				step: 1,
+				range: "min"
+			});
+
+
+			$("#slider0").on("slide", {c:0}, function( event, ui) {
+				var value = 21-ui.value;
+				if (value == 1) {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
+				} else {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
+				}
+         
+				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
+				Application.masterVM.vmStarRating.calculateRiskProfile();
+			});
+
+
+
+
+			$("#slider1").on("slide", {c:1}, function( event, ui) {
+				var value = 21-ui.value;
+				if (value == 1) {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
+				} else {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
+				}
+				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
+				Application.masterVM.vmStarRating.calculateRiskProfile();
+			});
+			
+			$("#slider2").on("slide", {c:2}, function( event, ui) {
+				var value = 21-ui.value;
+				if (value == 1) {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
+				} else {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
+				}
+				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
+				Application.masterVM.vmStarRating.calculateRiskProfile();
+			});
+
+			$("#slider3").on("slide", {c:3}, function( event, ui) {
+				var value = 21-ui.value;
+				if (value == 21) {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
+				} else {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
+				}
+				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
+				Application.masterVM.vmStarRating.calculateRiskProfile();
+			});
+
+			$("#slider4").on("slide", {c:4}, function( event, ui) {
+				var value = 21-ui.value;
+				if (value == 21) {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
+				} else {
+					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
+				}
+				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
+				Application.masterVM.vmStarRating.calculateRiskProfile();
+			});
+
+
+			$("#slider5").on("slide", {c:5}, function( event, ui) {
+						var value = 21-ui.value;
+						
+						//alert("fgd");
+						
+						
+				switch(true)
+				{
+					case ui.value >= 16:
+						
+						$("#slideBoxValue"+event.data.c).html("23-31 days");
+					break;
+					case ui.value >=10 && ui.value <=15:
+						$("#slideBoxValue"+event.data.c).html("16-22 days");
+					break;
+					case ui.value <= 10:
+						$("#slideBoxValue"+event.data.c).html("0-15 days");
+					break;
+				}
+				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
+				Application.masterVM.vmStarRating.calculateRiskProfile();
+			});
+			
+			
+			
+			$("#slider6").on("slide", {c:6}, function( event, ui) {
+				switch(true)
+				{
+					case ui.value >= 16:
+						$("#slideBoxValue"+event.data.c).html("04AM-11PM");
+					break;
+					case ui.value <= 15:
+						$("#slideBoxValue"+event.data.c).html("11PM-04AM");
+					break;
+				}
+				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
+				Application.masterVM.vmStarRating.calculateRiskProfile();
+			});		
+
 
 
 
@@ -296,6 +408,40 @@ if($("#currentratedays").val() == days[i] && i ==  (days.length-1)){
 
 }
 
+
+
+}
+
+
+
+
+function toggleratedays2(element){
+
+
+        var days = [7, 30 ,90];
+        $("#currentratedays").val();
+
+        for(var  i = 0; i < days.length; i++){
+
+
+            if($("#currentratedays").val() == days[i] && i !=  (days.length-1)){
+                Application.masterVM.vmStarRating.pullRatings(days[i+1]);
+                $("#currentratedays").val(days[i+1])
+                $("#"+element+" .rateday"+ days[i]).hide("slide",{direction: 'up'});
+                $("#"+element+" .rateday"+ days[i+1]).show("slide",{direction: 'down'});
+
+                return false;
+            }
+
+            if($("#currentratedays").val() == days[i] && i ==  (days.length-1)){
+                Application.masterVM.vmStarRating.pullRatings(7);
+                $("#currentratedays").val(7)
+                $("#"+element+" .rateday"+ days[i]).hide("slide",{direction: 'up'});
+                $("#"+element+" .rateday"+ days[0]).show("slide",{direction: 'down'});
+                return false;
+            }
+
+        }
 
 
 }
