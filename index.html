@@ -8,6 +8,7 @@
 		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
         <link rel="stylesheet" type="text/css" href="app.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/core.css" />
+        <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
         <script type="text/javascript" src="js/lib/knockout-3.0.0.js"></script>
@@ -15,7 +16,6 @@
         <script type="text/javascript" src="js/app/netstar_mapit.js"></script>
                 <script type="text/javascript" src="js/app/main.js"></script>  
         <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
-     
 
         <script type="text/javascript" src="js/lib/deCarta/deCarta.JS3.js"></script>
 
@@ -409,12 +409,7 @@
         
         </div>
         <!-- StarSocial Friends Starts -->
-        <div id="page-friends" title="StarSocial" data-page-type="main">    
-        
-
-
-
-
+        <div id="page-friends" title="StarSocial" data-page-type="main">            
             <div class="row colorblue grey" style="position: relative;padding:0;">            
                 <div class="colorgrey" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-friends');">Friends</div>
                 <div style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starsocial');">Messages</div>
@@ -460,25 +455,38 @@
         </div>
         </div>
         <!-- Alert Location Ends -->
+
+
+        <!-- StarRating Starts -->
         <div id="page-starrate" data-page-type="main"  title="StarRate">            
             <div class="grey row colorblue" syle="text-align: center;">
-             <div class="left" style="width:10% !important; min-height: 1px;" ></div>
-           <div class="left" style="width:75%;text-align:center;position: relative;" id="ratedays">           
-                    <div class="ratingrange" rel="7" id="rateday7" style="float:none;position: absolute;width: 100%;left: 0; top: 0;">Last 7 Days</div>
-                    <div class="ratingrange" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="30"  id="rateday30">Last 30 Days</div>
-                    <div class="ratingrange" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="40"  id="rateday90">Last 90 Days</div>   
-                    <input type="hidden" value="7" id="currentratedays">
+               <div class="left" style="width:10% !important; min-height: 1px;" ></div>
+               <div class="left" style="width:75%;text-align:center;position: relative;" id="ratedays">           
+                        <div class="ratingrange" rel="7" id="rateday7" style="float:none;position: absolute;width: 100%;left: 0; top: 0;">Last 7 Days</div>
+                        <div class="ratingrange" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="30"  id="rateday30">Last 30 Days</div>
+                        <div class="ratingrange" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="40"  id="rateday90">Last 90 Days</div>   
+                        <input type="hidden" value="7" id="currentratedays">
           
-          </div>
+             </div>
 
 
-                       <div style="float: right;width: 5%;margin: 5px 0 5px 0;"   onclick="toggleratedays();">
+             <div style="float: right;width: 5%;margin: 5px 0 5px 0;"   onclick="toggleratedays();">
                             <img src="images/starsocial_arrow.png">
-                       </div>
+             </div>
 
                     <div style="clear: both;float:none;"></div>
                                               
             </div>
+
+
+            <div class="row colorblue grey" style="position: relative;padding:0;">       
+          
+                <div style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
+                <div class="colorgrey" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
+                <div class="colorgrey" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
+                <div style="clear: both;float: none;"></div>            
+            </div>
+
             <div  id="plotGraphContainer" name="plotGraphContainer" style="max-width: 100%; height: 70%;position: relative;">
 
             </div>
@@ -486,7 +494,158 @@
 
 
         </div>     
-      </div>    
+ 
+
+      <!-- StarRating Ends -->
+
+
+        <!-- StarRating Composition Starts -->
+        <div id="page-starratecomposition" data-page-type="main"  title="StarRate">            
+            <div class="grey row colorblue" syle="text-align: center;">
+               <div class="left" style="width:10% !important; min-height: 1px;" ></div>
+               <div class="left" style="width:75%;text-align:center;position: relative;" id="togglemenu">           
+                        <div class="ratingrange rateday7" rel="7" id="Div3" style="float:none;position: absolute;width: 100%;left: 0; top: 0;">Last 7 Days</div>
+                        <div class="ratingrange rateday30" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="30">Last 30 Days</div>
+                        <div class="ratingrange rateday90" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="40">Last 90 Days</div>             
+             </div>
+
+
+             <div style="float: right;width: 5%;margin: 5px 0 5px 0;"   onclick="toggleratedays2('togglemenu');">
+                            <img src="images/starsocial_arrow.png">
+             </div>
+
+                    <div style="clear: both;float:none;"></div>
+                                              
+            </div>
+
+
+            <div class="row colorblue grey" style="position: relative;padding:0;">       
+          
+                <div class="colorgrey" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
+                <div class="colorgrey" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
+                <div style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
+                <div style="clear: both;float: none;"></div>            
+            </div>
+
+            <div  id="pieGraphContainer" name="pieGraphContainer" style="max-width: 100%; height: 70%;position: relative;">
+
+            </div>
+
+
+
+        </div>     
+
+
+      <!-- StarRating Composition Ends -->
+
+
+        <!-- StarRating sliders Starts -->
+        <div id="page-starratesliders" data-page-type="main" title="StarRate">            
+            <div class="grey row colorblue" syle="text-align: center;">
+               <div class="left" style="width:10% !important; min-height: 1px;" ></div>
+               <div class="left" style="width:75%;text-align:center;position: relative;" id="Div2">           
+                        <div class="ratingrange rateday7" rel="7" id="Div4" style="float:none;position: absolute;width: 100%;left: 0; top: 0;">Last 7 Days</div>
+                        <div class="ratingrange rateday30" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="30">Last 30 Days</div>
+                        <div class="ratingrange rateday90" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="40">Last 90 Days</div>             
+             </div>
+
+
+             <div style="float: right;width: 5%;margin: 5px 0 5px 0;"   onclick="toggleratedays2('togglemenu');">
+                            <img src="images/starsocial_arrow.png">
+             </div>
+
+                    <div style="clear: both;float:none;"></div>
+                                              
+            </div>
+
+
+            <div class="row colorblue grey" style="position: relative;padding:0;">       
+          
+                <div class="colorgrey" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
+                <div style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
+                <div class="colorgrey" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
+                <div style="clear: both;float: none;"></div>            
+            </div>
+
+            <div class="row" style="max-width: 100%; height: 70%;position: relative;">
+            <div style="width: 100%;">
+                    <div style="margin: 0 10px 0 10px;width: 50%;">
+			            <div style="float: none;font-size: 12px;text-align: center;" class="colorgrey">Current Score</div>
+			            <div id="currentscore"  style="float: none;font-size: 25px;text-align: center;" class="colorblue"><b>75</b></div>
+                    </div>
+
+                    <div>
+			            <div  style="float: none;font-size: 12px;"  class="colorgrey">Projected Score</div>
+			            <div id="projectedscore"  style="float: none;font-size: 25px;text-align: center;"  class="colorblue"><b>75</b></div>
+                    </div>
+            </div>	
+        <div class="slideBox" style="">
+            <div class="slideBoxHead">Speeding</div>
+            <div class="slideBoxValue" id="slideBoxValue0" name="slideBoxValue0">NaN Alerts</div>
+            <div style="position: absolute;top: 25px;"> - </div>
+
+            <div class="slider" id="slider0" name="slider0">
+
+            </div>
+
+            <div style="position: absolute;top: 25px; float: right;"> + </div>
+
+        </div>
+       <div class="slideBox">
+            <div class="slideBoxHead">Impacts</div>
+            <div class="slideBoxValue" id="slideBoxValue1" name="slideBoxValue1">NaN Alerts</div>
+            <div class="slider" id="slider1" name="slider1">
+            </div>
+        </div>
+<!--         <div class="slideBox">
+            <div class="slideBoxHead">Speeding over 20%</div>
+            <div class="slideBoxValue" id="slideBoxValue2" name="slideBoxValue2">NaN Alerts</div>
+            <div class="slider" id="slider2" name="slider2">
+            </div>
+        </div> -->
+        <div class="slideBox">
+                <div class="slideBoxHead">Harsh Acceleration</div>
+                <div class="slideBoxValue" id="slideBoxValue2" name="slideBoxValue2">19 Alerts</div>
+                <div class="slider" id="slider2" name="slider2"></div>            
+        </div>
+        <div class="slideBox">
+            <div class="slideBoxHead">Harsh Braking</div>
+            <div class="slideBoxValue" id="slideBoxValue3" name="slideBoxValue3">17 Alerts</div>
+            <div class="slider" id="slider3" name="slider3">
+            </div>
+        </div>
+        <div class="slideBox">
+            <div class="slideBoxHead">Harsh Cornering</div>
+            <div class="slideBoxValue" id="slideBoxValue4" name="slideBoxValue5">20 Alerts</div>
+            <div class="slider" id="slider4" name="slider4">
+            </div>
+        </div>
+        <div class="slideBox">
+            <div class="slideBoxHead">Driving Frequency</div>
+            <div class="slideBoxValue" id="slideBoxValue5" name="slideBoxValue5">0-15 days</div>
+            <div class="slider" id="slider5" name="slider5">
+            </div>
+        </div>
+        <div class="slideBox">
+            <div class="slideBoxHead">Driving Time</div>
+            <div class="slideBoxValue" id="slideBoxValue6" name="slideBoxValue6">11PM-04AM</div>
+            <div class="slider" id="slider6" name="slider6">
+            </div>
+        </div>
+
+        <div style="clear:both;float: none;"></div>
+
+
+
+            </div>
+        <div style="clear:both;float: none;"></div>
+        <div class="grey button" style="float: none;">Reset</div>
+
+
+        </div>     
+
+
+      <!-- StarRating sliders  Ends -->
 
 
 
