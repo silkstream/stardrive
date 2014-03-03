@@ -140,13 +140,18 @@ var chart = new Highcharts.Chart({
 $("#resetrates").click(function(){
     Application.masterVM.vmStarRating.sliderValues(["5"]);
     Application.masterVM.vmStarRating.pullRatings(7);
-    Application.masterVM.vmStarRating.setsliders();
-    
-
-
-
-
+    Application.masterVM.vmStarRating.setsliders();    
 });
+
+			$(".slider").slider({
+				value: 1,
+				min: 1,
+				max: 21,
+				step: 1,
+				range: "min"
+			});
+
+
 
 
 
