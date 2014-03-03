@@ -599,7 +599,7 @@ function StarRatingViewModel() {
 
     self.sevendayrating = ko.observable();
     self.pieOptions = ko.observable();
-    self.sliderValues = ko.observable();
+    self.sliderValues = ko.observable(['5']);
 
 
     self.pullRatings = function (numdays) {
@@ -628,17 +628,17 @@ function StarRatingViewModel() {
 
 
                 console.log("slider data 1");
-                console.log(self.sliderValues());
-                if (typeof self.sliderValues() === "undefined") {
+                console.log(self.sliderValues().length);
+                if (self.sliderValues().length == 1) {
                     self.setsliders(data);
-
+                    //alert("setting sliders");
                     console.log("slider data 2");
                     console.log(self.sliderValues());
 
 
 
                 }
-
+                $("#currentscore").html(rating);
                 self.calculateRiskProfile(data);
                 console.log("options");
                 console.log(self.pieOptions);
@@ -656,85 +656,154 @@ function StarRatingViewModel() {
 
         self.sliderValues([data.speeding10, data.accidents, data.acceleration, data.braking, data.cornering, data.frequency, data.time]);
 
-        var i = 0;
-       // alert(self.sliderValues()[i]);
-        var sliderID = "#slider" + i;
-        $(sliderID).slider('value', self.sliderValues()[i]);
-        /*Speeding over 10%*/
-        var value = 21 - self.sliderValues()[i];
-        if (value == 1) {
-            $("#slideBoxValue" + i).html(value + " Alert");
-        } else {
-            $("#slideBoxValue" + i).html(value + " Alerts");
-        }
-        i++;
-        var sliderID = "#slider" + i;
-        $(sliderID).slider('value', self.sliderValues()[i]);
-        /*Impacts*/
-        var value = 21 - self.sliderValues()[i];
-        if (value == 1) {
-            $("#slideBoxValue" + i).html(value + " Alert");
-        } else {
-            $("#slideBoxValue" + i).html(value + " Alerts");
-        }
-        i++;
-        var sliderID = "#slider" + i;
-        $(sliderID).slider('value', self.sliderValues()[i]);
-        /*Harsh Acceleration*/
-        var value = 21 - self.sliderValues()[i];
-        if (value == 1) {
-            $("#slideBoxValue" + i).html(value + " Alert");
-        } else {
-            $("#slideBoxValue" + i).html(value + " Alerts");
-        }
-        i++;
-        var sliderID = "#slider" + i;
-        $(sliderID).slider('value', self.sliderValues()[i]);
-        /*Harsh Braking*/
-        var value = 21 - self.sliderValues()[i];
-        if (value == 1) {
-            $("#slideBoxValue" + i).html(value + " Alert");
-        } else {
-            $("#slideBoxValue" + i).html(value + " Alerts");
-        }
-        i++;
-        //var sliderID = "#slider" + i;
-        //$(sliderID).slider('value', sliderValues[i]);
-        ///*Harsh Cornering*/
-        //var value = 21-sliderValues[i];
-        //	if (value == 1) {
-        //		$("#slideBoxValue"+i).html(value+" Alert");
-        //	} else {
-        //		$("#slideBoxValue"+i).html(value+" Alerts");
-        //	}
-        //i++;
-        var sliderID = "#slider" + i;
-        $(sliderID).slider('value', self.sliderValues()[i]);
-        /*Driving Frequency*/
-        switch (true) {
-            case self.sliderValues()[i] >= 16:
+     
 
-                $("#slideBoxValue" + i).html("23-31 days");
-                break;
-            case self.sliderValues()[i] <= 15 && (self.sliderValues()[i] >= 10):
-                $("#slideBoxValue" + i).html("16-22 days");
-                break;
-            case self.sliderValues()[i] <= 10:
-                $("#slideBoxValue" + i).html("0-15 days");
-                break;
+    }
+
+    self.slideoneup = function (data, event) {
+
+        var selectedslider = ($(event.target).prev().attr('id')).replace('slider', '');
+
+        if (parseInt(self.sliderValues()[selectedslider]) < 21) {
+            self.sliderValues()[selectedslider] += 1;
+
+            $(event.target).prev().slider('value', $(event.target).prev().slider('value') + $(event.target).prev().slider("option", "step")); ;
+            self.calculateRiskProfile();
+
+            $("#slideBoxValue" + selectedslider).html((21 - self.sliderValues()[selectedslider]) + " Alerts");
+            $(event.target).prev().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 21 * 100) + "%");
+
         }
-        i++;
-        var sliderID = "#slider" + i;
-        $(sliderID).slider('value', self.sliderValues()[i]);
-        //alert(starRate.time +" "+i);
-        /*Driving Time*/
-        switch (true) {
-            case self.sliderValues()[i] >= 16:
-                $("#slideBoxValue" + i).html("04AM-11PM");
-                break;
-            case self.sliderValues()[i] <= 15:
-                $("#slideBoxValue" + i).html("11PM-04AM");
-                break;
+
+        if (selectedslider == 5) {
+
+            if (parseInt(self.sliderValues()[selectedslider]) < 31) {
+
+                self.sliderValues()[selectedslider] += 1;
+
+                $(event.target).prev().slider('value', $(event.target).prev().slider('value') + $(event.target).prev().slider("option", "step")); ;
+                self.calculateRiskProfile();
+
+                //alert(parseInt(self.sliderValues()[selectedslider]));    
+                $(event.target).prev().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 31 * 100) + "%");
+                // $("#slideBoxValue" + selectedslider).html(31 - self.sliderValues()[selectedslider] + " Alerts");
+
+
+                switch (true) {
+                    case self.sliderValues()[selectedslider] >= 16:
+                        $("#slideBoxValue" + selectedslider).html("23-31 days");
+                        break;
+                    case self.sliderValues()[selectedslider] <= 15 && (self.sliderValues()[selectedslider] >= 10):
+                        $("#slideBoxValue" + selectedslider).html("16-22 days");
+                        break;
+                    case self.sliderValues()[selectedslider] <= 10:
+                        $("#slideBoxValue" + selectedslider).html("0-15 days");
+                        break;
+                }
+
+            }
+
+        }
+
+        if (selectedslider == 6) {
+
+            if (parseInt(self.sliderValues()[selectedslider]) < 24) {
+
+                self.sliderValues()[selectedslider] += 1;
+
+                $(event.target).prev().slider('value', $(event.target).prev().slider('value') + $(event.target).prev().slider("option", "step")); ;
+                self.calculateRiskProfile();
+
+                //alert(parseInt(self.sliderValues()[selectedslider]));    
+                $(event.target).prev().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 24 * 100) + "%");
+
+
+                switch (true) {
+                    case self.sliderValues()[selectedslider] >= 16:
+                        $("#slideBoxValue" + selectedslider).html("04AM-11PM");
+                        break;
+                    case self.sliderValues()[selectedslider] <= 15:
+                        $("#slideBoxValue" + selectedslider).html("11PM-04AM");
+                        break;
+                }
+
+            }
+        }
+
+
+
+    }
+
+    self.slideonedown = function (data, event) {
+
+        var selectedslider = ($(event.target).next().attr('id')).replace('slider', '');
+        if (parseInt(self.sliderValues()[selectedslider]) > 0) {
+            self.sliderValues()[selectedslider] -= 1;
+            $(event.target).next().slider('value', $(event.target).next().slider('value') - $(event.target).next().slider("option", "step")); ;
+            self.calculateRiskProfile();
+            $("#slideBoxValue" + selectedslider).html((21 - self.sliderValues()[selectedslider]) + " Alerts");
+            $(event.target).next().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 21 * 100) + "%");
+
+
+            if (selectedslider == 5) {
+
+                if (parseInt(self.sliderValues()[selectedslider]) > 0) {
+                    self.sliderValues()[selectedslider] -= 1;
+                    $(event.target).next().slider('value', $(event.target).next().slider('value') - $(event.target).next().slider("option", "step")); ;
+                    self.calculateRiskProfile();
+
+                    $(event.target).next().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 31 * 100) + "%");
+                    $("#slideBoxValue" + selectedslider).html(31 - self.sliderValues()[selectedslider] + " Alerts");
+
+
+                    switch (true) {
+                        case self.sliderValues()[selectedslider] >= 16:
+                            $("#slideBoxValue" + selectedslider).html("23-31 days");
+                            break;
+                        case self.sliderValues()[selectedslider] <= 15 && (self.sliderValues()[selectedslider] >= 10):
+                            $("#slideBoxValue" + selectedslider).html("16-22 days");
+                            break;
+                        case self.sliderValues()[selectedslider] <= 10:
+                            $("#slideBoxValue" + selectedslider).html("0-15 days");
+                            break;
+                    }
+
+                }
+
+            }
+
+
+
+            if (selectedslider == 6) {
+
+                if (parseInt(self.sliderValues()[selectedslider]) > 0) {
+
+                    self.sliderValues()[selectedslider] -= 1;
+
+                    $(event.target).next().slider('value', $(event.target).next().slider('value') - $(event.target).next().slider("option", "step")); ;
+                    self.calculateRiskProfile();
+
+                    //alert(parseInt(self.sliderValues()[selectedslider]));    
+                    $(event.target).next().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 24 * 100) + "%");
+
+
+                    switch (true) {
+                        case self.sliderValues()[selectedslider] >= 16:
+                            $("#slideBoxValue" + selectedslider).html("04AM-11PM");
+                            break;
+                        case self.sliderValues()[selectedslider] <= 15:
+                            $("#slideBoxValue" + selectedslider).html("11PM-04AM");
+                            break;
+                    }
+
+                }
+            }
+
+
+
+
+
+
         }
 
 
@@ -785,14 +854,17 @@ function StarRatingViewModel() {
         var vc = vehicleColour * 5 / 100;
 
         riskTotal = (frequency + time + harshAcceleration + harshBraking + harshCornering + age + speeding + vm + vc);
+        $("#projectedscore").html(Math.floor(riskTotal)).show();
+        $("#projectedscore").prev().show();
+
         //riskTotal = (frequency );
         //alert(( harshAcceleration + harshBraking + harshCornering + age + speeding + vm + vc));
         //console.log("%%%");
         //console.log(sliderValues[7] + " - "+time);
 
         //alert(self.pieOptions()[0]);
-        
-        self.pieOptions([15 - speeding10, harshAcceleration, harshBraking, harshCornering, frequency, time, accidents]);      
+
+        self.pieOptions([15 - speeding10, harshAcceleration, harshBraking, harshCornering, frequency, time, accidents]);
 
         //alert(self.pieOptions()[0]);
     }
@@ -828,13 +900,12 @@ function StarRatingViewModel() {
             }
 
             //chartSeriesData[0].data.push({y:starRate.ratingchange[i].rating,marker:{symbol:sym}});
-        if (i != data.ratingchangecount - 1) {
-            chartSeriesData[0].data.push({ y: data.ratingchange[i].rating });
+            if (i != data.ratingchangecount - 1) {
+                chartSeriesData[0].data.push({ y: data.ratingchange[i].rating });
             } else {
-            //chartSeriesData[0].data.push({y:starRate.ratingchange[i].rating,marker:{fillColor:pointcolor, radius: 17, states: { hover :{enabled: false}}}});
-            chartSeriesData[0].data.push({ y: data.ratingchange[i].rating, marker: { symbol: "url(../img/vehicle_icons/star_orange_icon.png)"} });
-            //url(http://highcharts.com/demo/gfx/sun.png)
-
+                //chartSeriesData[0].data.push({y:starRate.ratingchange[i].rating,marker:{fillColor:pointcolor, radius: 17, states: { hover :{enabled: false}}}});
+                chartSeriesData[0].data.push({ y: data.ratingchange[i].rating, marker: { symbol: "url(../img/vehicle_icons/star_orange_icon.png)"} });
+                //url(http://highcharts.com/demo/gfx/sun.png)
             }
             
 
@@ -916,10 +987,125 @@ function StarRatingViewModel() {
                 }]
             });
 
+        }
+
+
+        ko.bindingHandlers.slider = {
+            init: function (element, valueAccessor, allBindingsAccessor) {
+                console.log(self.sliderValues());
+                //alert(self.sliderValues()[$(element).attr("rel")]);
+                var options = allBindingsAccessor().sliderOptions || {};
+                $(element).slider(options);
+                $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 21 * 100) + "%");
+                ko.utils.registerEventHandler(element, "slidechange", function (event, ui) {
+
+                    var observable = valueAccessor();
+                    //observable(ui.value);
+                    //Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
+                    // Application.masterVM.vmStarRating.calculateRiskProfile();
+                });
+                ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                    $(element).slider("destroy");
+                });
+                ko.utils.registerEventHandler(element, "slide", function (event, ui) {
+                    //var observable = valueAccessor();
+                    //observable(ui.value);
+                    self.sliderValues()[$(element).attr("rel")] = (ui.value);
+                    self.calculateRiskProfile();
+                    if ($(element).attr("rel") != 5 && $(element).attr("rel") != 6) {
+                        $("#slideBoxValue" + $(element).attr("rel")).html(21 - ui.value + " Alerts");
+                        $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 21 * 100) + "%");
+                    }
+
+                    if ($(element).attr("rel") == 5) {
+                        $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 31 * 100) + "%");
+                        $("#slideBoxValue" + $(element).attr("rel")).html(31 - self.sliderValues()[$(element).attr("rel")] + " Alerts");
+
+
+                        switch (true) {
+                            case self.sliderValues()[$(element).attr("rel")] >= 16:
+                                $("#slideBoxValue" + $(element).attr("rel")).html("23-31 days");
+                                break;
+                            case self.sliderValues()[$(element).attr("rel")] <= 15 && (self.sliderValues()[$(element).attr("rel")] >= 10):
+                                $("#slideBoxValue" + $(element).attr("rel")).html("16-22 days");
+                                break;
+                            case self.sliderValues()[$(element).attr("rel")] <= 10:
+                                $("#slideBoxValue" + $(element).attr("rel")).html("0-15 days");
+                                break;
+                        }
+                    }
+
+                    if ($(element).attr("rel") == 6) {
+                        $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 24 * 100) + "%");
+
+
+                        switch (true) {
+                            case self.sliderValues()[$(element).attr("rel")] >= 16:
+                                $("#slideBoxValue" + $(element).attr("rel")).html("04AM-11PM");
+                                break;
+                            case self.sliderValues()[$(element).attr("rel")] <= 15:
+                                $("#slideBoxValue" + $(element).attr("rel")).html("11PM-04AM");
+                                break;
+                        }
+                    }
+
+
+                });
+            },
+            update: function (element, valueAccessor) {
+                var value = ko.utils.unwrapObservable(valueAccessor());
+                if (isNaN(value)) value = 0;
+                $(element).slider("value", value);
+
+                if ($(element).attr("rel") != 5 && $(element).attr("rel") != 6) {
+                    $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 21 * 100) + "%");
+                    $("#slideBoxValue" + $(element).attr("rel")).html(21 - self.sliderValues()[$(element).attr("rel")] + " Alerts");
+                }
+
+
+                if ($(element).attr("rel") == 5) {
+                    $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 31 * 100) + "%");
+                    $("#slideBoxValue" + $(element).attr("rel")).html(31 - self.sliderValues()[$(element).attr("rel")] + " Alerts");
+
+
+                    switch (true) {
+                        case self.sliderValues()[$(element).attr("rel")] >= 16:
+                            $("#slideBoxValue" + $(element).attr("rel")).html("23-31 days");
+                            break;
+                        case self.sliderValues()[$(element).attr("rel")] <= 15 && (self.sliderValues()[$(element).attr("rel")] >= 10):
+                            $("#slideBoxValue" + $(element).attr("rel")).html("16-22 days");
+                            break;
+                        case self.sliderValues()[$(element).attr("rel")] <= 10:
+                            $("#slideBoxValue" + $(element).attr("rel")).html("0-15 days");
+                            break;
+                    }
 
 
 
+                }
 
+                if ($(element).attr("rel") == 6) {
+                    $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 24 * 100) + "%");
+
+
+                    switch (true) {
+                        case self.sliderValues()[$(element).attr("rel")] >= 16:
+                            $("#slideBoxValue" + $(element).attr("rel")).html("04AM-11PM");
+                            break;
+                        case self.sliderValues()[$(element).attr("rel")] <= 15:
+                            $("#slideBoxValue" + $(element).attr("rel")).html("11PM-04AM");
+                            break;
+                    }
+                }
+
+
+                //Application.masterVM.vmStarRating.calculateRiskProfile();
             }
+        };
+
+
+
+
+
 
         }

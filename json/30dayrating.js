@@ -9,7 +9,7 @@
     "acceleration": 2,
     "cornering": 4,
     "frequency": 25,
-    "time": 80,
+    "time": 21,
     "age": 25,
     "make": 80,
     "color": 25,
