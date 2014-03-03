@@ -484,5 +484,5 @@ text-align: center;
 
 .ui-slider-range-min {
     background:#00C3FF !important;
-
+    position: absolute;
 }
