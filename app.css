@@ -430,6 +430,7 @@ color:#00C3FF;
 }
 
 .slider{
+position: absolute;
 top:25px;
 left: 12%;
 border:none!important;
