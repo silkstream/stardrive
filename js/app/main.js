@@ -56,6 +56,7 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     //ko.applyBindings(Application.masterVM.vmMessages, $(Application.pages[3])[0]);
     //bindings for ratings
    ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('plotGraphContainer'));
+   ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('sliderbox'));
     
 
 
@@ -122,19 +123,7 @@ var chart = new Highcharts.Chart({
                 },
 				plotOptions: {
 		
-								//line: {
-								//dataLabels: {
-								//	color: "#ffffff",
-								//	enabled: true,
-								//	formatter: function() {
-								//		thisprev = prev; 
-								//		prev = this.y;																				
-								//		//return '<b>'+(this.y > thisprev ? '+' : '') + Math.floor(this.y-thisprev) + '%</b>';
-								//		//return '<b>'+(this.y > thisprev ? '+' : '')+(parseInt(this.y)-parseInt(thisprev)) +'</b>';
-								//	},
-								//	y: 12
-								//	}
-								//},
+
 								series: {
                 marker: {
                     states: {
@@ -148,115 +137,16 @@ var chart = new Highcharts.Chart({
 
 })
 
-
-			$(".slider").slider({
-				value: 1,
-				min: 1,
-				max: 21,
-				step: 1,
-				range: "min"
-			});
-
-
-			$("#slider0").on("slide", {c:0}, function( event, ui) {
-				var value = 21-ui.value;
-				if (value == 1) {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
-				} else {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
-				}
-         
-				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
-				Application.masterVM.vmStarRating.calculateRiskProfile();
-			});
+$("#resetrates").click(function(){
+    Application.masterVM.vmStarRating.sliderValues(["5"]);
+    Application.masterVM.vmStarRating.pullRatings(7);
+    Application.masterVM.vmStarRating.setsliders();
+    
 
 
 
 
-			$("#slider1").on("slide", {c:1}, function( event, ui) {
-				var value = 21-ui.value;
-				if (value == 1) {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
-				} else {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
-				}
-				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
-				Application.masterVM.vmStarRating.calculateRiskProfile();
-			});
-			
-			$("#slider2").on("slide", {c:2}, function( event, ui) {
-				var value = 21-ui.value;
-				if (value == 1) {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
-				} else {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
-				}
-				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
-				Application.masterVM.vmStarRating.calculateRiskProfile();
-			});
-
-			$("#slider3").on("slide", {c:3}, function( event, ui) {
-				var value = 21-ui.value;
-				if (value == 21) {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
-				} else {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
-				}
-				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
-				Application.masterVM.vmStarRating.calculateRiskProfile();
-			});
-
-			$("#slider4").on("slide", {c:4}, function( event, ui) {
-				var value = 21-ui.value;
-				if (value == 21) {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alert");
-				} else {
-					$("#slideBoxValue"+event.data.c).html(21-ui.value+" Alerts");
-				}
-				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
-				Application.masterVM.vmStarRating.calculateRiskProfile();
-			});
-
-
-			$("#slider5").on("slide", {c:5}, function( event, ui) {
-						var value = 21-ui.value;
-						
-						//alert("fgd");
-						
-						
-				switch(true)
-				{
-					case ui.value >= 16:
-						
-						$("#slideBoxValue"+event.data.c).html("23-31 days");
-					break;
-					case ui.value >=10 && ui.value <=15:
-						$("#slideBoxValue"+event.data.c).html("16-22 days");
-					break;
-					case ui.value <= 10:
-						$("#slideBoxValue"+event.data.c).html("0-15 days");
-					break;
-				}
-				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
-				Application.masterVM.vmStarRating.calculateRiskProfile();
-			});
-			
-			
-			
-			$("#slider6").on("slide", {c:6}, function( event, ui) {
-				switch(true)
-				{
-					case ui.value >= 16:
-						$("#slideBoxValue"+event.data.c).html("04AM-11PM");
-					break;
-					case ui.value <= 15:
-						$("#slideBoxValue"+event.data.c).html("11PM-04AM");
-					break;
-				}
-				Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
-				Application.masterVM.vmStarRating.calculateRiskProfile();
-			});		
-
+});
 
 
 
