@@ -143,13 +143,6 @@ $("#resetrates").click(function(){
     Application.masterVM.vmStarRating.setsliders();    
 });
 
-			$(".slider").slider({
-				value: 1,
-				min: 1,
-				max: 21,
-				step: 1,
-				range: "min"
-			});
 
 
 
