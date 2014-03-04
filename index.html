@@ -30,7 +30,12 @@
 
         <div id="menu">
 
-        <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/side_menu_icon.png" onclick="Application.toggleMenu();"/></div></div>
+        <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;">
+                <div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;">
+                    <img class="selectable" src="images/side_menu_icon.png" onclick="Application.toggleMenu();"/>
+                </div>
+        </div>
+
             <ul>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');" id="menutitle"><img src="images/alerts_btn.png" data-bind="attr: {src: Image}" style="width: 30px;"/>&nbsp;<span data-bind="text: FirstName"></span></div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');"><img src="images/alerts_btn.png" />&nbsp;ALERTS</div></li>           
