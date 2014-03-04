@@ -315,7 +315,7 @@ function toggleratedays2(element){
             if($("#currentratedays").val() == days[i] && i !=  (days.length-1)){
                 Application.masterVM.vmStarRating.pullRatings(days[i+1]);
                 $("#currentratedays").val(days[i+1])
-                $("#"+element+" .rateday"+ days[i]).hide("slide",{direction: 'up'});
+                $("#"+element+" .rateday"+ days[i]).hide();
                 $("#"+element+" .rateday"+ days[i+1]).show("slide",{direction: 'down'});
 
                 return false;
@@ -324,7 +324,7 @@ function toggleratedays2(element){
             if($("#currentratedays").val() == days[i] && i ==  (days.length-1)){
                 Application.masterVM.vmStarRating.pullRatings(7);
                 $("#currentratedays").val(7)
-                $("#"+element+" .rateday"+ days[i]).hide("slide",{direction: 'up'});
+                $("#"+element+" .rateday"+ days[i]).hide();
                 $("#"+element+" .rateday"+ days[0]).show("slide",{direction: 'down'});
                 return false;
             }

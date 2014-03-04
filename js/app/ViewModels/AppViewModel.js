@@ -904,7 +904,7 @@ function StarRatingViewModel() {
                 chartSeriesData[0].data.push({ y: data.ratingchange[i].rating });
             } else {
                 //chartSeriesData[0].data.push({y:starRate.ratingchange[i].rating,marker:{fillColor:pointcolor, radius: 17, states: { hover :{enabled: false}}}});
-                chartSeriesData[0].data.push({ y: data.ratingchange[i].rating, marker: { symbol: "url(../img/vehicle_icons/star_orange_icon.png)"} });
+                chartSeriesData[0].data.push({ y: data.ratingchange[i].rating, marker: { symbol: "url(/images/star_orange_icon.png)"} });
                 //url(http://highcharts.com/demo/gfx/sun.png)
             }
             

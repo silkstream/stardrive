@@ -30,7 +30,7 @@
 
         <div id="menu">
 
-        <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/side_nav_btn.png" onclick="Application.toggleMenu();"/></div></div>
+        <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;"><div style="background: #F5F6F7;border-bottom: 1px #E7E7E8 solid;padding: 13px;color: #808282;"><img class="selectable" src="images/side_menu_icon.png" onclick="Application.toggleMenu();"/></div></div>
             <ul>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');" id="menutitle"><img src="images/alerts_btn.png" data-bind="attr: {src: Image}" style="width: 30px;"/>&nbsp;<span data-bind="text: FirstName"></span></div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');"><img src="images/alerts_btn.png" />&nbsp;ALERTS</div></li>           
@@ -58,7 +58,7 @@
         <div id="top-nav" style="vertical-align: middle;">
            <div class="left selectable" id="nav-left" style="width:10% !important; min-height: 1px;" data-bind="attr: {'data-mypic' : Image}"><img src="images/arrow_back.png" class="logo"/></div>
            <div class="left" style="width:75%;text-align:center;margin-top: 15px;"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span></div>
-           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;margin-top: 15px;"><img src="images/side_nav_btn.png" class="drawer" onclick="Application.toggleMenu();"/></div>
+           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;margin-top: 15px;"><img src="images/side_menu_icon.png" class="drawer" onclick="Application.toggleMenu();"/></div>
            <div style="clear: both;"></div>
         </div>
 
@@ -459,19 +459,18 @@
 
         <!-- StarRating Starts -->
         <div id="page-starrate" data-page-type="main"  title="StarRate">            
-            <div class="grey row colorblue" syle="text-align: center;">
-               <div class="left" style="width:10% !important; min-height: 1px;" ></div>
-               <div class="left" style="width:75%;text-align:center;position: relative;" id="ratedays">           
-                        <div class="ratingrange" rel="7" id="rateday7" style="float:none;position: absolute;width: 100%;left: 0; top: 0;">Last 7 Days</div>
-                        <div class="ratingrange" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="30"  id="rateday30">Last 30 Days</div>
-                        <div class="ratingrange" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="40"  id="rateday90">Last 90 Days</div>   
-                        <input type="hidden" value="7" id="currentratedays">
+              <input type="hidden" value="7" id="currentratedays">
           
+            <div class="grey row colorblue" syle="text-align: center;">
+               <div class="left" style="width:10% !important; min-height: 5px;min-width: 10%;" ></div>
+               <div class="left" style="width:75%;min-width:75% !important;text-align:center;position: relative;" id="ratedays">           
+                        <div class="ratingrange  rateday7" rel="7" id="rateday7" style="width: 100%;">Last 7 Days</div>
+                        <div class="ratingrange  rateday30" style="display: none;width: 100%;" rel="30"  id="rateday30">Last 30 Days</div>
+                        <div class="ratingrange  rateday90" style="display: none;width: 100%;" rel="40"  id="rateday90">Last 90 Days</div>                       
              </div>
 
-
-             <div style="float: right;width: 5%;margin: 5px 0 5px 0;"   onclick="toggleratedays();">
-                            <img src="images/starsocial_arrow.png">
+             <div style="float: left;width: 10%;position: relative;margin: 5px 0 5px 0;" onclick="toggleratedays2('ratedays');">
+                            <img src="images/arrow_down_button.png"  style="position: absolute !important;right: 0 !important;">
              </div>
 
                     <div style="clear: both;float:none;"></div>
@@ -481,7 +480,7 @@
 
             <div class="row colorblue grey" style="position: relative;padding:0;">       
           
-                <div style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
+                <div class="white" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
                 <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
                 <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
                 <div style="clear: both;float: none;"></div>            
@@ -503,15 +502,15 @@
         <div id="page-starratecomposition" data-page-type="main"  title="StarRate">            
             <div class="grey row colorblue" syle="text-align: center;">
                <div class="left" style="width:10% !important; min-height: 1px;" ></div>
-               <div class="left" style="width:75%;text-align:center;position: relative;" id="togglemenu">           
-                        <div class="ratingrange rateday7" rel="7" id="Div3" style="float:none;position: absolute;width: 100%;left: 0; top: 0;">Last 7 Days</div>
-                        <div class="ratingrange rateday30" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="30">Last 30 Days</div>
-                        <div class="ratingrange rateday90" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="40">Last 90 Days</div>             
+               <div class="left" style="width:75%;min-width:75% !important;text-align:center;position: relative;" id="togglemenu">           
+                        <div class="ratingrange rateday7" rel="7" id="Div3" style="width: 100%;">Last 7 Days</div>
+                        <div class="ratingrange rateday30" style="display: none;width: 100%;" rel="30">Last 30 Days</div>
+                        <div class="ratingrange rateday90" style="display: none;width: 100%;" rel="40">Last 90 Days</div>             
              </div>
 
 
-             <div style="float: right;width: 5%;margin: 5px 0 5px 0;"   onclick="toggleratedays2('togglemenu');">
-                            <img src="images/starsocial_arrow.png">
+             <div style="float: left;width: 10%;margin: 5px 0 5px 0;position: relative;"   onclick="toggleratedays2('togglemenu');">
+                            <img src="images/arrow_down_button.png"  style="position: absolute !important;right: 0 !important;">
              </div>
 
                     <div style="clear: both;float:none;"></div>
@@ -523,7 +522,7 @@
           
                 <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
                 <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
-                <div style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
+                <div class="white" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
                 <div style="clear: both;float: none;"></div>            
             </div>
 
@@ -543,15 +542,15 @@
         <div id="page-starratesliders" data-page-type="main" title="StarRate">            
            <div class="grey row colorblue" syle="text-align: center;">
                <div class="left" style="width:10% !important; min-height: 1px;" ></div>
-               <div class="left" style="width:75%;text-align:center;position: relative;" id="Div2">           
-                        <div class="ratingrange rateday7" rel="7" id="Div4" style="float:none;position: absolute;width: 100%;left: 0; top: 0;">Last 7 Days</div>
-                        <div class="ratingrange rateday30" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="30">Last 30 Days</div>
-                        <div class="ratingrange rateday90" style="display: none;float:none;position: absolute;width: 100%;left: 0; top: 0;" rel="40">Last 90 Days</div>             
+               <div class="left" style="width:75%;min-width:75% !important;text-align:center;position: relative;"id="slideday">           
+                        <div class="ratingrange rateday7" rel="7" id="Div4" style="width: 100%;">Last 7 Days</div>
+                        <div class="ratingrange rateday30" style="display: none;width: 100%;" rel="30">Last 30 Days</div>
+                        <div class="ratingrange rateday90" style="display: none;width: 100%;" rel="40">Last 90 Days</div>             
              </div>
 
 
-             <div style="float: right;width: 5%;margin: 5px 0 5px 0;"   onclick="toggleratedays2('togglemenu');">
-                            <img src="images/starsocial_arrow.png">
+             <div style="float: left;width: 10%;margin: 5px 0 5px 0;position: relative;"   onclick="toggleratedays2('slideday');">
+                            <img src="images/arrow_down_button.png" style="position: absolute !important;right: 0 !important;">
              </div>
 
                     <div style="clear: both;float:none;"></div>
@@ -562,7 +561,7 @@
             <div class="row colorblue grey" style="position: relative;padding:0;">       
           
                 <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
-                <div style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
+                <div class="white" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
                 <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
                 <div style="clear: both;float: none;"></div>            
             </div>
@@ -652,7 +651,7 @@
                 </div>
                 <div style="clear:both;float: none;"></div>
 
-                <div class="grey button" style="float: none;margin-top: 30px;position: relative;" id="resetrates">Reset</div>
+                <div class="button" style="background: #cccccc;float: none;margin-top: 30px;position: relative;" id="resetrates">Reset</div>
                  <div style="clear:both;float: none;"></div>
         </div>
        
