@@ -81,6 +81,7 @@ ko.asyncComputed = function (evaluatorFunction, target) {
 
 
 
+
 function LoginViewModel() {
 
     this.LoginName = ko.observable("Email Address");
@@ -94,6 +95,20 @@ function LoginViewModel() {
     this.ErrorMessage = ko.computed(function () {
         return "You entered " + this.UserPassword() + " as a password";
     }, this);
+
+
+    this.doLogout = function () {
+        Application.masterVM.vmProfile.FirstName('');
+        Application.masterVM.vmProfile.Surname('');
+        Application.masterVM.vmProfile.UserId('');
+        Application.masterVM.vmProfile.Image('');
+        Application.masterVM.vmProfile.Email('');
+        Application.masterVM.vmProfile.HomeAddress('');
+        Application.masterVM.vmProfile.WorkAddress('');
+        Application.gotoPage('page-intro');
+    }
+
+
 
     this.doLogin = function () {
         //Do a login
@@ -135,18 +150,18 @@ function LoginViewModel() {
 
 function ProfileViewModel() {
     self = this;
-    self.FirstName = ko.observable();
-    self.Surname = ko.observable();
-    self.UserId = ko.observable();
-    self.Image = ko.observable();
-    self.Password = ko.observable();
-    self.Email = ko.observable();
-    self.HomeAddress = ko.observable();
-    self.WorkAddress = ko.observable();
+    self.FirstName = ko.observable().extend({ reset: true }) ;
+    self.Surname = ko.observable().extend({ reset: true });
+    self.UserId = ko.observable().extend({ reset: true });
+    self.Image = ko.observable().extend({ reset: true });
+    self.Password = ko.observable().extend({ reset: true });
+    self.Email = ko.observable().extend({ reset: true });
+    self.HomeAddress = ko.observable().extend({ reset: true });
+    self.WorkAddress = ko.observable().extend({ reset: true });
 
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
-    }, self);
+    }, self).extend({ reset: true });
 }
 
 function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg) {
