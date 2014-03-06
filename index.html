@@ -39,13 +39,13 @@
             <ul>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');" id="menutitle"><img src="images/alerts_btn.png" data-bind="attr: {src: Image}" style="width: 30px;"/>&nbsp;<span data-bind="text: FirstName"></span></div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');"><img src="images/alerts_btn.png" />&nbsp;ALERTS</div></li>           
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-starsocial');"><img src="images/messaging_btn.png" />&nbsp;MESSAGES</div></li>           
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starsocial');" id><img src="images/messaging_btn.png" />&nbsp;MESSAGES</div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starrate_btn.png" />&nbsp;StarRate</div></li>   
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starsafe_btn.png" />&nbsp;StarSafe</div></li>   
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starsafe_btn.png" />&nbsp;StarSafe</div></li>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsocial');"><img src="images/starsocial.png" />&nbsp;StarSocial</div></li>   
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/starsight_btn.png" />&nbsp;StarSight</div></li>   
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/account_btn.png" />&nbsp;Account</div></li>
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/settings_btn.png" />&nbsp;Settings</div></li>                 
+             <!--  <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/settings_btn.png" />&nbsp;Settings</div></li>   -->              
                <li><div class="menuitem" onclick="return Application.masterVM.vmLogin.doLogout();"><img src="images/logout_btn.png" />&nbsp;Logout</div></li> 
                
                                    
@@ -70,7 +70,7 @@
 <!-- Top Navigation Ends -->
 
 
-
+<div style="height: 80%; overflow-y: scroll; " >
 <!-- Login Screen Starts -->
         <div id="page-intro" title="Login" data-page-type="main" >
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
@@ -90,7 +90,7 @@
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
             <p><input type="email" pattern="[^ @]*@[^ @]*" data-bind="value: LoginName" /></p>
-            <p><input data-bind="value: UserPassword" /></p>
+            <p><input type="password" data-bind="value: UserPassword" /></p>
             <p><strong data-bind="text: ErrorMessage, visible:LoginFail"></strong></p>
 
             <div class="blue button" data-bind="click: doLogin">Login</div>
@@ -305,7 +305,7 @@
         
         
                  
-        </div>      
+    
  <!-- Alert Screen Ends -->       
         
         
@@ -667,8 +667,8 @@
 
 
       <!-- StarRating sliders  Ends -->
+        </div> 
 
-
-
+          </div> 
     </body>
 </html> 
