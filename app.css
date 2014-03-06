@@ -63,7 +63,7 @@ h1
 {
     color:#00C3FF;
     padding:15px;
-    border-bottom:1pt solid #d7d7d7;
+    border-bottom:1px solid #d7d7d7;
 }
 
 #top-nav
@@ -72,6 +72,7 @@ h1
     border-bottom: 1px #E7E7E8 solid;
     padding: 10px;
     color: #808282;
+    height: 13%;
 
 }
     #top-nav .title
@@ -201,7 +202,7 @@ textarea
 
 .row
 {
-    border-bottom: 1px #E7E7E8 solid;
+    border-bottom: 3px #E7E7E8 solid;
     padding: 10px;    
         
 }
@@ -264,7 +265,7 @@ background: #ffffff;
 {
     
     background: #F5F6F7;
-    border-bottom: 1px #E7E7E8 solid;
+    border-bottom: 3px #E7E7E8 solid;
     padding: 0 10px 0;
     height: 50px;
     
