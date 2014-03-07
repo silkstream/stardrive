@@ -23,6 +23,10 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('top-nav'));
 
 
+//drawer
+    ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('navalert'));
+    ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('navmsg'));
+
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('menutitle'));
 
     //bindings for profile home
@@ -242,26 +246,32 @@ function APPMANAGER() {
 }
 
 function showmsgcontrol(element) {
-    console.log($(element));
-    $(".msgcontrol").slideUp();
+        //alert();
+   // $(".msgcontrol").slideUp();
     //$(element + " .msgcontrol").show();
-    if ($(element).parent().find(".msgcontrol").is(":visible"))
+    if ($(element).parent().find(".msgcontrol").is(":visible")){
         $(element).parent().find(".msgcontrol").slideUp();
-    else
+        $(element).find('.arrow img').rotate({animateTo:0});
+    }else{
         $(element).parent().find(".msgcontrol").slideDown();
+        $(element).find('.arrow img').rotate({animateTo:180});
+     }
     //alert("fd");
     //console.log();
 }
 
 
 function showalertcontrol(element) {
-    console.log($(element));
+                
     $(".alertcontrol").slideUp();
     //$(element + " .msgcontrol").show();
-    if ($(element).parent().find(".alertcontrol").is(":visible"))
+    if ($(element).parent().find(".alertcontrol").is(":visible")){
         $(element).parent().find(".alertcontrol").slideUp();
-    else
+       $(element).find('.arrow img').rotate({animateTo:0});
+    }else{
         $(element).parent().find(".alertcontrol").slideDown();
+             $(element).find('.arrow img').rotate({animateTo:180});
+     }
     //alert("fd");
     //console.log();
 }
@@ -316,7 +326,7 @@ function toggleratedays2(element){
                 Application.masterVM.vmStarRating.pullRatings(days[i+1]);
                 $("#currentratedays").val(days[i+1])
                 $("#"+element+" .rateday"+ days[i]).hide();
-                $("#"+element+" .rateday"+ days[i+1]).show("slide",{direction: 'down'});
+                $("#"+element+" .rateday"+ days[i+1]).show("slide",{direction: 'down'}); 
 
                 return false;
             }
@@ -326,6 +336,7 @@ function toggleratedays2(element){
                 $("#currentratedays").val(7)
                 $("#"+element+" .rateday"+ days[i]).hide();
                 $("#"+element+" .rateday"+ days[0]).show("slide",{direction: 'down'});
+  
                 return false;
             }
 
