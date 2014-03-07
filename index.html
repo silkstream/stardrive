@@ -156,7 +156,7 @@
         <div class="row colorgrey" data-bind="foreach: allalerts"  id="latestalert" style="position: relative;padding: 0;">      
        <!-- ko if: ( $index() === ($parent.allalerts().length -1)) -->
        <div style="padding:  10px 0 10px 0;width:100%;" class="colorgrey"  onclick="showmsgcontrol(this);">
-               <div style="width: 5%;text-align: center;"> <img src="images/alert_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
+               <div style="width: 10%;text-align: center;"> <img src="images/alert_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
                <div style="width: 70%;" class="colorgrey">
                     <span data-bind="text: alert_type" class="colorred"></span><br/>
                     <span class="colorblue" data-bind="text: alert_address">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
@@ -207,8 +207,8 @@
        
        
                        <div style="width:100%;padding:  10px 0 10px 0;" class="colorgrey"  onclick="showmsgcontrol(this);">
-                               <div style="width: 5%;text-align: center;"> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
-                               <div style="width: 85%;" class="colorgrey">
+                               <div style="width: 10%;text-align: center;"> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
+                               <div style="width: 70%;" class="colorgrey">
                                        <!-- ko if: ( reminder() != '0') -->
                                        <img   src="images/account_btn.png" align="left" style="" width="50px;"/>
                                        <!-- /ko -->
@@ -249,7 +249,7 @@
 
 
         <!-- Bottom buttons -->
-        <div class="row grey" style="position: relative;padding: 0;position:relative;height: 100px;">
+        <div class="row grey" style="position: relative;padding: 0;position:relative;height: 100px;overflow: hidden;">
         <div  onclick="return Application.gotoPage('page-starsocial');" style="position:relative;height: 100%;width: 30%; border-right: solid 2px #E7E7E8;" id="msgtotal" class="profilemsgbutton"><div class="circleBase blue colorwhite" style="padding: 6px 10px;" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
         <div  onclick="return Application.gotoPage('page-alerts');" style="width: 30%;height: 100%;" class="profilealertbutton"><div class="circleBase red colorwhite" style="padding: 6px 10px;" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
         <div style="clear:both;float:none;"></div>
@@ -268,7 +268,7 @@
        
         <div  data-bind="foreach: allalerts"  id="allalerts" style="position: relative;padding: 0;">      
        <div  class="row colorgrey" style="padding: 0;">
-                  <div style="width: 100%;position: relative;padding: 0px;"   onclick="showmsgcontrol(this);">
+                  <div style="width: 100%;position: relative;padding: 10px 0 10px 0;"   onclick="showmsgcontrol(this);">
                        <div style="width: 70%;padding-left: 10px;" class="colorgrey">
                        <span data-bind="text: alert_type" class="colorred"></span><br/>
                        <span class="colorblue" data-bind="text: alert_address">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
