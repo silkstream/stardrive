@@ -203,7 +203,7 @@ function APPMANAGER() {
         $("#top-nav .logo").unbind("click");
 
         if ($("#" + pageName).data('page-type') == "main") {
-            $("#top-nav .logo").attr('src', $("#nav-left").data('mypic')).css({ 'width': '60px', 'margin': '0' });
+            $("#top-nav .logo").attr('src', $("#nav-left").data('mypic')).css({ 'height': '100%', 'margin': '0' });
             if ($("#" + pageName).attr('title') == "Login")
                 $("#top-nav .logo").hide();
 
@@ -217,7 +217,7 @@ function APPMANAGER() {
             });
 
         } else {
-            $("#top-nav .logo").attr('src', "images/arrow_back.png").css({ 'width': 'auto', 'margin-top': '15px' });
+            $("#top-nav .logo").attr('src', "images/arrow_back.png").css({ 'width': 'auto', 'height': 'auto', 'margin-top': '15px' });
             if (pageName != this.pagetrail[this.pagetrail.length - 1]) {
                 self.pagetrail.push(pageName);
                 $("#top-nav .logo").click(function () {

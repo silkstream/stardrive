@@ -20,13 +20,19 @@ function mapINIT() {
 
     center = new deCarta.Core.Position("-29.925278, 21.423889");
 
+    var satelliteLayer = new deCarta.Core.MapLayer({
+        tileStore: new deCarta.Core.SatelliteTileStore()
+    }); 
 
     MAP = new deCarta.Core.Map({
         id: "mapContainerzzz",
-        center: center
+        center: center,
+        onReady: function (map) {
+        }
 
     });
 
+    MAP.setMapStyle("generic");
     alertPinOverlay = new deCarta.Core.MapOverlay({
         name: "AlertPins"
     });
@@ -38,7 +44,7 @@ function mapINIT() {
     tripRouteOverlay = new deCarta.Core.MapOverlay({
         name: 'route'
     });
-
+   // MAP.setSatelliteView();
 
 }
 
