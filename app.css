@@ -69,7 +69,7 @@ h1
 #top-nav
 {
     background: #F5F6F7;
-    border-bottom: 1px #E7E7E8 solid;
+    border-bottom: 3px #E7E7E8 solid;
     padding: 10px;
     color: #808282;
     height: 13%;
@@ -307,6 +307,7 @@ background: #ffffff;
      border: 0 !important;
       outline-color: transparent;
       width: 220px !important;
+      padding: 0 !important;
 }
 
 
@@ -358,17 +359,18 @@ background: #ffffff;
 .ui-dialog-titlebar {
     display: none;
 }
-/*
-.ui-widget-overlay {
-   background: #AAA url(images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x !important;
-   opacity: .30 !important;
-   filter: Alpha(Opacity=30) !important; 
-}*/
 
 .ui-widget-overlay {
-    background: repeat-x scroll 50% 50% #AAA;
-    opacity:0.7;
+   background: url(images/ui-bg_flat_10_000000_40x100.png) repeat !important;
+   opacity: .30 !important;
+   /*filter: Alpha(Opacity=30) !important; */
 }
+/*
+.ui-widget-overlay {
+    
+    opacity:0.7;
+   
+}*/
 
 .ui-widget-overlay {
     height:100%;
@@ -376,6 +378,16 @@ background: #ffffff;
     position:absolute;
     top:0;
     width:100%;
+}
+
+
+.ui-dialog
+{
+    
+width:   220px !important;
+padding: 0 !important;
+  
+    
 }
 
 
