@@ -156,7 +156,7 @@
         <div class="row colorgrey" data-bind="foreach: allalerts"  id="latestalert" style="position: relative;padding: 0;">      
        <!-- ko if: ( $index() === ($parent.allalerts().length -1)) -->
        <div style="padding:  10px 0 10px 0;width:100%;" class="colorgrey"  onclick="showmsgcontrol(this);">
-               <div style="width: 10%;text-align: center;"> <img src="images/alert_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
+               <div style="text-align: center;"> <img src="images/alert_notification_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
                <div style="width: 70%;" class="colorgrey">
                     <span data-bind="text: alert_type" class="colorred"></span><br/>
                     <span class="colorblue" data-bind="text: alert_address">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
@@ -207,7 +207,7 @@
        
        
                        <div style="width:100%;padding:  10px 0 10px 0;" class="colorgrey"  onclick="showmsgcontrol(this);">
-                               <div style="width: 10%;text-align: center;"> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 0;" align="middle"/></div>
+                               <div style="text-align: center;"> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
                                <div style="width: 70%;" class="colorgrey">
                                        <!-- ko if: ( reminder() != '0') -->
                                        <img   src="images/account_btn.png" align="left" style="" width="50px;"/>
