@@ -105,6 +105,8 @@ function LoginViewModel() {
         Application.masterVM.vmProfile.Email('');
         Application.masterVM.vmProfile.HomeAddress('');
         Application.masterVM.vmProfile.WorkAddress('');
+        Application.masterVM.vmProfile.HomeAddresstext('');
+        Application.masterVM.vmProfile.WorkAddresstext('');
         Application.gotoPage('page-intro');
     }
 
@@ -129,6 +131,9 @@ function LoginViewModel() {
                     Application.masterVM.vmProfile.Email(data[0].Stardriveuser.emailaddress);
                     Application.masterVM.vmProfile.HomeAddress(data[0].Stardriveuser.homeaddresscords);
                     Application.masterVM.vmProfile.WorkAddress(data[0].Stardriveuser.workaddresscords);
+
+                    Application.masterVM.vmProfile.HomeAddresstext(data[0].Stardriveuser.homeaddress1);
+                    Application.masterVM.vmProfile.WorkAddresstext(data[0].Stardriveuser.workaddress1);
 
                     Application.gotoPage('page-profile');
                 },
@@ -158,6 +163,9 @@ function ProfileViewModel() {
     self.Email = ko.observable().extend({ reset: true });
     self.HomeAddress = ko.observable().extend({ reset: true });
     self.WorkAddress = ko.observable().extend({ reset: true });
+    self.HomeAddresstext = ko.observable().extend({ reset: true });
+    self.WorkAddresstext = ko.observable().extend({ reset: true });
+
 
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
@@ -514,11 +522,12 @@ function FriendsViewModel() {
     };
 }
 
-function Routes(from, to) {
+function Routes(from, fromtext, to, totext) {
     var self = this;
     self.from = ko.observable(from);
     self.to = ko.observable(to);
-   
+    self.fromtext = ko.observable(fromtext);
+    self.totext = ko.observable(totext);   
 
 }
 
@@ -549,7 +558,7 @@ function MapsViewModel() {
     }
 
 
-    self.setchosenroute = function () {
+    self.setchosenroute = function (way) {
         self.whattoshow("route");
 
         // Application.masterVM.vmMaps.chosenroute(tripobj);
@@ -573,11 +582,16 @@ function MapsViewModel() {
          var   homeaddrezz = (Application.masterVM.vmProfile.HomeAddress());
          var workaddrezz = (Application.masterVM.vmProfile.WorkAddress());
 
+
+         var homeaddrezztxt = (Application.masterVM.vmProfile.HomeAddresstext());
+         var workaddrezztxt = (Application.masterVM.vmProfile.WorkAddresstext());
       //  alert(homeaddrezz);
        // alert(workaddrezz);
 
-        var routeobj = new Routes(homeaddrezz, workaddrezz);
-
+       if(way == 'homework')
+         var routeobj = new Routes(homeaddrezz, homeaddrezztxt, workaddrezz, workaddrezztxt);
+        else
+        var routeobj = new Routes(workaddrezz, workaddrezztxt, homeaddrezz, homeaddrezztxt);
         Application.masterVM.vmMaps.chosenroute(routeobj);
         
 
