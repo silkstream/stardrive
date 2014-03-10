@@ -148,7 +148,7 @@ $("#resetrates").click(function(){
 });
 
 
-
+$(".rotated").rotate(180);
 
 
 
@@ -193,13 +193,14 @@ function APPMANAGER() {
         //$("#" + pageName).show('slide', {direction: 'right'}, 300);
 
         $("#" + pageName).show();
-
+        $('#pageheader').css('text-align', 'left');
         if ($("#" + pageName).attr('title') == "Login" || $("#" + pageName).attr('title') == "Forgot Password") {
             $("#top-nav .drawer").hide();
+            $("#headerratings").hide();
+            $('#pageheader').css('text-align', 'center');
         } else {
             $("#top-nav .drawer").show();
-
-
+            $("#headerratings").show();
 
 
         }
@@ -208,11 +209,16 @@ function APPMANAGER() {
 
         if ($("#" + pageName).data('page-type') == "main") {
             $("#top-nav .logo").attr('src', $("#nav-left").data('mypic')).css({ 'height': '100%', 'margin': '0' });
-            if ($("#" + pageName).attr('title') == "Login")
+            if ($("#" + pageName).attr('title') == "Login"){
                 $("#top-nav .logo").hide();
-
-            if ($("#" + pageName).attr('title') == "Profile")
+                $('#pageheader').css('text-align', 'center');
+                }
+            if ($("#" + pageName).attr('title') == "Profile"){
                 $("#title").html(Application.masterVM.vmProfile.FirstName());
+                $("#headerratings").hide();
+                $('#pageheader').css('text-align', 'left');
+            }
+
             this.pagetrail = [];
             this.pagetrail.push(pageName);
             $("#top-nav .logo").click(function () {

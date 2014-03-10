@@ -36,6 +36,9 @@ h1
          
 }
 
+
+
+
 #menu
 {
     position:absolute;
@@ -72,7 +75,7 @@ h1
     border-bottom: 3px #E7E7E8 solid;
     padding: 10px;
     color: #808282;
-    height: 13%;
+    height: 10%;
 
 }
     #top-nav .title
@@ -88,6 +91,36 @@ h1
         float:right;
         left:10px;        
     }
+
+
+#pageheader
+{
+    
+    width: 80%;    
+    
+}
+
+@media only screen and (max-width: 479px) 
+{
+    
+         #pageheader
+        {
+    
+            width: 68% !important;   
+
+    
+        }  
+
+
+#headerratings
+{
+    letter-spacing: -0.08em;    
+}
+
+ 
+}
+
+
 
 .maincontainer{
   
@@ -142,6 +175,14 @@ h1
     color: #13CC2B;    
     
 }
+
+
+.colororange
+{
+    
+    color: #F58E1E !important;    
+}
+
 
 .colorred
 {
@@ -225,7 +266,7 @@ textarea
 
 .colorblue
 {
-    color: #3AC1F0;
+    color: #3AC1F0 !important;
 }
 
 .white
