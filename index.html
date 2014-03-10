@@ -143,13 +143,18 @@
         <!-- Daily Route Starts-->
         <div class="row" style="position:relative;" id="daylyroute"  >
         <div class="colorgrey" style="margin: auto 0px ;width: 100%;">
-            <div style="font-size: 15px;font-weight:bold;float:none;"><div style="width: 120px;">Route Work</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;" class="rotated"/></div></div>
-            <div data-bind="click: setchosenroute" style="width: 100%;">
-                <div><span class="colorblue" style="font-size: 20px;float:none;line-height: 30px;">Daily Work</span></div>
-        <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
-            
+            <div style="font-size: 15px;font-weight:bold;float:none;" onclick="toggleroute('fromhome')"><div style="width: 120px;">Route Work</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;" class="rotated"/></div></div>
+            <div id="fromhome" onclick="Application.masterVM.vmMaps.setchosenroute('homework')" style="width: 100%;">
+                <div style="width: 60%;" class="colorblue"><span class="colorblue" data-bind="text: HomeAddresstext">Location</span> to <span class="colorblue" data-bind="text: WorkAddresstext">Location</span></div>
+                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>            
             </div>
-            <div style="font-size: 15px;font-weight:bold;float:none;"><div style="width: 120px;">Route Home</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;"/></div></div>
+
+            <div id="fromwork" onclick="Application.masterVM.vmMaps.setchosenroute('workhome')" style="width: 100%;display: none;">
+                <div style="width: 60%;" class="colorblue"><span class="colorblue" data-bind="text: WorkAddresstext">Location</span> to <span class="colorblue" data-bind="text: HomeAddresstext">Location</span></div>
+                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>            
+            </div>
+
+            <div onclick="toggleroute('fromwork')" style="font-size: 15px;font-weight:bold;float:none;"><div style="width: 120px;">Route Home</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;"/></div></div>
         </div>
 
 
@@ -464,8 +469,10 @@
                 <span data-bind="text: alert_type" class="colorred"></span><br/>
                 <span class="colorblue" data-bind="text: alert_address">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
             </div>
-            <div class="row grey"   data-bind="visible: (whattoshow() === 'route'),with:chosenroute">
-                Home: <span class="colorblue" data-bind="text: from">Location</span> Work: <span class="colorblue" data-bind="text: to">Location</span>
+            <div class="row grey colorblue"   data-bind="visible: (whattoshow() === 'route'),with:chosenroute">
+               <div style="width: 60%;"><span class="colorblue" data-bind="text: fromtext">Location</span> to <span class="colorblue" data-bind="text: totext">Location</span></div>
+               <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
+               <div style="clear:both;float:none;"></div>  
             </div>
         </div>
                 <div id="mapContainerzzz" name="mapContainerzzz" style="position:relative;backgound: #666666;float:none;overflow: hidden;">

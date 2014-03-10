@@ -51,7 +51,7 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
 
     //bindings for alert location page
     ko.applyBindings(Application.masterVM.vmMaps, document.getElementById('alertlocation'));
-    ko.applyBindings(Application.masterVM.vmMaps, document.getElementById('daylyroute'));
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('daylyroute'));
 
 
     ko.applyBindings(Application.masterVM.vmLogin, $(Application.pages[0])[0]);
@@ -317,7 +317,23 @@ if($("#currentratedays").val() == days[i] && i ==  (days.length-1)){
 }
 
 
+function toggleroute(way){
 
+
+    if(way == "fromhome"){
+        $("#fromhome").show();
+        $("#fromwork").hide();
+    }
+
+    if(way == "fromwork"){
+        $("#fromhome").hide();
+        $("#fromwork").show();
+    }
+
+
+
+
+}
 
 function toggleratedays2(element){
 
