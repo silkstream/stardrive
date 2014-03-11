@@ -430,7 +430,7 @@ function AlertsViewModel() {
                     var alert_description = "";
                     switch (alert_type) {
                         case "Speeding":
-                            alert_description = "Vehicle with registration " + data[i].Vehicle.registration + " overspeeding " + data[i].Useralert.speedlimit + "km/h";
+                            alert_description = "Vehicle registration: <span class='colorblue'>" + data[i].Vehicle.registration + "</span><br/> Overspeeding: <span class='colorred'>" + data[i].Useralert.speedlimit + "km/h";
                             break;
                         case "Cornering":
                             alert_description = "Vehicle with registration " + data[i].Vehicle.registration + " harsh cornering";
@@ -439,10 +439,10 @@ function AlertsViewModel() {
                             alert_description = "Vehicle with registration " + data[i].Vehicle.registration + " harsh breaking";
                             break;
                         case "Time Rule":
-                            alert_description = "Vehicle with registration " + data[i].Vehicle.registration + " exceeding time rule";
+                            alert_description = "Vehicle registration: " + data[i].Vehicle.registration + " exceeding time rule";
                             break;
                         case "Geo-fencing":
-                            alert_description = "Vehicle with registration " + data[i].Vehicle.registration + " " + data[i].Useralert.zone_type + ": " + data[i].Zone.zonename;
+                            alert_description = "Vehicle registration: <span class='colorblue'>" + data[i].Vehicle.registration + "</span><br/>" + data[i].Useralert.zone_type + ": <span class='colorblue'>" + data[i].Zone.zonename+"</span>";
                             break;
                         case "Impact":
                             alert_description = "Vehicle with registration " + data[i].Vehicle.registration + " had an Impact";

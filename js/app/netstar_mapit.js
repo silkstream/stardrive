@@ -5,8 +5,8 @@ var alertPinOverlay;
 var tripRouteOverlay;
 var startendPinsOverlay;
 var speedingOverlay;
-
-
+var alertpin;
+var infowindow = 0;
 
 
 function mapINIT() {
@@ -32,7 +32,18 @@ function mapINIT() {
 
     });
 
+
+
+  //  myinfowindow = new deCarta.Core.InfoWindow({
+
+    //cssClass: 'custominfowindow'
+
+   //});
+
+
+
     MAP.setMapStyle("generic");
+
     alertPinOverlay = new deCarta.Core.MapOverlay({
         name: "AlertPins"
     });
@@ -88,17 +99,22 @@ function placealertpin(pinobj) {
     console.log(pinobj.alert_location());
 
 
-    var alertpin = new deCarta.Core.Pin({
+    alertpin = new deCarta.Core.Pin({
         position: new deCarta.Core.Position(pinobj.alert_location()),
-        text: pinobj.alert_description(),
+        // text: pinobj.alert_description(),
         imageSrc: "images/startpoint_icon_1.png"
 
-});
 
-alertPinOverlay.addObject(alertpin);
-MAP.zoomTo(8);
-MAP.centerOn(new deCarta.Core.Position(pinobj.alert_location()));
 
+    });
+    console.log("alertpin");
+    console.log(alertpin);
+    alertpin.onclick(function () { showinfowindow() });
+    $(".custominfowindow").html(pinobj.alert_description());
+    alertPinOverlay.addObject(alertpin);
+    MAP.zoomTo(8);
+    MAP.centerOn(new deCarta.Core.Position(pinobj.alert_location()));
+    //$(alertpin.domElement).click(function () { alert("haha"); });
 
 }
 
@@ -225,4 +241,20 @@ function showtrip(tripobj) {
     });
     MAP.render();
   
+}
+
+
+function showinfowindow() {
+
+
+
+    if (infowindow == 0) {
+        infowindow = 1;
+        $(".custominfowindow").show('slide', { direction: 'left' }, 300);
+    } else {
+        infowindow = 0
+        $(".custominfowindow").hide('slide', { direction: 'left' }, 300);        
+    }    // alertpin.showText();
+
+
 }
