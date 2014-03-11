@@ -669,6 +669,7 @@ function StarRatingViewModel() {
                 }
                 $("#currentscore").html(rating);
                 $("#headingrating").html(rating);
+                $("#profilerating").html(rating);
                 self.calculateRiskProfile(data);
                 console.log("options");
                 console.log(self.pieOptions);
@@ -887,7 +888,7 @@ function StarRatingViewModel() {
         $("#projectedscore").html(Math.floor(riskTotal)).show();
         $("#projectedscore").prev().show();
         $("#headingscore").html('65');
-
+        $("#profilescore").html('65'); 
         //riskTotal = (frequency );
         //alert(( harshAcceleration + harshBraking + harshCornering + age + speeding + vm + vc));
         //console.log("%%%");
