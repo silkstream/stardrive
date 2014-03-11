@@ -541,3 +541,11 @@ text-align: center;
     background:#00C3FF !important;
     position: absolute;
 }
+
+
+.floatnone
+{
+    
+    float: none !important;    
+    
+}

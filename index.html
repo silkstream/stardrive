@@ -127,7 +127,7 @@
         </div> -->
 
         <!-- Weather -->
-        <div class="row" style="position:relative;padding: 10px;height: 10%;" id="weather">
+        <div class="row grey" style="position:relative;padding: 10px;height: 10%;" id="weather">
         <!--<div style="width: 20%;"><div style="position: absolute; bottom: 10px;"><img data-bind="attr:{src: $data.pic}"  class="profilepic" /></div></div>-->
        <div style="width: 5%;min-width: 49px;margin-right: 5px;"><img data-bind="attr:{src: $data.pic}"  class="" style="width: 100%;"/></div> 
         <div class="colorgrey">
@@ -141,9 +141,9 @@
         </div>
         
         <!-- Daily Route Starts-->
-        <div class="row" style="position:relative;" id="daylyroute"  >
+        <div class="row grey" style="position:relative;" id="daylyroute"  >
         <div class="colorgrey" style="margin: auto 0px ;width: 100%;">
-            <div style="font-size: 15px;font-weight:bold;float:none;" onclick="toggleroute('fromhome')"><div style="width: 120px;">Route Work</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;" class="rotated"/></div></div>
+            <div style="font-size: 15px;float:none;" onclick="toggleroute('fromhome')"><div style="width: 120px;">Route Work</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;" class="rotated"/></div></div>
             <div id="fromhome" onclick="Application.masterVM.vmMaps.setchosenroute('homework')" style="width: 100%;">
                 <div style="width: 60%;" class="colorblue"><span class="colorblue" data-bind="text: HomeAddresstext">Location</span> to <span class="colorblue" data-bind="text: WorkAddresstext">Location</span></div>
                 <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>            
@@ -154,7 +154,7 @@
                 <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>            
             </div>
 
-            <div onclick="toggleroute('fromwork')" style="font-size: 15px;font-weight:bold;float:none;"><div style="width: 120px;">Route Home</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;"/></div></div>
+            <div onclick="toggleroute('fromwork')" style="font-size: 15px;float:none;"><div style="width: 120px;">Route Home</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;"/></div></div>
         </div>
 
 
@@ -163,6 +163,26 @@
         </div>
 
         <!-- Daily Route Endz-->
+
+
+        <!-- Scores and starts -->
+        <div class="row grey" style="position:relative;padding: 5px 10px 10px 10px;height: 10%;" id="homerating">
+                <div style="width: 50%">
+                        <div class="floatnone colorgrey" style="font-size: 15px;">Rating</div>
+                        <div class="floatnone">
+                            <div><img src="images/star_rate_icon_.png"></div><div class="colorblue" id="profilescore" style="font-size: 27px;margin-top: -4px;font-weight: bold;font-style: italic;"></div>
+                        </div>                
+                </div>
+                <div>
+                        <div class="floatnone colorgrey" style="font-size: 15px;">Points</div>
+                        <div class="floatnone">
+                            <div><img src="images/star_points_icon.png" height=28></div><div id="profilerating" class="colororange" style="font-size: 27px;margin-top: -4px;font-weight: bold;font-style: italic;"></div>
+                        </div>              
+                </div>
+        <div style="clear: both;float: none;"></div>
+        </div>
+        <!-- Scores and ends -->
+
         <div class="row colorgrey" style="border-bottom: 1px solid #3AC1F0;" >
         News Feed
         </div>
