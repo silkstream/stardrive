@@ -476,6 +476,11 @@ function Friend(friendid, friend_name, friend_img) {
 
 }
 
+
+
+
+
+
 function FriendsViewModel() {
     var self = this;
     self.allfriends = ko.observableArray();
