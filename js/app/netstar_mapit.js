@@ -22,11 +22,24 @@ function mapINIT() {
 
     var satelliteLayer = new deCarta.Core.MapLayer({
         tileStore: new deCarta.Core.SatelliteTileStore()
-    }); 
+    });
+
+
+    var controls = [];
+
+
+        controls.push(new deCarta.UI.SelectControl({ position: 'bottomLeft' }));
+        controls.push(new deCarta.UI.LocateControl({ position: 'leftTop' }));
+        controls.push(new deCarta.UI.LayerControl({ position: 'bottomRight' }));
+        //controls.push(new deCarta.UI.TrafficControl({position: 'rightTop'}));
+	 	
+
+
 
     MAP = new deCarta.Core.Map({
         id: "mapContainerzzz",
         center: center,
+        controls: controls,
         onReady: function (map) {
         }
 
