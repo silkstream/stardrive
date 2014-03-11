@@ -131,13 +131,13 @@ h1
 
 .left{
     
-    float: left;
+    float: left !important;
     
 }
 
 .right{
     
-    float: right;
+    float: right !important;
     
 }
 
@@ -547,5 +547,21 @@ text-align: center;
 {
     
     float: none !important;    
+    
+}
+
+.custominfowindow
+{
+    
+    position:absolute; top: 30%; left:0; width: 30%;background: #ffffff;z-index: 99999;  
+    display: none;  
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  opacity: 0.5;
+  padding: 10px;
     
 }
