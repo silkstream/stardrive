@@ -61,11 +61,44 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     //bindings for ratings
    ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('plotGraphContainer'));
    ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('sliderbox'));
-    
 
 
     $("#menu").hide();
     Application.showpage("page-intro");
+
+   if(window.localStorage.getItem("remembereduser")){
+
+           parsed = JSON.parse(window.localStorage.getItem("remembereduser"));
+            
+                    Application.masterVM.vmProfile.FirstName(parsed.FirstName);
+                    Application.masterVM.vmProfile.Surname(parsed.Surname);
+                    Application.masterVM.vmProfile.UserId(parsed.UserId);
+                    Application.masterVM.vmProfile.Image(parsed.Image);
+                    //Application.masterVM.vmProfile.Password(data[0].Stardriveuser.username);
+                    Application.masterVM.vmProfile.Email(parsed.Email);
+                    Application.masterVM.vmProfile.HomeAddress(parsed.HomeAddress);
+                    Application.masterVM.vmProfile.WorkAddress(parsed.WorkAddress);
+
+                    Application.masterVM.vmProfile.HomeAddresstext(parsed.HomeAddresstext);
+                    Application.masterVM.vmProfile.WorkAddresstext(parsed.WorkAddresstext);    
+            
+            
+            
+            Application.masterVM.vmWeather.pullWeather();
+            Application.masterVM.vmMessages.pullMessages();
+            Application.masterVM.vmAlerts.pullAlerts();
+            Application.masterVM.vmFriends.pullFriends();
+            Application.masterVM.vmStarRating.pullRatings(7);
+           Application.gotoPage('page-profile');
+    
+    }
+
+
+
+
+    var remembernot =1;
+    $('.rememberme').click(function(){if(remembernot == 1){remembernot = 0; $(this).find('.remembercheck div').addClass('darkgrey');$("#rememberme").val('1');}else{remembernot = 1; $(this).find('.remembercheck div').removeClass('darkgrey');$("#rememberme").val('0');}});
+
 
 
     $("#top-nav .logo").click(function () {

@@ -92,12 +92,15 @@ function LoginViewModel() {
 
     this.LoginData = ko.observable();
 
+    this.RememberMe = ko.observable(0);
+
     this.ErrorMessage = ko.computed(function () {
         return "You entered " + this.UserPassword() + " as a password";
     }, this);
 
 
     this.doLogout = function () {
+    window.localStorage.clear();
         Application.masterVM.vmProfile.FirstName('');
         Application.masterVM.vmProfile.Surname('');
         Application.masterVM.vmProfile.UserId('');
@@ -114,6 +117,12 @@ function LoginViewModel() {
 
     this.doLogin = function () {
         //Do a login
+
+
+
+        var self = this;
+
+
 
         if (this.UserPassword() == "123456") {
 
@@ -134,6 +143,16 @@ function LoginViewModel() {
 
                     Application.masterVM.vmProfile.HomeAddresstext(data[0].Stardriveuser.homeaddress1);
                     Application.masterVM.vmProfile.WorkAddresstext(data[0].Stardriveuser.workaddress1);
+
+                    if ($('#rememberme').val() == 1) {
+
+                        self.RememberMe(1);
+                        window.localStorage.setItem("remembereduser", ko.toJSON(Application.masterVM.vmProfile));
+
+                    }
+                    console.log("remembereduser");
+                    console.log(window.localStorage.getItem("remembereduser"));
+
 
                     Application.gotoPage('page-profile');
                 },
