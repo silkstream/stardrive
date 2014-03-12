@@ -565,3 +565,40 @@ text-align: center;
   padding: 10px;
     
 }
+
+.rememberme
+{
+
+    padding: 10px 0 !important;
+    width: 80% !important;
+    margin: auto;
+    cursor: pointer;
+    
+}
+
+.remembercheck
+{
+    
+    border: 2px solid #E7E7E8;  
+    width: 30px;
+    height: 30px;
+    padding: 3px;
+    border-radius: 5px;    
+    float: left;
+    
+}
+
+.clearfix
+{
+    
+    clear: both !important;
+    float: none !important;    
+    
+}
+
+.darkgrey
+{
+    
+background: #E7E7E8;    
+    
+}

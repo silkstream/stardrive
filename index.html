@@ -108,17 +108,22 @@
 
             <div class="blue button" data-bind="click: doLogin">Login</div>
             <div class="darkblue button" data-bind="click: doLogin">Connect with Facebook</div>
+            <input type="hidden" value="0" id="rememberme" />
+            <div class="rememberme"><div class="remembercheck"> <div style="width: 100%;height: 100%;border-radius: 5px;"></div></div>  <div class="colorgrey" style="line-height: 40px;margin-left: 10px;float: left;">Remember Me</div> 
+            <div class="clearfix"></div>
+            
+            </div>
             <div class="greybutton" onclick="return Application.gotoPage('page-forgotpw');">Forgot Password?</div>   
         </div>       
 <!-- Login Form Screen Ends -->
-<!-- Login Form Screen Starts -->
+<!-- Forgot password Screen Starts -->
         <div id="page-forgotpw" title="Forgot Password">
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
             <p><input type="email" pattern="[^ @]*@[^ @]*" placeholder="Email Address"/></p>
             <div class="blue button" data-bind="click: doLogin">Submit</div>
         </div>       
-<!-- Login Form Screen Ends -->
+<!-- Forgot password Screen Ends -->
 
 
 <!-- Profile Screen Starts -->
