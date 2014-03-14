@@ -240,12 +240,12 @@ function APPMANAGER() {
  
 
    if($("#" + pageName).attr('title') == "StarSight")
-   $("#demo").dragend({
-        scribe: "20px",
-        afterInitialize: function() {
-          this.container.style.visibility = "visible";
-        }
-      }).get(0);
+       $("#demo").dragend({
+            scribe: "20px",
+            afterInitialize: function() {
+              this.container.style.visibility = "visible";
+            }
+          }).get(0);
 
 
 
