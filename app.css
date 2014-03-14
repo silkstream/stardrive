@@ -602,3 +602,35 @@ text-align: center;
 background: #E7E7E8;    
     
 }
+
+
+
+.vehicleslide
+{
+    white-space: nowrap !important;   
+    
+}
+
+.vehicleslide ul
+{
+    
+    margin:0;
+    padding: 0;
+    width: 100% !important; 
+    overflow-x: hidden !important;
+    white-space: nowrap !important;   
+    list-style: none;
+    float: none !important;
+    
+}
+
+.vehicleslide li
+{
+    display: inline-block !important;
+    list-style-type: none;
+    width: 100% !important;
+    overflow-x: hidden;
+    float: none !important;
+}
+
+
