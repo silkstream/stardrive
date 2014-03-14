@@ -327,7 +327,7 @@
         margin: 0
       };
 
-      alert( container.innerHTML);
+
 
       this.pageContainer.innerHTML = container.cloneNode(true).innerHTML;
       container.innerHTML = "";
@@ -663,7 +663,6 @@
       _setPageDimentions: function() {
         var width  = this.container.offsetWidth,
             height = this.container.offsetHeight;
-
         if ( this.settings.direction === "horizontal" ) {
           width = width - parseInt( this.settings.scribe, 10 );
         } else {
@@ -671,8 +670,7 @@
         }
 
         this.pageDimentions = {
-          width : width,
-          height: height
+          width : width
         };
 
       },
