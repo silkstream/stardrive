@@ -144,6 +144,16 @@ function LoginViewModel() {
                     Application.masterVM.vmProfile.HomeAddresstext(data[0].Stardriveuser.homeaddress1);
                     Application.masterVM.vmProfile.WorkAddresstext(data[0].Stardriveuser.workaddress1);
 
+                    for (var i = 0; i < data[0].Vehicle.length; i++) {
+                        vehicleid = data[0].Vehicle[i].id;
+                        description = data[0].Vehicle[i].description; 
+                        status = data[0].Vehicle[i].status;
+                        avatar = "http://stardrive.cloudapp.net/img/" + data[0].Vehicle[i].photo;
+                        registration = data[0].Vehicle[i].registration;
+                        Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
+                    }
+
+
                     if ($('#rememberme').val() == 1) {
 
                         self.RememberMe(1);
@@ -184,7 +194,7 @@ function ProfileViewModel() {
     self.WorkAddress = ko.observable().extend({ reset: true });
     self.HomeAddresstext = ko.observable().extend({ reset: true });
     self.WorkAddresstext = ko.observable().extend({ reset: true });
-
+    self.Vehicles = ko.observableArray();
 
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
@@ -1159,9 +1169,18 @@ function StarRatingViewModel() {
             }
         };
 
+    }
 
 
 
 
 
-        }
+    function Vehicle(vehicleid, description, status, avatar, registration) {
+        var self = this;
+        self.VehicleId = ko.observable(vehicleid);
+        self.description = ko.observable(description);
+        self.status = ko.observable(status);
+        self.avatar = ko.observable(avatar);
+        self.registration = ko.observable(registration);
+
+    }

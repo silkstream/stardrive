@@ -1,5 +1,7 @@
 ﻿var Application;
 
+
+
 $(document).ready(function () {//CREATE APPLICATION PAGES
     Application = new APPMANAGER();
     Application.pages[0] = "#page-login";
@@ -14,6 +16,8 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     Application.pages[9] = "#page-location";
     Application.pages[10] = "#page-starratecomposition";
     Application.pages[11] = "#page-starratesliders";
+    Application.pages[12] = "#page-starsafe";
+    Application.pages[13] = "#page-starsight";
 
     Application.closePages();
     //console.log(Application.masterVM);
@@ -59,9 +63,17 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
 
     //ko.applyBindings(Application.masterVM.vmMessages, $(Application.pages[3])[0]);
     //bindings for ratings
-   ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('plotGraphContainer'));
-   ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('sliderbox'));
+        ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('plotGraphContainer'));
+        ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('sliderbox'));
 
+    //bindings for starsafe page
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('starsafevehicles'));
+
+
+        //bindings for starsight page
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('starsightvehicles'));
+
+    //var myScroll = new IScroll('', { scrollX: true, scrollY: false, mouseWheel: true });
 
     $("#menu").hide();
     Application.showpage("page-intro");
@@ -89,7 +101,7 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
             Application.masterVM.vmAlerts.pullAlerts();
             Application.masterVM.vmFriends.pullFriends();
             Application.masterVM.vmStarRating.pullRatings(7);
-           Application.gotoPage('page-profile');
+            Application.gotoPage('page-profile');
     
     }
 
@@ -188,6 +200,7 @@ $(".rotated").rotate(180);
 });
 
 
+
 function APPMANAGER() {
     //DECLARE LOCAL PROPERTIES AS NULL
     this.pages = new Array();
@@ -212,7 +225,31 @@ function APPMANAGER() {
         this.closePages();
         $("#menu").hide('slide', {direction: 'right'}, 300);
         //SHOW THE SELECTED WINDOW        
+
         this.showpage(pageName);
+       //var mySwiper = new Swiper('.vehicleslide');
+    //var mySwiper = $('.vehicleslide').swiper({
+    //Your options here:
+   // mode:'horizontal',
+   // loop: true,
+   // grabCursor: true
+    //etc..
+  //});
+       //reinitSwiper(mySwiper);
+
+ 
+
+   if($("#" + pageName).attr('title') == "StarSight")
+   $("#demo").dragend({
+        scribe: "20px",
+        afterInitialize: function() {
+          this.container.style.visibility = "visible";
+        }
+      }).get(0);
+
+
+
+
         $('html, body').animate({ scrollTop: 0 }, 0);
         if ($("#" + pageName).attr('title') == "StarRate")
             Application.masterVM.vmStarRating.pullRatings(7);
@@ -224,6 +261,8 @@ function APPMANAGER() {
         $("#title").html($("#" + pageName).attr('title'));
 
         //$("#" + pageName).show('slide', {direction: 'right'}, 300);
+        //$(".vehicleslide").jScroll({vScroll : true});
+
 
         $("#" + pageName).show();
         $('#pageheader').css('text-align', 'left');
@@ -397,5 +436,13 @@ function toggleratedays2(element){
 
         }
 
+
+}
+function reinitSwiper(swiper) {
+setTimeout(function () {
+    swiper.resizeFix();
+   // window.resize();
+    alert("reinit?");
+}, 1000);
 
 }
