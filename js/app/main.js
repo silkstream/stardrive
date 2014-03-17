@@ -241,13 +241,41 @@ function APPMANAGER() {
 
    if($("#" + pageName).attr('title') == "StarSight")
        $("#demo").dragend({
-            scribe: "20px",
             afterInitialize: function() {
               this.container.style.visibility = "visible";
+
+              if(this.page < this.pages.length - 1)
+              $("#swipenext").attr("rel", this.page+2);
+              if(this.page > 0)
+              $("#swipeprev").attr("rel", this.page);
+
+            },
+            onSwipeEnd: function(cont){ 
+              if(this.page < this.pages.length - 1)
+              $("#swipenext").attr("rel", this.page+2);
+              if(this.page > 0)
+              $("#swipeprev").attr("rel", this.page);
+               //console.log("thispage");
+               //console.log(this.activeElement);
+               //alert($(this.activeElement).attr("rel"));            
+ 
             }
-          }).get(0);
+          });
 
+      $("#swipeprev").click(function() {
+       var prevpage = $(this).attr("rel");
+        $("#demo").dragend({
+          scrollToPage: prevpage
+        });
+      });    
 
+      $("#swipenext").click(function() {
+      var nextpage = $(this).attr("rel");
+     // alert(nextpage);
+        $("#demo").dragend({
+          scrollToPage: nextpage
+        });
+      });
 
 
         $('html, body').animate({ scrollTop: 0 }, 0);
