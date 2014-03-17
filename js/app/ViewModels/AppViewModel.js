@@ -199,6 +199,26 @@ function ProfileViewModel() {
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
     }, self).extend({ reset: true });
+
+
+   /* ko.bindingHandlers.swiper = {
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            console.log(element);
+            $("."+element.className).dragend({
+                scribe: "20px",
+                afterInitialize: function () {
+                    this.container.style.visibility = "visible";
+                },
+                onSwipeEnd: function (cont) {
+
+                    alert("ok");
+
+                }
+            });
+        }
+    }*/
+
+
 }
 
 function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg) {
