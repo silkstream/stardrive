@@ -8,12 +8,10 @@
 		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
         <link rel="stylesheet" type="text/css" href="app.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/core.css" />
-
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/LayerControl.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/SelectControl.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/LocateControl.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/OverviewControl.css" />
-
         <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
@@ -23,7 +21,6 @@
         <script type="text/javascript" src="js/app/netstar_mapit.js"></script>
         <script type="text/javascript" src="js/app/main.js"></script>  
         <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
-
         <script type="text/javascript" src="js/lib/deCarta/deCarta.JS3.js"></script>
         <script type="text/javascript" src="js/lib/deCarta/UI/LocateControl.js"></script>
         <script type="text/javascript" src="js/lib/deCarta/UI/LayerControl.js"></script>
@@ -58,7 +55,7 @@
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsafe');"><div style="width: 40px;float: left"><img src="images/starsafe_btn.png" /></div><div style="float: left;width:50%;">StarSafe</div><div style="float:none; clear:both;"></div></div></li>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsocial');"><div style="width: 40px;float: left"><img src="images/starsocial.png" /></div><div style="float: left;width:50%;">StarSocial</div><div style="float:none; clear:both;"></div></div></li>   
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsight');"><div style="width: 40px;float: left"><img src="images/starsight_btn.png" /></div><div style="float: left;width:50%;">StarSight</div><div style="float:none; clear:both;"></div></div></li>   
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><div style="width: 40px;float: left"><img src="images/account_btn.png" /></div><div style="float: left;width:50%;">Account</div><div style="float:none; clear:both;"></div></div></li>
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-account');"><div style="width: 40px;float: left"><img src="images/account_btn.png" /></div><div style="float: left;width:50%;">Account</div><div style="float:none; clear:both;"></div></div></li>
              <!--  <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/settings_btn.png" />&nbsp;Settings</div></li>   -->              
                <li><div class="menuitem" onclick="return Application.masterVM.vmLogin.doLogout();"><div style="width: 40px;float: left"><img src="images/logout_btn.png" /></div><div style="float: left;width:50%;">Logout</div><div style="float:none; clear:both;"></div></div></li> 
                
@@ -114,7 +111,7 @@
             <input type="hidden" value="0" id="rememberme" />
             <div class="rememberme"><div class="remembercheck"> <div style="width: 100%;height: 100%;border-radius: 5px;"></div></div>  <div class="colorgrey" style="line-height: 40px;margin-left: 10px;float: left;">Remember Me</div> 
             <div class="clearfix"></div>
-            
+           
             </div>
             <div class="greybutton" onclick="return Application.gotoPage('page-forgotpw');">Forgot Password?</div>   
         </div>       
@@ -127,8 +124,31 @@
             <div class="blue button" data-bind="click: doLogin">Submit</div>
         </div>       
 <!-- Forgot password Screen Ends -->
-
-
+    <!--Account Screen Starts-->
+     <div id="page-account"  title="My Account" data-page-type="main">            
+       <div class="colorgrey"  id="accountblock" style="position:relative;width:95%;">
+            <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;">
+                 <div style="width:160px;">Username</div>
+                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.FullName"></div>
+             </div>
+            <div style="clear: both !important;float: none !important;"></div> 
+            <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;">
+                 <div style="width:160px;">Email Address</div>
+                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.Email"></div>
+             </div>
+            <div style="clear: both !important;float: none !important;"></div> 
+         <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;">
+                 <div style="width:160px;">Home Address</div>
+                 <div style="text-align:right;" class="colorblue"  data-bind="text: $data.HomeAddress"></div>
+             </div>
+        <div style="clear: both !important;float: none !important;"></div> 
+                <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;">
+                 <div style="width:160px;">Work Address</div>
+                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.WorkAddress"></div>
+             </div>
+        </div> 
+       </div>
+<!--Account Screen Ends-->
 <!-- Profile Screen Starts -->
         <div id="page-profile"  title="Profile" data-page-type="main">            
        <!-- <div class="row" style="height: 14%;position:relative;" id="profileblock">

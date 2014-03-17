@@ -1,0 +1,5 @@
+C:\Users\Carstensa\Documents\GitHub\stardrive\bin\stardrivemobile.dll
+C:\Users\Carstensa\Documents\GitHub\stardrive\bin\stardrivemobile.pdb
+C:\Users\Carstensa\Documents\GitHub\stardrive\obj\Debug\stardrivemobile.csprojResolveAssemblyReference.cache
+C:\Users\Carstensa\Documents\GitHub\stardrive\obj\Debug\stardrivemobile.dll
+C:\Users\Carstensa\Documents\GitHub\stardrive\obj\Debug\stardrivemobile.pdb

@@ -236,8 +236,6 @@ function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdat
 }
 
 
-
-
 function MessagesViewModel() {
     var self = this;
     self.allmessages = ko.observableArray();
@@ -362,7 +360,6 @@ function WeatherViewModel() {
     }
 
 }
-
 
 
 function Alert(alert_id, alert_type, alert_location, alert_description, alert_date) {
@@ -524,10 +521,6 @@ function Friend(friendid, friend_name, friend_img) {
     self.friend_img = ko.observable(friend_img);
 
 }
-
-
-
-
 
 
 function FriendsViewModel() {

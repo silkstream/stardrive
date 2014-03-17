@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6E4D930A-AC8E-441E-AAE1-E51F2C0B938E}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>stardrivemobile</RootNamespace>
+    <AssemblyName>stardrivemobile</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.css" />
+    <Content Include="config.xml" />
+    <Content Include="icon.png" />
+    <Content Include="images\accept_icon.png" />
+    <Content Include="images\accordion_down.png" />
+    <Content Include="images\account_btn.png" />
+    <Content Include="images\alerts_btn.png" />
+    <Content Include="images\alerts_btn_2.png" />
+    <Content Include="images\alert_btn_icon.png" />
+    <Content Include="images\alert_notification_icon.png" />
+    <Content Include="images\arrow_back.png" />
+    <Content Include="images\arrow_down_button.png" />
+    <Content Include="images\blue_star.png" />
+    <Content Include="images\cantact_form.png" />
+    <Content Include="images\check.png" />
+    <Content Include="images\clear_icon.png" />
+    <Content Include="images\clear_icon_delete_btn.png" />
+    <Content Include="images\connect_to_facebook_btn.png" />
+    <Content Include="images\decline_icon.png" />
+    <Content Include="images\destination_icon_1.png" />
+    <Content Include="images\down_arrow_icon.png" />
+    <Content Include="images\edit_icon.png" />
+    <Content Include="images\friend_photo_icon.png" />
+    <Content Include="images\green_start_icon.png" />
+    <Content Include="images\grey_tab_btn.png" />
+    <Content Include="images\home-button.png" />
+    <Content Include="images\location_icon.png" />
+    <Content Include="images\login_btn.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\logout_btn.png" />
+    <Content Include="images\mapitui\ajax-loader.gif" />
+    <Content Include="images\mapitui\ca.png" />
+    <Content Include="images\mapitui\closedhand.cur" />
+    <Content Include="images\mapitui\defaultPin.png" />
+    <Content Include="images\mapitui\gps.png" />
+    <Content Include="images\mapitui\gpsHover.png" />
+    <Content Include="images\mapitui\gpsOff.png" />
+    <Content Include="images\mapitui\gpsOn.png" />
+    <Content Include="images\mapitui\HTML5_Logo_64.png" />
+    <Content Include="images\mapitui\hybrid_off.png" />
+    <Content Include="images\mapitui\hybrid_on.png" />
+    <Content Include="images\mapitui\hybrid_rollover.png" />
+    <Content Include="images\mapitui\launch.png" />
+    <Content Include="images\mapitui\logo.png" />
+    <Content Include="images\mapitui\map_off.png" />
+    <Content Include="images\mapitui\map_on.png" />
+    <Content Include="images\mapitui\map_overview_hide.png" />
+    <Content Include="images\mapitui\map_overview_show.png" />
+    <Content Include="images\mapitui\map_rollover.png" />
+    <Content Include="images\mapitui\more.png" />
+    <Content Include="images\mapitui\openhand.cur" />
+    <Content Include="images\mapitui\pan.png" />
+    <Content Include="images\mapitui\pan_center.png" />
+    <Content Include="images\mapitui\pen.cur" />
+    <Content Include="images\mapitui\pin.png" />
+    <Content Include="images\mapitui\plane.png" />
+    <Content Include="images\mapitui\qz_off.png" />
+    <Content Include="images\mapitui\qz_on.png" />
+    <Content Include="images\mapitui\satellite_off.png" />
+    <Content Include="images\mapitui\satellite_on.png" />
+    <Content Include="images\mapitui\satellite_rollover.png" />
+    <Content Include="images\mapitui\spinner.gif" />
+    <Content Include="images\mapitui\watermark.png" />
+    <Content Include="images\mapitui\zoom_handle.png" />
+    <Content Include="images\mapitui\zoom_in.png" />
+    <Content Include="images\mapitui\zoom_out.png" />
+    <Content Include="images\mapitui\zoom_rail.png" />
+    <Content Include="images\message_btn_icon.png" />
+    <Content Include="images\message_notification_icon.png" />
+    <Content Include="images\messaging_btn.png" />
+    <Content Include="images\messaging_btn_2.png" />
+    <Content Include="images\on_btn.png" />
+    <Content Include="images\profile_overstate_bar.png" />
+    <Content Include="images\profile_understate_bar.png" />
+    <Content Include="images\red_end_icon.png" />
+    <Content Include="images\reply_icon.png" />
+    <Content Include="images\rewards_btn.png" />
+    <Content Include="images\rewards_btn_2.png" />
+    <Content Include="images\selection_btn.png" />
+    <Content Include="images\select_option_btn.png" />
+    <Content Include="images\select_option_overstate_btn.png" />
+    <Content Include="images\settings_btn.png" />
+    <Content Include="images\side_menu_icon.png" />
+    <Content Include="images\side_nav_btn.png" />
+    <Content Include="images\signup__btn.png" />
+    <Content Include="images\starrate_btn.png" />
+    <Content Include="images\starsafe_btn.png" />
+    <Content Include="images\starsight_btn.png" />
+    <Content Include="images\starsocial.png" />
+    <Content Include="images\starsocial_arrow.png" />
+    <Content Include="images\starsocial_icon_1.png" />
+    <Content Include="images\starsocial_icon_2.png" />
+    <Content Include="images\starsocial_menu_close.png" />
+    <Content Include="images\starsocial_menu_delete_icon.png" />
+    <Content Include="images\starsocial_menu_message_icon.png" />
+    <Content Include="images\starsocial_menu_profile_icon.png" />
+    <Content Include="images\startpoint_icon_1.png" />
+    <Content Include="images\star_drive_icon.png" />
+    <Content Include="images\star_drive_logo.png" />
+    <Content Include="images\star_orange_icon.png" />
+    <Content Include="images\star_points_icon.png" />
+    <Content Include="images\star_pts_icon_2.png" />
+    <Content Include="images\star_rate_icon_.png" />
+    <Content Include="images\tick_box.png" />
+    <Content Include="images\tips_icon.png" />
+    <Content Include="images\top_bar.png" />
+    <Content Include="images\top_left_side_bar_btn.png" />
+    <Content Include="images\top_right_corner_menu_btn.png" />
+    <Content Include="images\traffic_route_clear_icon.png" />
+    <Content Include="images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="images\upgrade_btn.png" />
+    <Content Include="index.html" />
+    <Content Include="json\30dayrating.js" />
+    <Content Include="json\7dayrating.js" />
+    <Content Include="json\90dayrating.js" />
+    <Content Include="json\getalerts.js" />
+    <Content Include="json\getfriends.js" />
+    <Content Include="json\getmessages.js" />
+    <Content Include="json\successlogin.js" />
+    <Content Include="js\app\main.js" />
+    <Content Include="js\app\netstar_mapit.js" />
+    <Content Include="js\app\ViewModels\AppViewModel.js" />
+    <Content Include="js\app\Views\login.html" />
+    <Content Include="js\lib\deCarta\Config.js" />
+    <Content Include="js\lib\deCarta\deCarta.JS3.js" />
+    <Content Include="js\lib\deCarta\deCarta.JS3.min.js" />
+    <Content Include="js\lib\deCarta\docHelpers.js" />
+    <Content Include="js\lib\deCarta\exampleUtils.js" />
+    <Content Include="js\lib\deCarta\jquery-tourbus.less.txt" />
+    <Content Include="js\lib\deCarta\jquery-tourbus.min.css" />
+    <Content Include="js\lib\deCarta\jquery-tourbus.min.js" />
+    <Content Include="js\lib\deCarta\jquery.infieldlabel.min.js" />
+    <Content Include="js\lib\deCarta\jquery.mCustomScrollbar.min.js" />
+    <Content Include="js\lib\deCarta\jquery.simpleWeather-2.3.min.js" />
+    <Content Include="js\lib\deCarta\jquery.slides.min.js" />
+    <Content Include="js\lib\deCarta\legacy.js" />
+    <Content Include="js\lib\deCarta\oauth.min.js" />
+    <Content Include="js\lib\deCarta\parsley.min.js" />
+    <Content Include="js\lib\deCarta\picker.date.js" />
+    <Content Include="js\lib\deCarta\picker.js" />
+    <Content Include="js\lib\deCarta\picker.time.js" />
+    <Content Include="js\lib\deCarta\UI\CopyrightControl.js" />
+    <Content Include="js\lib\deCarta\UI\ImagePack.js" />
+    <Content Include="js\lib\deCarta\UI\LayerControl.js" />
+    <Content Include="js\lib\deCarta\UI\LocateControl.js" />
+    <Content Include="js\lib\deCarta\UI\OverviewControl.js" />
+    <Content Include="js\lib\deCarta\UI\PanControl.js" />
+    <Content Include="js\lib\deCarta\UI\ScaleControl.js" />
+    <Content Include="js\lib\deCarta\UI\SelectControl.js" />
+    <Content Include="js\lib\deCarta\UI\TrafficControl.js" />
+    <Content Include="js\lib\deCarta\UI\ZoomControl.js" />
+    <Content Include="js\lib\deCarta\UI\ZoomControlMobile.js" />
+    <Content Include="js\lib\deCarta\upload.js" />
+    <Content Include="js\lib\dragend-0.2.0_rc3.js" />
+    <Content Include="js\lib\jquery-2.0.2.js" />
+    <Content Include="js\lib\jquery-ui.js" />
+    <Content Include="js\lib\jQueryRotate.js" />
+    <Content Include="js\lib\knockout-2.1.0.js" />
+    <Content Include="js\lib\knockout-3.0.0.js" />
+    <Content Include="js\require.js" />
+    <Content Include="preloader_JS.html" />
+    <None Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="splash\Default-Landscape.png" />
+    <Content Include="splash\Default-Landscape_at_2x.png" />
+    <Content Include="splash\Logo.png" />
+    <Content Include="splash\screen-hdpi-portrait.png" />
+    <Content Include="splash\screen-mdpi-portrait.png" />
+    <Content Include="splash\screen-xhdpi-portrait.png" />
+    <Content Include="Styles\deCarta\core.css" />
+    <Content Include="Styles\deCarta\default.css" />
+    <Content Include="Styles\deCarta\examples.css" />
+    <Content Include="Styles\deCarta\UI\CopyrightControl.css" />
+    <Content Include="Styles\deCarta\UI\LayerControl.css" />
+    <Content Include="Styles\deCarta\UI\LocateControl.css" />
+    <Content Include="Styles\deCarta\UI\OverviewControl.css" />
+    <Content Include="Styles\deCarta\UI\PanControl.css" />
+    <Content Include="Styles\deCarta\UI\ScaleControl.css" />
+    <Content Include="Styles\deCarta\UI\SelectControl.css" />
+    <Content Include="Styles\deCarta\UI\TrafficControl.css" />
+    <Content Include="Styles\deCarta\UI\ZoomControl.css" />
+    <Content Include="Styles\deCarta\UI\ZoomControlMobile.css" />
+    <Content Include="Styles\Site.css" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="js\lib\deCarta\deCarta.zip" />
+    <Content Include="tatstaus" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:59293/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

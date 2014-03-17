@@ -18,6 +18,8 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     Application.pages[11] = "#page-starratesliders";
     Application.pages[12] = "#page-starsafe";
     Application.pages[13] = "#page-starsight";
+    Application.pages[14] = "#page-account";
+
 
     Application.closePages();
     //console.log(Application.masterVM);
@@ -27,14 +29,16 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('top-nav'));
 
 
-//drawer
+    //drawer
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('navalert'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('navmsg'));
 
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('menutitle'));
 
+    //bindings for account home
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('accountblock'));
+
     //bindings for profile home
-    //ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('profileblock'));
     ko.applyBindings(Application.masterVM.vmWeather, document.getElementById('weather'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('latestmsg'));
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('latestalert'));
