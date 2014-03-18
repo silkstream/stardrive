@@ -243,7 +243,6 @@ function APPMANAGER() {
        $("#demo").dragend({
             afterInitialize: function() {
               this.container.style.visibility = "visible";
-
               if(this.page < this.pages.length - 1)
               $("#swipenext").attr("rel", this.page+2);
               if(this.page > 0)
@@ -255,11 +254,29 @@ function APPMANAGER() {
               $("#swipenext").attr("rel", this.page+2);
               if(this.page > 0)
               $("#swipeprev").attr("rel", this.page);
-               //console.log("thispage");
+               console.log("thispage");
+               console.log(Application.masterVM.vmProfile.netstarkey());
+               alert($(this.activeElement).attr("rel"));
+               gettrips($(this.activeElement).attr("rel"));
                //console.log(this.activeElement);
-               //alert($(this.activeElement).attr("rel"));            
+               console.log($(this.activeElement).attr("rel"));            
  
-            }
+            }/*,
+            onDragEnd: function(cont){ 
+              if(this.page < this.pages.length - 1)
+              $("#swipenext").attr("rel", this.page+2);
+              if(this.page > 0)
+              $("#swipeprev").attr("rel", this.page);
+               console.log("thispage");
+               console.log(Application.masterVM.vmProfile.netstarkey());
+               alert("fds");
+               gettrips($(this.activeElement).attr("rel"));
+               //console.log(this.activeElement);
+               console.log($(this.activeElement).attr("rel"));            
+ 
+            }*/
+
+
           });
 
       $("#swipeprev").click(function() {
