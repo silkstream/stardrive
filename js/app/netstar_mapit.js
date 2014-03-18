@@ -1,4 +1,4 @@
-﻿var PATH = "41.0.34.35:25000/uat/";
+﻿var PATH = "http://41.0.34.35:25000/uat/";
 var USER = new Object();
 var MAP;
 var alertPinOverlay;
@@ -7,6 +7,69 @@ var startendPinsOverlay;
 var speedingOverlay;
 var alertpin;
 var infowindow = 0;
+
+function callProxyPHP(proxy_url_ext, req_type, user_data, callback, async_val) {
+
+    var root_path = "http://10.0.0.24/";
+    //var url = root_path + "Stardriveusers/proxyConnect.json?data=" + proxy_url_ext;
+    var url = "http://jsonp.jit.su/?url="+proxy_url_ext;
+    $.ajax({
+        type: req_type,
+        url: url,
+        data: user_data,
+        async: async_val,
+       dataType: 'jsonp',
+        success: function (data) {
+            callback(data);
+        },
+        error: function (xhr, errorString, exception) {
+            console.log("xhr.status="+xhr.status+" error="+errorString+" exception=("+exception+")");
+        }
+    });
+}
+
+/* login */
+function netstar_login(username, password) {
+    var url = PATH + "login/" + username + "/" + password;
+    //callAjax(url, req_type, user_data, callback, async_val);
+
+    data = { username: username, password: password };
+
+    //ballAjax(url,'GET',data,loginCallback,false);
+    callProxyPHP(url, 'GET', ' ', loginCallback, false);
+}
+/* set user login */
+function loginCallback(callbackData) {
+    alert("netstar logged in");
+    console.log("login data ---------------------->",callbackData);
+    Application.masterVM.vmProfile.netstarkey(callbackData.Token);
+}
+
+
+function gettrips(vehicle) {
+
+    to = new Date();
+    to.setDate(to.getDate());
+    to = to.getFullYear() + ('0' + (to.getMonth() + 1)).slice(-2) + ('0' + to.getDate()).slice(-2) + "235930";
+
+    from = new Date();
+    from.setDate(from.getDate() - 3);
+    from = from.getFullYear() + ('0' + (from.getMonth() + 1)).slice(-2) + ('0' + from.getDate()).slice(-2) + "000000";
+
+
+
+    var url = PATH + Application.masterVM.vmProfile.netstarkey() + '/trips/' + vehicle + "/" + from + "/" + to;
+    console.log("trips:::::::::", url);
+    callProxyPHP(url, 'GET', " ", tripsCallback, true);
+
+
+}
+
+function tripsCallback(callbackData){
+console.log("trip callback");
+console.log(callbackData);
+
+}
 
 
 function mapINIT() {

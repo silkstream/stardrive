@@ -143,10 +143,10 @@ function LoginViewModel() {
 
                     Application.masterVM.vmProfile.HomeAddresstext(data[0].Stardriveuser.homeaddress1);
                     Application.masterVM.vmProfile.WorkAddresstext(data[0].Stardriveuser.workaddress1);
-
+                    netstar_login('colossusadmin', 'c0l0ssus');
                     for (var i = 0; i < data[0].Vehicle.length; i++) {
                         vehicleid = data[0].Vehicle[i].id;
-                        description = data[0].Vehicle[i].description; 
+                        description = data[0].Vehicle[i].description;
                         status = data[0].Vehicle[i].status;
                         avatar = "http://stardrive.cloudapp.net/img/" + data[0].Vehicle[i].photo;
                         registration = data[0].Vehicle[i].registration;
@@ -195,6 +195,7 @@ function ProfileViewModel() {
     self.HomeAddresstext = ko.observable().extend({ reset: true });
     self.WorkAddresstext = ko.observable().extend({ reset: true });
     self.Vehicles = ko.observableArray();
+    self.netstarkey = ko.observableArray('');
 
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
@@ -1195,5 +1196,33 @@ function StarRatingViewModel() {
         self.status = ko.observable(status);
         self.avatar = ko.observable(avatar);
         self.registration = ko.observable(registration);
+        self.trips = ko.observableArray();
 
+    }
+
+
+    function Trip() {
+        var self = this;
+        self.VehicleId = ko.observable();
+        self.tripid = ko.observable();
+        self.drivetime = ko.observable();
+        self.endtime = ko.observable();
+        self.idletime = ko.observable();
+        self.maxspeed = ko.observable();
+        self.startdate = ko.observable();
+        self.startometor = ko.observable();
+        self.totaldistance = ko.observable();
+        self.triptime = ko.observable();
+    }
+
+
+    function StarsightViewModel() { 
+    
+        var self = this;
+
+        self.tripstoshow = ko.observableArray();
+
+    
+    
+    
     }
