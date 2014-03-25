@@ -6,13 +6,15 @@
 		<meta http-equiv="Access-Control-Allow-Origin" content="*"> 
         <meta name="format-detection" content="telephone=no" />
 		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
+
         <link rel="stylesheet" type="text/css" href="app.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/core.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/LayerControl.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/SelectControl.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/LocateControl.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/OverviewControl.css" />
-        <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
+
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
         <script type="text/javascript" src="js/lib/knockout-3.0.0.js"></script>
@@ -21,24 +23,24 @@
         <script type="text/javascript" src="js/app/netstar_mapit.js"></script>
         <script type="text/javascript" src="js/app/main.js"></script>  
         <script type="text/javascript" src="js/app/ViewModels/AppViewModel.js"></script>       
+
         <script type="text/javascript" src="js/lib/deCarta/deCarta.JS3.js"></script>
         <script type="text/javascript" src="js/lib/deCarta/UI/LocateControl.js"></script>
         <script type="text/javascript" src="js/lib/deCarta/UI/LayerControl.js"></script>
         <script type="text/javascript" src="js/lib/deCarta/UI/SelectControl.js"></script>
         <script type="text/javascript" src="js/lib/deCarta/UI/OverviewControl.js"></script>
-             <!--  <script type="text/javascript" src="js/lib/iscroll.js"></script>
- <script type="text/javascript" src="js/lib/jScroll.js"></script>-->
- <!--
-  <link rel="stylesheet" href="Styles/idangerous.swiper.css"> -->
+
   <script defer src="js/lib/dragend-0.2.0_rc3.js"></script>
 
     </head>
     <body>
 
-
+    <div id="preloader">
+    <div class="loaderbg"></div>
+    <div class="loaderimg"><img src="images/ajax_loader_blue_48.gif" /></div>    
+    </div>
 
 <!-- Drawer Menu Starts -->
-
         <div id="menu">
 
         <div style="float:left;height: 100%;border-top-right-radius: 4px;box-shadow: 2px 2px 1px #888888;">
@@ -46,7 +48,6 @@
                     <img class="selectable" src="images/side_menu_icon.png" onclick="Application.toggleMenu();"/>
                 </div>
         </div>
-
             <ul>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-profile');" id="menutitle"><div style="width: 40px;float: left"><img src="images/alerts_btn.png" data-bind="attr: {src: Image}" style="width: 30px;border-radius: 3px;"/></div><span style="float:left;line-height: 30px;" data-bind="text: FirstName"></span><div style="float:none; clear:both;"></div></div></li>           
                <li><div class="menuitem" onclick="return Application.gotoPage('page-alerts');" id="navalert"><div style="width: 40px;float: left"><img src="images/alerts_btn.png" /></div><div style="float: left;width:50%;">ALERTS</div><span class="circleBase red colorwhite" style="padding: 6px 10px;float: right;" data-bind="text: allalerts().length"></span><div style="float:none; clear:both;"></div></div></li>   
@@ -56,30 +57,24 @@
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsocial');"><div style="width: 40px;float: left"><img src="images/starsocial.png" /></div><div style="float: left;width:50%;">StarSocial</div><div style="float:none; clear:both;"></div></div></li>   
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsight');"><div style="width: 40px;float: left"><img src="images/starsight_btn.png" /></div><div style="float: left;width:50%;">StarSight</div><div style="float:none; clear:both;"></div></div></li>   
                <li><div class="menuitem" onclick="return Application.gotoPage('page-account');"><div style="width: 40px;float: left"><img src="images/account_btn.png" /></div><div style="float: left;width:50%;">Account</div><div style="float:none; clear:both;"></div></div></li>
-             <!--  <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/settings_btn.png" />&nbsp;Settings</div></li>   -->              
-               <li><div class="menuitem" onclick="return Application.masterVM.vmLogin.doLogout();"><div style="width: 40px;float: left"><img src="images/logout_btn.png" /></div><div style="float: left;width:50%;">Logout</div><div style="float:none; clear:both;"></div></div></li> 
-               
-                                   
+                <!--  <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/settings_btn.png" />&nbsp;Settings</div></li>   -->              
+               <li><div class="menuitem" onclick="return Application.masterVM.vmLogin.doLogout();"><div style="width: 40px;float: left"><img src="images/logout_btn.png" /></div><div style="float: left;width:50%;">Logout</div><div style="float:none; clear:both;"></div></div></li>                                                   
             </ul>
             <div style="clear:both;"></div>
-
         </div>
 
 <!-- Drawer Menu Ends -->
-
         <div id="pagebody">
 
 <!-- Top Navigation Starts -->
-
         <div id="top-nav" style="vertical-align: middle;">
-           <div class="left selectable" id="nav-left" style="width:5% !important; min-height: 1px;min-width: 55px;" data-bind="attr: {'data-mypic' : Image}"><img src="images/arrow_back.png" class="logo"/></div>
+           <div class="left selectable" id="nav-left" style="width:auto; min-height: 1px;min-width: 55px; " data-bind="attr: {'data-mypic' : Image}"><img src="images/arrow_back.png" class="logo"/></div>
            <div class="left" id="pageheader" style="margin-top: 15px;width: 80%;position: relative;"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span>
                 <div style="position: absolute;right: 10px;top: 0;font-size: 20px;" id="headerratings" class="colorgrey"><b><i><span id="headingscore" class="colorblue"></span>/<span id="headingrating"  class="colororange"></span></i></b></div>
            </div>
            <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;margin-top: 15px;"><img src="images/side_menu_icon.png" class="drawer" onclick="Application.toggleMenu();"/></div>
            <div style="clear: both;"></div>
         </div>
-
 <!-- Top Navigation Ends -->
 
 
@@ -109,11 +104,14 @@
             <div class="blue button" data-bind="click: doLogin">Login</div>
             <div class="darkblue button" data-bind="click: doLogin">Connect with Facebook</div>
             <input type="hidden" value="0" id="rememberme" />
-            <div class="rememberme"><div class="remembercheck"> <div style="width: 100%;height: 100%;border-radius: 5px;"></div></div>  <div class="colorgrey" style="line-height: 40px;margin-left: 10px;float: left;">Remember Me</div> 
+            <div class="rememberme"><div class="remembercheck"> <div style="width: 100%;height: 100%;border-radius: 5px;"></div></div>  
+            <div class="colorgrey" style="line-height: 40px;margin-left: 10px;float: left;">Remember Me</div> 
+            
             <div class="clearfix"></div>
-           
+            
             </div>
             <div class="greybutton" onclick="return Application.gotoPage('page-forgotpw');">Forgot Password?</div>   
+            <div class="greybutton" ><a href="http://www.stardrive.co.za/newuser" class="blue_link">New User</a></div>
         </div>       
 <!-- Login Form Screen Ends -->
 <!-- Forgot password Screen Starts -->
@@ -124,7 +122,8 @@
             <div class="blue button" data-bind="click: doLogin">Submit</div>
         </div>       
 <!-- Forgot password Screen Ends -->
-    <!--Account Screen Starts-->
+
+<!--Account Screen Starts-->
      <div id="page-account"  title="My Account" data-page-type="main">            
        <div class="colorgrey"  id="accountblock" style="position:relative;width:95%;">
             <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;">
@@ -137,18 +136,38 @@
                  <div style="text-align:right;" class="colorblue" data-bind="text: $data.Email"></div>
              </div>
             <div style="clear: both !important;float: none !important;"></div> 
-         <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;">
+         <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;" data-bind="click: function(){Application.masterVM.vmProfile.showHomeAddress()}">
                  <div style="width:160px;">Home Address</div>
-                 <div style="text-align:right;" class="colorblue"  data-bind="text: $data.HomeAddress"></div>
+                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.HomeAddresstext" ></div>
              </div>
         <div style="clear: both !important;float: none !important;"></div> 
-                <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;">
+             <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;" data-bind="click: function(){Application.masterVM.vmProfile.showWorkAddress()}">
                  <div style="width:160px;">Work Address</div>
-                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.WorkAddress"></div>
+                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.WorkAddresstext"></div>
              </div>
-        </div> 
+        </div>        
        </div>
 <!--Account Screen Ends-->
+<!--Change Home Address Screen Starts-->
+    <div id="page-homeaddress" title="Home Address">
+            <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
+            <div></div>
+            <p><input type="text"  placeholder="Street Address"/></p>
+            <p><input type="text"  placeholder="City"/></p>
+            <p><input type="text"  placeholder="Postal Code"/></p>
+            <div class="blue button" onclick="Application.masterVM.vmProfile.setHomeAddress()">Save</div>
+        </div>
+<!--change home address screen ends-->
+<!--Change Work Address Screen Starts-->
+    <div id="page-workaddress" title="Work Address">
+            <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
+            <div></div>
+            <p><input type="text"  placeholder="Street Address"/></p>
+            <p><input type="text"  placeholder="City"/></p>
+            <p><input type="text"  placeholder="Postal Code"/></p>
+            <div class="blue button" onclick="Application.masterVM.vmProfile.setWorkAddress()">Save</div>
+        </div>
+<!--change home address screen ends-->
 <!-- Profile Screen Starts -->
         <div id="page-profile"  title="Profile" data-page-type="main">            
        <!-- <div class="row" style="height: 14%;position:relative;" id="profileblock">
@@ -171,7 +190,6 @@
         <div class="colorgrey">
             <span data-bind="text: $data.town" class="colorblue" style="font-size: 15px;font-weight:bold;"></span><br>
             <span data-bind="html: $data.degreedesc" style="font-size: 15px;"></span>
-
          <div style="clear: both !important;float: none !important;"></div>
         </div>
 
@@ -180,19 +198,27 @@
         
         <!-- Daily Route Starts-->
         <div class="row grey" style="position:relative;" id="daylyroute"  >
-        <div class="colorgrey" style="margin: auto 0px ;width: 100%;">
-            <div style="font-size: 15px;float:none;" onclick="toggleroute('fromhome')"><div style="width: 120px;">Route Work</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;" class="rotated"/></div></div>
-            <div id="fromhome" onclick="Application.masterVM.vmMaps.setchosenroute('homework')" style="width: 100%;">
-                <div style="width: 60%;" class="colorblue"><span class="colorblue" data-bind="text: HomeAddresstext">Location</span> to <span class="colorblue" data-bind="text: WorkAddresstext">Location</span></div>
-                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>            
-            </div>
+        <div class="colorgrey" style="margin: auto 0px;width: 100%;">
+            <div style="font-size: 15px;float:none;width:100%;" onclick="toggleroute('fromhome')">
+                <div style="width: 120px;">Route Work</div>
+                <div style="margin-left: 10px;">
+                    <img src="images/accordion_down.png" style="width: 20px;" />
+                </div>
+                <div style="width: 100%;display:none;" id="lblWorkAddress" class="colorblue"><span class="colorblue" data-bind="text: WorkAddresstext"></div>
+                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
+            </div> 
+            <br />
+            <br />
+            <div onclick="toggleroute('fromwork')" style="font-size: 15px;float:none;width:100%;">
+                <div style="width: 120px;">Route Home</div>
+                <div style="margin-left: 10px;">
+                    <img src="images/accordion_down.png" style="width: 20px;"/>
+                </div>
+                <div style="width: 100%;display:none;" id="lblHomeAddress" class="colorblue"><span class="colorblue" data-bind="text: HomeAddresstext"></div>
+                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
 
-            <div id="fromwork" onclick="Application.masterVM.vmMaps.setchosenroute('workhome')" style="width: 100%;display: none;">
-                <div style="width: 60%;" class="colorblue"><span class="colorblue" data-bind="text: WorkAddresstext">Location</span> to <span class="colorblue" data-bind="text: HomeAddresstext">Location</span></div>
-                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>            
             </div>
-
-            <div onclick="toggleroute('fromwork')" style="font-size: 15px;float:none;"><div style="width: 120px;">Route Home</div><div style="margin-left: 10px;"><img src="images/accordion_down.png" style="width: 20px;"/></div></div>
+ 
         </div>
 
 
@@ -263,20 +289,11 @@
         </div>
 
 
-
-
-
-
-
-
-
         <!--Latest  Message -->
         <div data-bind="foreach: allmessages"  id="latestmsg" style="position: relative;">
-        
-  
+          
        <!-- ko if: ( $index() === ($parent.allmessages().length -1)) -->
               <div class="row colorgrey" style="position: relative;width: 100%;padding: 0;">    
-       
        
                        <div style="width:100%;padding:  10px 0 10px 0;" class="colorgrey"  onclick="showmsgcontrol(this);">
                                <div style="text-align: center;width: 10%;"> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
@@ -294,7 +311,6 @@
                                <div style="float: left;width: 10%;margin: 30px 0 20px 0;text-align: right;"  class="arrow">
                                         <img src="images/accordion_down.png"> 
                                </div>
-
 
                                <div style="clear:both;float:none;"></div>
 
@@ -535,6 +551,13 @@
                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
                <div style="clear:both;float:none;"></div>  
             </div>
+            <div class="row grey colorblue"   data-bind="visible: (whattoshow() === 'trip'),with:chosenroute">
+               <div style="width: 60%;" class="colorgrey"><span class="colorblue" data-bind="text: fromtext">Location</span><span class='colorblue'> to </span><span class="colorblue" data-bind="text: totext">Location</span><br/>
+               (<span data-bind="text: datetime">fdf</span>)
+               </div>               
+               <div style="clear:both;float:none;"></div>  
+            </div>
+
         </div>
                        
                 <div id="mapContainerzzz" name="mapContainerzzz" style="position:relative;backgound: #666666;float:none;overflow: hidden;">
@@ -787,17 +810,14 @@
                              <div class="vehicleslide" style="position: relative;width: 90%;"   id="demo"  data-bind="foreach: Vehicles">
                                 <div class="dragend-page" style="width:100%;" rel="" data-bind="attr { rel: $data.VehicleId}">
                                     <div style="width: 20%;padding-left: 10px;"> <img src="" data-bind="attr: { src: $data.avatar}" style="width: 100%;border-radius: 5px;"></div>
-                                    <div> Vehicle<br/><span class="colorblue" data-bind="text: $data.registration" ></span></div>
-                                    <div style="width: 20%;padding: 10px;padding-left: 10px;float: right;text-align: right;" class="colorgrey"> Status<br/><span class="colorblue" data-bind="text: $data.status" ></span></div>
+                                    <div> Vehicle<br/><span class="colorblue" data-bind="text: description" ></span></div>
+                                    <div style="width: 20%;padding: 10px;padding-left: 10px;float: right;text-align: right;" class="colorgrey"> Status<br/><span class="status colorblue" data-bind="text: $data.status"></span></div>
                                     <div class="clearfix"></div>        
                                     <hr style="border: 1px solid #E7E7E8;"/>
-                                    <div style="width: 40%;padding-left: 10px;" class="colorgrey">Ave Speed<br/><span class="colorblue" ><b>94</b> km/h</span></div>
-                                    <div style="width: 40%;padding-right: 10px;float: right;text-align: right;" class="colorgrey">Max Speed<br/><span class="colorblue"><b>132</b> km/h</span></div>
-
+                                    <div style="width: 40%;padding-left: 10px;" class="colorgrey">Ave Speed<br/><span class="colorblue" ><b><span class="avgspeed" >94</span></b> km/h</span></div>
+                                    <div style="width: 40%;padding-right: 10px;float: right;text-align: right;" class="colorgrey">Max Speed<br/><b><span class="colorblue"><span class="maxspeed">132</span> km/h</span></b></div>
                                     <div class="clearfix"></div>                                  
-                                </div>
-
-                                
+                                </div>                                
                             </div>
                      <div style="width: 5%;height: 20% !important;position: relative;"   id="swipenext"><img src="images/arrow_back.png"   class="rotated" style="position: absolute; bottom: 0px;left: 30%;"></div>
                      <div class="clearfix"></div>
@@ -805,6 +825,52 @@
           
              </div>
              </div>
+            <div class="grey row colorblue" syle="text-align: center;">
+               <div class="left" style="width:10% !important; min-height: 5px;min-width: 10%;" ></div>
+               <div class="left" style="width:75%;min-width:75% !important;text-align:center;position: relative;" id="Div1">           
+                        <div style="width: 100%;" id="lasttrip">Last 3 Days</div>                               
+             </div>
+
+             <div style="float: left;width: 10%;position: relative;margin: 5px 0 5px 0;">
+                            <img src="images/arrow_down_button.png"  style="position: absolute !important;right: 0 !important;">
+             </div>
+
+                    <div style="clear: both;float:none;"></div>
+                                              
+            </div>
+
+            <div id="trips" class="white row colorblue" style="text-align: center;width: 100%;position: relative;margin:0;padding: 0;">
+                <div class="atrip white"  style="float:none;width: 100%;position: relative;padding:0;margin:0px !important;border-bottom: 1px solid #E7E7E8;padding: 10px 0 0px 0 !important;">                    
+                        <div class="atripdetail" style="float:none;width: 100%;position: relative;padding:0;margin:0;" >
+                            <div style="position: relative;width: 85%;padding-left: 10px;padding-bottom: 10px;">
+                                    <div class="colorgrey" style="width: 15%;"><span class="colorred alertcount">5</span><br/>Alerts</div>
+                                    <div style="width: 70% !important;text-align: left;padding-left: 5px;" class="triplink"  onclick="Application.masterVM.vmMaps.setchosenroute(this)"><span class="colorblue tripaddress" style="float:none;">Durbanville to Cape town</span><br/><span class="colorgrey tripdatetime" style="float:none;">26 May 2014 14:00 AM</span></div>                                
+                                    <div><div class="button blue busprivbut" style="padding: 10px;margin: 0;">B</div></div>
+                            </div>
+
+                            <div style="float: left;width: 10%;text-align: right;" class="arrow" onclick="showalertcontrol(this.parentElement);">
+                                <img src="images/accordion_down.png">
+                           </div>
+                      
+
+                        </div>
+                         <div style="clear: both;float:none;"></div>
+                        <div class="alertcontrol atripalerts grey" style="float:none;padding:0;margin:0;display: none;">
+                                    <div style="position: relative;width: 85%;padding-left: 10px;">
+                                        <div class="colorgrey"  style="width: 15%;text-align: center;padding-top: 10px;"><img src="images/alert_notification_icon.png"></div>
+                                        <div style="width: 70% !important;text-align: left;padding-left: 5px;"><span class="colorred" style="float:none;">Speeding</span><br/><span class="colorgrey alerttime" style="float:none;">26 May 2014 14:00 AM</span></div>                                   
+                                    </div>
+                                     <div style="clear: both;float:none;"></div>                                    
+
+                        </div>
+
+                        <div style="clear: both;float:none;"></div>
+                </div>
+
+                <div style="clear: both;float:none;"></div>
+
+            </div>
+
 
 
         </div> 

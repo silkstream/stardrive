@@ -7,7 +7,6 @@
         $.extend(this, options);
     }
 };
-
 ko.asyncComputed = function (evaluatorFunction, target) {
 
     var loaded = ko.observable(false);
@@ -78,29 +77,19 @@ ko.asyncComputed = function (evaluatorFunction, target) {
 
 ///*********************************
 
-
-
-
-
 function LoginViewModel() {
 
     this.LoginName = ko.observable("Email Address");
-
     this.UserPassword = ko.observable("123456");
-
     this.LoginFail = ko.observable(false);
-
     this.LoginData = ko.observable();
-
     this.RememberMe = ko.observable(0);
-
     this.ErrorMessage = ko.computed(function () {
         return "You entered " + this.UserPassword() + " as a password";
     }, this);
 
-
     this.doLogout = function () {
-    window.localStorage.clear();
+        window.localStorage.clear();
         Application.masterVM.vmProfile.FirstName('');
         Application.masterVM.vmProfile.Surname('');
         Application.masterVM.vmProfile.UserId('');
@@ -113,72 +102,81 @@ function LoginViewModel() {
         Application.gotoPage('page-intro');
     }
 
-
-
     this.doLogin = function () {
         //Do a login
 
-
-
         var self = this;
+        $.ajax({
+
+            url: 'http://stardrive.cloudapp.net/stardriveusers/loginMobile.json?username=' + this.LoginName() + '&password=' + this.UserPassword() + "&",
+            data: { username: this.LoginName(), password: this.UserPassword() },
+            success: function (data) {
+                console.log(data);
+                Application.masterVM.vmProfile.FirstName(data.Stardriveuser.username);
+                Application.masterVM.vmProfile.Surname(data.Stardriveuser.surname);
+                Application.masterVM.vmProfile.UserId(data.Stardriveuser.id);
+                Application.masterVM.vmProfile.Image("http://stardrive.cloudapp.net/" + data.Stardriveuser.userimage);
+                //Application.masterVM.vmProfile.Password(data[0].Stardriveuser.username);
+                Application.masterVM.vmProfile.Email(data.Stardriveuser.emailaddress);
+                Application.masterVM.vmProfile.HomeAddress(data.Stardriveuser.homeaddresscords);
+                Application.masterVM.vmProfile.WorkAddress(data.Stardriveuser.workaddresscords);
+
+                Application.masterVM.vmProfile.HomeAddresstext(data.Stardriveuser.homeaddress1);
+                Application.masterVM.vmProfile.WorkAddresstext(data.Stardriveuser.workaddress1);
+                Application.masterVM.vmProfile.stardrivekey(data.key);
+
+                for (var i = 0; i < data.Vehicle.length; i++) {
+                    vehicleid = data.Vehicle[i].id;
+                    description = data.Vehicle[i].description;
+                    status = data.Vehicle[i].status;
+                    avatar = "http://stardrive.cloudapp.net/img/" + data.Vehicle[i].photo;
+                    registration = data.Vehicle[i].registration;
+                    Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
+                }
+
+
+                if ($('#rememberme').val() == 1) {
+
+                    self.RememberMe(1);
+                    window.localStorage.setItem("remembereduser", ko.toJSON(Application.masterVM.vmProfile));
+
+                }
+                console.log("remembereduser");
+                console.log(window.localStorage.getItem("remembereduser"));
+
+                Application.masterVM.vmWeather.pullWeather();
+                Application.masterVM.vmMessages.pullMessages();
+                Application.masterVM.vmAlerts.pullAlerts();
+                Application.masterVM.vmFriends.pullFriends();
+                Application.masterVM.vmStarRating.pullRatings(7);
+                Application.gotoPage('page-profile');
 
 
 
-        if (this.UserPassword() == "123456") {
+            },
+            dataType: 'json',
+            crossDomain: true
+        });
 
+
+
+       /* if (this.UserPassword() == "123456") {
 
             $.ajax({
                 url: window.location.pathname + '/../json/successlogin.js',
                 data: { username: this.LoginName(), password: this.UserPassword() },
                 success: function (data) {
                     // console.log(data[0].Stardriveuser);
-                    Application.masterVM.vmProfile.FirstName(data[0].Stardriveuser.username);
-                    Application.masterVM.vmProfile.Surname(data[0].Stardriveuser.surname);
-                    Application.masterVM.vmProfile.UserId(data[0].Stardriveuser.id);
-                    Application.masterVM.vmProfile.Image("http://stardrive.cloudapp.net/" + data[0].Stardriveuser.userimage);
-                    //Application.masterVM.vmProfile.Password(data[0].Stardriveuser.username);
-                    Application.masterVM.vmProfile.Email(data[0].Stardriveuser.emailaddress);
-                    Application.masterVM.vmProfile.HomeAddress(data[0].Stardriveuser.homeaddresscords);
-                    Application.masterVM.vmProfile.WorkAddress(data[0].Stardriveuser.workaddresscords);
-
-                    Application.masterVM.vmProfile.HomeAddresstext(data[0].Stardriveuser.homeaddress1);
-                    Application.masterVM.vmProfile.WorkAddresstext(data[0].Stardriveuser.workaddress1);
-                    netstar_login('colossusadmin', 'c0l0ssus');
-                    for (var i = 0; i < data[0].Vehicle.length; i++) {
-                        vehicleid = data[0].Vehicle[i].id;
-                        description = data[0].Vehicle[i].description;
-                        status = data[0].Vehicle[i].status;
-                        avatar = "http://stardrive.cloudapp.net/img/" + data[0].Vehicle[i].photo;
-                        registration = data[0].Vehicle[i].registration;
-                        Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
-                    }
-
-
-                    if ($('#rememberme').val() == 1) {
-
-                        self.RememberMe(1);
-                        window.localStorage.setItem("remembereduser", ko.toJSON(Application.masterVM.vmProfile));
-
-                    }
-                    console.log("remembereduser");
-                    console.log(window.localStorage.getItem("remembereduser"));
-
-
-                    Application.gotoPage('page-profile');
+                    
                 },
                 dataType: 'json'
             });
 
 
-            Application.masterVM.vmWeather.pullWeather();
-            Application.masterVM.vmMessages.pullMessages();
-            Application.masterVM.vmAlerts.pullAlerts();
-            Application.masterVM.vmFriends.pullFriends();
-            Application.masterVM.vmStarRating.pullRatings(7);
         }
         else {
             this.LoginFail(true);
-        }
+        }*/
     }
 }
 
@@ -196,30 +194,35 @@ function ProfileViewModel() {
     self.WorkAddresstext = ko.observable().extend({ reset: true });
     self.Vehicles = ko.observableArray();
     self.netstarkey = ko.observableArray('');
+    self.stardrivekey = ko.observableArray('');
 
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
     }, self).extend({ reset: true });
 
+    self.chosenVehicleTripData = ko.observable();
 
-   /* ko.bindingHandlers.swiper = {
-        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            console.log(element);
-            $("."+element.className).dragend({
-                scribe: "20px",
-                afterInitialize: function () {
-                    this.container.style.visibility = "visible";
-                },
-                onSwipeEnd: function (cont) {
+    self.showHomeAddress = function () {
+        //Set the home address;
+        console.log("entering home address screen");
+        Application.gotoPage('page-homeaddress');
+    }
 
-                    alert("ok");
+    self.setHomeAddress = function () {
+        //build up the json value and submit it to the API
+        console.log("Setting home address");
+    }
 
-                }
-            });
-        }
-    }*/
+    self.showWorkAddress = function () {
+        //Set the home address;
+        console.log("entering work address screen");
+        Application.gotoPage('page-workaddress');
+    }
 
-
+    self.setWorkAddress = function () {
+        //build up the json value and submit it to the API
+        console.log("Setting work address");
+    }
 }
 
 function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg) {
@@ -236,13 +239,10 @@ function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdat
     self.reminder = ko.observable(reminder);
 }
 
-
 function MessagesViewModel() {
     var self = this;
     self.allmessages = ko.observableArray();
     self.outbox = ko.observableArray();
-
-
     self.chosenmsg = ko.observable();
 
     self.setchosenmsg = function (msgobj) {
@@ -250,8 +250,6 @@ function MessagesViewModel() {
         Application.masterVM.vmMessages.chosenmsg(msgobj);
         Application.gotoPage('page-messages');
     }
-
-
     self.setchosenmsgfrnd = function (friend_id) {
         var theid = $("#friend_id").val();
         var thename = $("#friend_name").val();
@@ -264,26 +262,14 @@ function MessagesViewModel() {
         $('.friendModal').dialog('close');
         Application.gotoPage('page-messages');
     }
-
-
     self.delmessage = function () {
-
         Application.masterVM.vmMessages.allmessages.remove(this);
-
     }
-
-
     self.sendmessage = function (mydata) {
         //alert($("#newmessage").val());
         Application.masterVM.vmMessages.outbox.push(new Message('zz', mydata.toid(), mydata.toname(), mydata.fromid(), mydata.fromname(), mydata.subject(), $("#newmessage").val(), "2014-02-02", "0", ""));
-
         Application.gotoPage('page-starsocial');
-
     }
-
-
-
-
     self.pullMessages = function () {
 
         $.ajax({
@@ -326,9 +312,7 @@ function MessagesViewModel() {
 
     };
 
-
 }
-
 
 function WeatherViewModel() {
     var self = this;
@@ -351,7 +335,7 @@ function WeatherViewModel() {
                 //console.log(data.main.temp);
                 Application.masterVM.vmWeather.pic("http://openweathermap.org/img/w/" + data.weather[0].icon);
                 Application.masterVM.vmWeather.town("Cape Town");
-                Application.masterVM.vmWeather.degree(data.main.temp + "");
+                Application.masterVM.vmWeather.degree(Math.round(data.main.temp * 10) / 10 + " &deg;C ");
                 Application.masterVM.vmWeather.description(data.weather[0].description);
             },
             dataType: 'json'
@@ -361,7 +345,6 @@ function WeatherViewModel() {
     }
 
 }
-
 
 function Alert(alert_id, alert_type, alert_location, alert_description, alert_date) {
 
@@ -417,7 +400,6 @@ function Alert(alert_id, alert_type, alert_location, alert_description, alert_da
 
 }
 
-
 function AlertsViewModel() {
     var self = this;
     self.allalerts = ko.observableArray();
@@ -472,7 +454,7 @@ function AlertsViewModel() {
 
                     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-                    alert_date = monthNames[alert_date.getMonth()] + " " + alert_date.getMonth() + ', ' + alert_date.getUTCFullYear();
+                    alert_date = monthNames[alert_date.getMonth()] + " " + alert_date.getMonth() + ', ' + alert_date.getUTCFullYear() + " " + data[i].Alerttime+":00 AM";
 
                     var alert_description = "";
                     switch (alert_type) {
@@ -514,7 +496,6 @@ function AlertsViewModel() {
 
 }
 
-
 function Friend(friendid, friend_name, friend_img) {
     var self = this;
     self.friend_id = ko.observable(friendid);
@@ -522,7 +503,6 @@ function Friend(friendid, friend_name, friend_img) {
     self.friend_img = ko.observable(friend_img);
 
 }
-
 
 function FriendsViewModel() {
     var self = this;
@@ -570,12 +550,13 @@ function FriendsViewModel() {
     };
 }
 
-function Routes(from, fromtext, to, totext) {
+function Routes(from, fromtext, to, totext, datetime) {
     var self = this;
     self.from = ko.observable(from);
     self.to = ko.observable(to);
     self.fromtext = ko.observable(fromtext);
-    self.totext = ko.observable(totext);   
+    self.totext = ko.observable(totext);
+    self.datetime = ko.observable(datetime);
 
 }
 
@@ -607,10 +588,12 @@ function MapsViewModel() {
 
 
     self.setchosenroute = function (way) {
+
+
         self.whattoshow("route");
 
         // Application.masterVM.vmMaps.chosenroute(tripobj);
-       
+
 
         if (self.initmap == '0') {
             mapINIT();
@@ -623,25 +606,75 @@ function MapsViewModel() {
         homeaddress = Application.masterVM.vmProfile.HomeAddress().split(',');
         workaddress = Application.masterVM.vmProfile.WorkAddress().split(',');
 
-        tripbobj = [{ lat: homeaddress[0], lon: homeaddress[1] }, { lat: workaddress[0], lon: workaddress[1]}];
+        var tripbobj = [{ lat: homeaddress[0], lon: homeaddress[1] }, { lat: workaddress[0], lon: workaddress[1]}];
 
+
+
+        if (way != 'homework' && way != 'workhome') {
+            self.whattoshow("trip");
+            tripbobj = $(way).attr("rel");
+            tripbobj = JSON.parse(tripbobj);
+
+            console.log("for trip");
+            console.log(tripbobj);
+
+        }
+
+        //  alert(homeaddrezz);
+        // alert(workaddrezz);
+        var homeaddrezz = (Application.masterVM.vmProfile.HomeAddress());
+        var workaddrezz = (Application.masterVM.vmProfile.WorkAddress());
+
+
+        var homeaddrezztxt = (Application.masterVM.vmProfile.HomeAddresstext());
+        var workaddrezztxt = (Application.masterVM.vmProfile.WorkAddresstext());
         showtrip(tripbobj);
-        
-         var   homeaddrezz = (Application.masterVM.vmProfile.HomeAddress());
-         var workaddrezz = (Application.masterVM.vmProfile.WorkAddress());
+        var routeobj;
+        switch (way) {
+            case 'homework': routeobj = new Routes(homeaddrezz, homeaddrezztxt, workaddrezz, workaddrezztxt, "0"); break;
+            case 'workhome': routeobj = new Routes(workaddrezz, workaddrezztxt, homeaddrezz, homeaddrezztxt, "0"); break;
+            default:
+
+                var fromaddress = tripbobj[0].geoaddress.split(',');
+                fromaddress = fromaddress[fromaddress.length - 1];
+                fromcords = tripbobj[0].lat + ", " + tripbobj[0].lon;
+
+                var toaddress = tripbobj[tripbobj.length - 1].geoaddress.split(',');
+                toaddress = toaddress[toaddress.length - 1];
+                tocords = tripbobj[tripbobj.length - 1].lat + ", " + tripbobj[tripbobj.length - 1].lon;
+
+               /* datetime = datetime.split("T");
+                time = datetime[1];
+                time = time.split(":");
 
 
-         var homeaddrezztxt = (Application.masterVM.vmProfile.HomeAddresstext());
-         var workaddrezztxt = (Application.masterVM.vmProfile.WorkAddresstext());
-      //  alert(homeaddrezz);
-       // alert(workaddrezz);
+                datetime = datetime[0].split("-");
+                year = datetime[0];
+                month = datetime[1];
+                day = datetime[2];
 
-       if(way == 'homework')
-         var routeobj = new Routes(homeaddrezz, homeaddrezztxt, workaddrezz, workaddrezztxt);
-        else
+                datetime = new Date(year, month, day, time[0], time[1]);
+                var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                tripdatetime = datetime.getDate() + " " + monthNames[datetime.getMonth()] + " " + datetime.getUTCFullYear() + " " + formatAMPM(datetime);
+                */
+
+                tripdatetime = formatdate(datetime);
+                routeobj = new Routes(fromcords, fromaddress, tocords, toaddress, tripdatetime);
+                break;
+
+
+        }
+
+        /*   if (way == 'homework')
+        var routeobj = new Routes(homeaddrezz, homeaddrezztxt, workaddrezz, workaddrezztxt);
+        else if (way == 'workhome')
         var routeobj = new Routes(workaddrezz, workaddrezztxt, homeaddrezz, homeaddrezztxt);
+        else {
+        var routeobj = new Routes(tripbobj[0].lat + "," + tripbobj[0].lon, tripbobj[0].geoaddress, tripbobj[tripbobj.length - 1].lat + "," + tripbobj[tripbobj.length - 1].lon, tripbobj[tripbobj.length - 1].geoaddress);
+        } */
+
         Application.masterVM.vmMaps.chosenroute(routeobj);
-        
+
 
     }
 
@@ -1185,38 +1218,34 @@ function StarRatingViewModel() {
 
     }
 
-
-
-
-
-    function Vehicle(vehicleid, description, status, avatar, registration) {
+function Vehicle(vehicleid, description, status, avatar, registration, trips) {
         var self = this;
         self.VehicleId = ko.observable(vehicleid);
         self.description = ko.observable(description);
         self.status = ko.observable(status);
         self.avatar = ko.observable(avatar);
         self.registration = ko.observable(registration);
-        self.trips = ko.observableArray();
+        self.trips = ko.observableArray(trips);
+
+
 
     }
 
-
-    function Trip() {
+function Trip(VehicleId, tripid, drivetime, endtime, idletime, maxspeed, startdate, startometer, totaldistance, triptime) {
         var self = this;
-        self.VehicleId = ko.observable();
-        self.tripid = ko.observable();
-        self.drivetime = ko.observable();
-        self.endtime = ko.observable();
-        self.idletime = ko.observable();
-        self.maxspeed = ko.observable();
-        self.startdate = ko.observable();
-        self.startometor = ko.observable();
-        self.totaldistance = ko.observable();
-        self.triptime = ko.observable();
+        self.VehicleId = ko.observable(VehicleId);
+        self.tripid = ko.observable(tripid);
+        self.drivetime = ko.observable(drivetime);
+        self.endtime = ko.observable(endtime);
+        self.idletime = ko.observable(idletime);
+        self.maxspeed = ko.observable(maxspeed);
+        self.startdate = ko.observable(startdate);
+        self.startometer = ko.observable(startometer);
+        self.totaldistance = ko.observable(totaldistance);
+        self.triptime = ko.observable(triptime);
     }
 
-
-    function StarsightViewModel() { 
+function StarsightViewModel() { 
     
         var self = this;
 
