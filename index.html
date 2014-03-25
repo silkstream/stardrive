@@ -152,9 +152,7 @@
     <div id="page-homeaddress" title="Home Address">
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
-            <p><input type="text"  placeholder="Street Address"/></p>
-            <p><input type="text"  placeholder="City"/></p>
-            <p><input type="text"  placeholder="Postal Code"/></p>
+            <p><input type="text"  data-bind="value: Application.masterVM.vmProfile.HomeAddresstext"/></p>
             <div class="blue button" onclick="Application.masterVM.vmProfile.setHomeAddress()">Save</div>
         </div>
 <!--change home address screen ends-->
@@ -162,9 +160,7 @@
     <div id="page-workaddress" title="Work Address">
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
-            <p><input type="text"  placeholder="Street Address"/></p>
-            <p><input type="text"  placeholder="City"/></p>
-            <p><input type="text"  placeholder="Postal Code"/></p>
+            <p><input type="text" data-bind="value: Application.masterVM.vmProfile.WorkAddresstext"/></p>
             <div class="blue button" onclick="Application.masterVM.vmProfile.setWorkAddress()">Save</div>
         </div>
 <!--change home address screen ends-->
@@ -182,55 +178,21 @@
                     </div>                    
                     <div style="clear: both;float: none;"></div>
         </div> -->
-
+        <!--WEATHER AND RATING BLOCK STARTS-->
         <!-- Weather -->
-        <div class="row grey" style="position:relative;padding: 10px;height: 10%;" id="weather">
+       <div style="float:left; width:100%;">
+       <div class="row grey" style="float:left;padding: 5px 10px 10px 10px;width:45%" id="weather">
         <!--<div style="width: 20%;"><div style="position: absolute; bottom: 10px;"><img data-bind="attr:{src: $data.pic}"  class="profilepic" /></div></div>-->
        <div style="width: 5%;min-width: 49px;margin-right: 5px;"><img data-bind="attr:{src: $data.pic}"  class="" style="width: 100%;"/></div> 
         <div class="colorgrey">
             <span data-bind="text: $data.town" class="colorblue" style="font-size: 15px;font-weight:bold;"></span><br>
             <span data-bind="html: $data.degreedesc" style="font-size: 15px;"></span>
-         <div style="clear: both !important;float: none !important;"></div>
         </div>
 
          <div style="clear: both !important;float: none !important;"></div>
         </div>
-        
-        <!-- Daily Route Starts-->
-        <div class="row grey" style="position:relative;" id="daylyroute"  >
-        <div class="colorgrey" style="margin: auto 0px;width: 100%;">
-            <div style="font-size: 15px;float:none;width:100%;" onclick="toggleroute('fromhome')">
-                <div style="width: 120px;">Route Work</div>
-                <div style="margin-left: 10px;">
-                    <img src="images/accordion_down.png" style="width: 20px;" />
-                </div>
-                <div style="width: 100%;display:none;" id="lblWorkAddress" class="colorblue"><span class="colorblue" data-bind="text: WorkAddresstext"></div>
-                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
-            </div> 
-            <br />
-            <br />
-            <div onclick="toggleroute('fromwork')" style="font-size: 15px;float:none;width:100%;">
-                <div style="width: 120px;">Route Home</div>
-                <div style="margin-left: 10px;">
-                    <img src="images/accordion_down.png" style="width: 20px;"/>
-                </div>
-                <div style="width: 100%;display:none;" id="lblHomeAddress" class="colorblue"><span class="colorblue" data-bind="text: HomeAddresstext"></div>
-                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
-
-            </div>
- 
-        </div>
-
-
-
-        <div style="clear: both;float: none;"></div>
-        </div>
-
-        <!-- Daily Route Endz-->
-
-
-        <!-- Scores and starts -->
-        <div class="row grey" style="position:relative;padding: 5px 10px 10px 10px;height: 10%;" id="homerating">
+          <!-- Scores and starts -->
+        <div class="row grey" style="float:left;padding: 5px 10px 10px 10px;width:45%;" id="homerating">
                 <div style="width: 50%">
                         <div class="floatnone colorgrey" style="font-size: 15px;">Rating</div>
                         <div class="floatnone">
@@ -242,14 +204,41 @@
                         <div class="floatnone">
                             <div><img src="images/star_points_icon.png" height=28></div><div id="profilerating" class="colororange" style="font-size: 27px;margin-top: -4px;font-weight: bold;font-style: italic;"></div>
                         </div>              
+                </div>    
+        </div>
+        <div style="clear: both !important;float: none !important;"></div>
+
+       </div>
+        <!-- Scores and ends -->
+        <!--WEATHER AND RATING BLOCK ENDS-->
+
+       <!-- Daily Route Starts-->
+        <div class="row grey" style="position:relative;" id="daylyroute"  >
+        <div class="colorgrey" style="margin: auto 0px;width: 100%;float:left;">
+            <div style="font-size: 15px;float:left;width:100%;margin-bottom:3px;" onclick="toggleworkAddress()">
+                <div style="width: 120px;float:left;">Route Work</div>
+                <div style="margin-left: 10px;float:left;">
+                    <img src="images/accordion_down.png" style="width: 20px;" />
                 </div>
+               
+                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
+                <div style="width: 100%;float:left;display:none;" id="lblWorkAddress" class="colorblue"><span class="colorblue" data-bind="text: WorkAddresstext"></div>
+            </div> 
+           
+            <div onclick="togglehomeAddress()" style="font-size: 15px;float:left;width:100%;">
+                <div style="width: 120px;float:left;">Route Home</div>
+                <div style="margin-left: 10px;float:left;">
+                    <img src="images/accordion_down.png" style="width: 20px;"/>
+                </div>
+               
+                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
+                <div style="width: 100%;float:left;display:none;" id="lblHomeAddress" class="colorblue"><span class="colorblue" data-bind="text: HomeAddresstext"></div>
+            </div> 
+        </div>
         <div style="clear: both;float: none;"></div>
         </div>
-        <!-- Scores and ends -->
 
-        <div class="row colorgrey" style="border-bottom: 1px solid #3AC1F0;" >
-        News Feed
-        </div>
+        <!-- Daily Route Endz-->
         <!--Latest  Alert -->
         <div class="row colorgrey" data-bind="foreach: allalerts"  id="latestalert" style="position: relative;padding: 0;">      
        <!-- ko if: ( $index() === ($parent.allalerts().length -1)) -->
@@ -271,14 +260,14 @@
                                             <div style="float: left;margin-left: 10px;"><img src="images/location_icon.png"/></div>
                                             <div style="float: left;margin-left: 10px;">Location</div>
                                         </div>
-                                        <div style="float: left;margin-left: 10px;">
+                                       <!-- <div style="float: left;margin-left: 10px;">
                                             <div style="float: left;margin-left: 10px;"><img src="images/tips_icon.png"/></div>
                                             <div style="float: left;margin-left: 10px;">Trip</div>
                                         </div>
                                         <div style="float: left;margin-left: 10px;" >
                                             <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
                                             <div style="float: left;margin-left: 10px;">Clear</div>
-                                        </div>
+                                        </div> -->
                                         <div style="float: none; clear: both;"></div>
         
                    </div>
@@ -351,7 +340,7 @@
 <!-- Alert Screen Starts -->
         <div id="page-alerts" data-page-type="main"  title="Alerts">  
         
-        <div class="row colorgrey grey">Last 3 days</div>
+        <div class="row colorgrey grey">Last 5 days</div>
        
        
         <div  data-bind="foreach: allalerts"  id="allalerts" style="position: relative;padding: 0;">      
@@ -373,15 +362,15 @@
                                             <div style="float: left;margin-left: 10px;"><img src="images/location_icon.png"/></div>
                                             <div style="float: left;margin-left: 10px;">Location</div>
                                         </div>
-                                        <div style="float: left;margin-left: 10px;">
+                                      <!--     <div style="float: left;margin-left: 10px;">
                                             <div style="float: left;margin-left: 10px;"><img src="images/tips_icon.png"/></div>
                                             <div style="float: left;margin-left: 10px;">Trip</div>
                                         </div>
 
-                                        <div style="float: left;margin-left: 10px;" >
+                                     <div style="float: left;margin-left: 10px;" >
                                             <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
                                             <div style="float: left;margin-left: 10px;">Clear</div>
-                                        </div>
+                                        </div> -->
                                         <div style="float: none; clear: both;"></div>
         
                    </div>
@@ -518,18 +507,45 @@
 
              <div id="allfriends"  data-bind="foreach: allfriends" style="position: relative;width: 100%;">
          
-                <div class="row colorgrey" style="position: relative;padding-left: 0;padding-bottom: 0;" data-bind="attr: { 'data-fid': friend_id, 'data-fname': friend_name}">    
+                <div class="row colorgrey" style="position: relative;padding-left: 0;padding-bottom: 0;width: 100%;" data-bind="attr: { 'data-fid': friend_id, 'data-fname': friend_name}">    
        
-       
-                       <div style="margin: 0 10px 0 10px;" class="colorgrey" >
-                               <img  data-bind="src: friend_img" src="images/account_btn.png" align="left" style="" width="50px;"/>                               
-                               <span data-bind="text: friend_name" class="colorblue"></span>
-                       </div>
-                       <div style="float: right;width: 5%;margin: 20px 0 20px 0;">
-                            <img src="images/starsocial_arrow.png">
+                       <div style="width:100%;padding: 0;margin: 0;" class="colorgrey" >
+                               <div onclick="showmsgcontrol(this);" style="width:100%;padding: 0;margin: 0;">
+                               <div style="margin: 0 10px 0 10px;width: 75%;" class="colorgrey" >
+                                       <img  data-bind="src: friend_img" src="images/account_btn.png" align="left" style="" width="50px;"/>                               
+                                       <span data-bind="text: friend_name" class="colorblue"></span>
+                               </div>
+                               <div style="float: left;width: 10%;margin: 30px 0 20px 0;text-align: right;" class="arrow">
+                               <img src="images/accordion_down.png">
+                               </div>
+
+                               </div>
+                               <div style="clear:both;float:none;"></div>  
+                               <div style="display: none;padding: 5px 0 5px 0;width: 100%;" class="msgcontrol grey">
+                                    <div style="float: left;margin-left: 10px;"  data-bind="click: Application.masterVM.vmMessages.setchosenmsgfrnd">
+                                        <div style="float: left;margin-left: 10px;"><img src="images/email_icon.png"/></div>
+                                        <div style="float: left;margin-left: 10px;">Message</div>
+                                    </div>
+                                    <div style="float: left;margin-left: 10px;"   data-bind="click: $parent.delfriend"> 
+                                        <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
+                                        <div style="float: left;margin-left: 10px;">Delete</div>
+                                    </div>
+                                    <div style="float: none; clear: both;"></div>
+                               </div>
+                               <div style="clear:both;float:none;"></div>
+
                        </div>
                        <div style="clear:both;float:none;"></div>                      
+
+
+
                 </div>
+
+
+
+
+
+
         
             </div>      
         </div>  

@@ -151,8 +151,6 @@ function LoginViewModel() {
                 Application.masterVM.vmStarRating.pullRatings(7);
                 Application.gotoPage('page-profile');
 
-
-
             },
             dataType: 'json',
             crossDomain: true
@@ -195,7 +193,7 @@ function ProfileViewModel() {
     self.Vehicles = ko.observableArray();
     self.netstarkey = ko.observableArray('');
     self.stardrivekey = ko.observableArray('');
-
+    
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
     }, self).extend({ reset: true });
@@ -209,9 +207,17 @@ function ProfileViewModel() {
     }
 
     self.setHomeAddress = function () {
-        //build up the json value and submit it to the API
-        console.log("Setting home address");
-    }
+        
+        $.ajax({
+
+            url: 'http://stardrive.cloudapp.net/stardriveusers/setWorkAddress.json?home_address=' + this.HomeAddresstext() + '&key=' + this.stardrivekey(),
+                data: {},
+                success: function (data) {
+                    Application.gotoPage('page-account');
+                },
+                dataType: 'json'
+            });
+    };    
 
     self.showWorkAddress = function () {
         //Set the home address;
@@ -221,7 +227,16 @@ function ProfileViewModel() {
 
     self.setWorkAddress = function () {
         //build up the json value and submit it to the API
-        console.log("Setting work address");
+
+        $.ajax({
+
+            url: 'http://stardrive.cloudapp.net/stardriveusers/setWorkAddress.json?work_address=' + this.WorkAddresstext() + '&key=' + this.stardrivekey(),
+            data: {},
+            success: function (data) {
+                Application.gotoPage('page-account');
+            },
+            dataType: 'json'
+        });
     }
 }
 
@@ -250,16 +265,24 @@ function MessagesViewModel() {
         Application.masterVM.vmMessages.chosenmsg(msgobj);
         Application.gotoPage('page-messages');
     }
-    self.setchosenmsgfrnd = function (friend_id) {
-        var theid = $("#friend_id").val();
-        var thename = $("#friend_name").val();
+    self.setchosenmsgfrnd = function (friend) {
+        //var theid = $("#friend_id").val();
+        //console.log("test");
+        //console.log(friend.friend_id());
+
+
+        var theid = friend.friend_id();
+
+        //var thename = $("#friend_name").val();
+        var thename = friend.friend_name();
+
         var myname = Application.masterVM.vmProfile.FirstName + " " + Application.masterVM.vmProfile.SurName;
         var myid = Application.masterVM.vmProfile.UserId
 
         msgobj = new Message('zz', theid, thename, myname, myid, "", "", "2014-02-02", "0", "")
         Application.masterVM.vmMessages.chosenmsg(msgobj);
         //Application.masterVM.vmMessages.chosenmsg();
-        $('.friendModal').dialog('close');
+        //$('.friendModal').dialog('close');
         Application.gotoPage('page-messages');
     }
     self.delmessage = function () {
@@ -406,7 +429,6 @@ function AlertsViewModel() {
 
 
 
-
     /*
     ko.bindingHandlers.reversegeocode = {
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -508,6 +530,13 @@ function FriendsViewModel() {
     var self = this;
     self.allfriends = ko.observableArray();
 
+    self.delfriend = function () {
+
+
+        Application.masterVM.vmFriends.allfriends.remove(this);
+    
+    
+    };
 
     self.pullFriends = function () {
 
