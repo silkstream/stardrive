@@ -1,8 +1,10 @@
 ﻿var Application;
+var swipebutton="1";
+var template = "";
+var selectedvehicle = 1;
+$(document).ready(function () {
 
-
-
-$(document).ready(function () {//CREATE APPLICATION PAGES
+//CREATE APPLICATION PAGES
     Application = new APPMANAGER();
     Application.pages[0] = "#page-login";
     Application.pages[1] = "#page-profile";
@@ -19,26 +21,23 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     Application.pages[12] = "#page-starsafe";
     Application.pages[13] = "#page-starsight";
     Application.pages[14] = "#page-account";
-
-
+    Application.pages[15] = "#page-homeaddress";
+    Application.pages[16] = "#page-workaddress";
     Application.closePages();
-    //console.log(Application.masterVM);
-    //console.log($("#weather"));
-
+    
     //top nav binding
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('top-nav'));
-
 
     //drawer
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('navalert'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('navmsg'));
-
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('menutitle'));
 
     //bindings for account home
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('accountblock'));
 
     //bindings for profile home
+    //ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('profileblock'));    
     ko.applyBindings(Application.masterVM.vmWeather, document.getElementById('weather'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('latestmsg'));
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('latestalert'));
@@ -53,7 +52,6 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
     ko.applyBindings(Application.masterVM.vmFriends, document.getElementById('allfriends'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('chosenfriend'));
 
-
     //bindings for alerts page
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('allalerts'));
 
@@ -67,25 +65,34 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
 
     //ko.applyBindings(Application.masterVM.vmMessages, $(Application.pages[3])[0]);
     //bindings for ratings
-        ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('plotGraphContainer'));
-        ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('sliderbox'));
+    ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('plotGraphContainer'));
+    ko.applyBindings(Application.masterVM.vmStarRating, document.getElementById('sliderbox'));
 
     //bindings for starsafe page
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('starsafevehicles'));
 
 
-        //bindings for starsight page
+    //bindings for starsight page
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('starsightvehicles'));
 
     //var myScroll = new IScroll('', { scrollX: true, scrollY: false, mouseWheel: true });
 
+    $('#preloader').hide();     
+    template = $("#trips>div:first-child").wrap('<p/>');
+    //empty tripwindow
+    $('#trips').empty();
+ 
+
+
+
+
+
+
     $("#menu").hide();
-    Application.showpage("page-intro");
+    Application.showpage("page-login");
 
    if(window.localStorage.getItem("remembereduser")){
-
-           parsed = JSON.parse(window.localStorage.getItem("remembereduser"));
-            
+           parsed = JSON.parse(window.localStorage.getItem("remembereduser"));            
                     Application.masterVM.vmProfile.FirstName(parsed.FirstName);
                     Application.masterVM.vmProfile.Surname(parsed.Surname);
                     Application.masterVM.vmProfile.UserId(parsed.UserId);
@@ -94,26 +101,19 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
                     Application.masterVM.vmProfile.Email(parsed.Email);
                     Application.masterVM.vmProfile.HomeAddress(parsed.HomeAddress);
                     Application.masterVM.vmProfile.WorkAddress(parsed.WorkAddress);
-
                     Application.masterVM.vmProfile.HomeAddresstext(parsed.HomeAddresstext);
-                    Application.masterVM.vmProfile.WorkAddresstext(parsed.WorkAddresstext);    
-            
-            
-            
-            Application.masterVM.vmWeather.pullWeather();
-            Application.masterVM.vmMessages.pullMessages();
-            Application.masterVM.vmAlerts.pullAlerts();
-            Application.masterVM.vmFriends.pullFriends();
-            Application.masterVM.vmStarRating.pullRatings(7);
-            Application.gotoPage('page-profile');
-    
+                    Application.masterVM.vmProfile.WorkAddresstext(parsed.WorkAddresstext);
+                    Application.masterVM.vmWeather.pullWeather();
+                    Application.masterVM.vmMessages.pullMessages();
+                    Application.masterVM.vmAlerts.pullAlerts();
+                    Application.masterVM.vmFriends.pullFriends();
+                    Application.masterVM.vmStarRating.pullRatings(7);
+                    Application.gotoPage('page-profile');   
     }
-
-
-
 
     var remembernot =1;
     $('.rememberme').click(function(){if(remembernot == 1){remembernot = 0; $(this).find('.remembercheck div').addClass('darkgrey');$("#rememberme").val('1');}else{remembernot = 1; $(this).find('.remembercheck div').removeClass('darkgrey');$("#rememberme").val('0');}});
+
 
 
 
@@ -123,7 +123,6 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
         Application.gotoPage(Application.pagetrail[Application.pagetrail.length - 1]);
         //console.log(Application.pagetrail);
     });
-
 
     $('#allfriends').on('click', '*', function () {
 
@@ -150,7 +149,7 @@ $(document).ready(function () {//CREATE APPLICATION PAGES
 
     });
 
-var chart = new Highcharts.Chart({
+    var chart = new Highcharts.Chart({
     chart: {
         renderTo: 'plotGraphContainer',
         type: 'column'
@@ -200,10 +199,7 @@ $("#resetrates").click(function(){
 $(".rotated").rotate(180);
 
 
-
 });
-
-
 
 function APPMANAGER() {
     //DECLARE LOCAL PROPERTIES AS NULL
@@ -243,48 +239,39 @@ function APPMANAGER() {
 
  
 
-   if($("#" + pageName).attr('title') == "StarSight")
+   if($("#" + pageName).attr('title') == "StarSight"){
        $("#demo").dragend({
+            scrollToPage: selectedvehicle,
             afterInitialize: function() {
               this.container.style.visibility = "visible";
-              if(this.page < this.pages.length - 1)
+              /*if(this.page < this.pages.length - 1)
               $("#swipenext").attr("rel", this.page+2);
               if(this.page > 0)
-              $("#swipeprev").attr("rel", this.page);
+              $("#swipeprev").attr("rel", this.page);*/
 
+              console.log("initialising swiper");
+                var self = this;
+                                if(self.page < self.pages.length - 1)
+                $("#swipenext").attr("rel", self.page+2);
+                
+                if(self.page > 0)
+                $("#swipeprev").attr("rel", self.page);
+              swipeaction(self);
             },
             onSwipeEnd: function(cont){ 
-              if(this.page < this.pages.length - 1)
-              $("#swipenext").attr("rel", this.page+2);
-              if(this.page > 0)
-              $("#swipeprev").attr("rel", this.page);
-               console.log("thispage");
-               console.log(Application.masterVM.vmProfile.netstarkey());
-               alert($(this.activeElement).attr("rel"));
-               gettrips($(this.activeElement).attr("rel"));
-               //console.log(this.activeElement);
-               console.log($(this.activeElement).attr("rel"));            
- 
-            }/*,
-            onDragEnd: function(cont){ 
-              if(this.page < this.pages.length - 1)
-              $("#swipenext").attr("rel", this.page+2);
-              if(this.page > 0)
-              $("#swipeprev").attr("rel", this.page);
-               console.log("thispage");
-               console.log(Application.masterVM.vmProfile.netstarkey());
-               alert("fds");
-               gettrips($(this.activeElement).attr("rel"));
-               //console.log(this.activeElement);
-               console.log($(this.activeElement).attr("rel"));            
- 
-            }*/
+
+                var self = this;
+                $("#trips").empty();
+                swipeaction(self);
+                
+            }
 
 
           });
-
       $("#swipeprev").click(function() {
        var prevpage = $(this).attr("rel");
+       swipebutton = prevpage;
+       console.log("####################### "+prevpage);
         $("#demo").dragend({
           scrollToPage: prevpage
         });
@@ -292,13 +279,14 @@ function APPMANAGER() {
 
       $("#swipenext").click(function() {
       var nextpage = $(this).attr("rel");
+      swipebutton = nextpage;
      // alert(nextpage);
         $("#demo").dragend({
           scrollToPage: nextpage
         });
       });
 
-
+}
         $('html, body').animate({ scrollTop: 0 }, 0);
         if ($("#" + pageName).attr('title') == "StarRate")
             Application.masterVM.vmStarRating.pullRatings(7);
@@ -387,7 +375,6 @@ function showmsgcontrol(element) {
     //console.log();
 }
 
-
 function showalertcontrol(element) {
                 
     $(".alertcontrol").slideUp();
@@ -437,22 +424,18 @@ if($("#currentratedays").val() == days[i] && i ==  (days.length-1)){
 
 }
 
-
 function toggleroute(way){
 
 
-    if(way == "fromhome"){
-        $("#fromhome").show();
-        $("#fromwork").hide();
-    }
-
     if(way == "fromwork"){
-        $("#fromhome").hide();
-        $("#fromwork").show();
+        $("#lblHomeAddress").show();
+        $("#lblWorkAddress").hide();
     }
 
-
-
+    if (way == "fromhome") {
+        $("#lblWorkAddress").show();
+        $("#lblHomeAddress").hide();
+    }
 
 }
 
@@ -487,6 +470,7 @@ function toggleratedays2(element){
 
 
 }
+
 function reinitSwiper(swiper) {
 setTimeout(function () {
     swiper.resizeFix();
@@ -494,4 +478,119 @@ setTimeout(function () {
     alert("reinit?");
 }, 1000);
 
+}
+
+function swipeaction(self){
+
+$('#trips').empty();
+
+                console.log("thispage");
+                console.log(self.page);
+                //console.log(Application.masterVM.vmProfile.netstarkey());
+                //console.log($(this.activeElement).attr("rel") +  " **** " + this.page +" %%% " + swipebutton);
+               
+                gettrips($(self.activeElement).attr("rel"));
+                setTimeout(getstatus($(self.activeElement).attr("rel"), self.activeElement), 1000);
+
+                //console.log(this.activeElement);
+                //console.log($(this.activeElement).attr("rel"));            
+                //console.log("%%%^^^%%%");
+                //console.log(Application.masterVM.vmProfile.Vehicles()[this.page].trips());
+                
+
+                // Application.masterVM.vmProfile.Vehicles.valueHasMutated();
+                setTimeout(function(){
+                               //console.log("returnedtripdata");               
+                               //console.log(returnedtripdata);
+                                   $("#lasttrip").click(function(){
+                                           for(var i = 0; i < returnedtripdata.length; i++){                                
+                                                thistrip = returnedtripdata[i];
+                                                gettripdetail(thistrip.TripId);
+
+                                                setTimeout(function(){$('#preloader').hide();}, 500);
+                                            }
+                                
+                                });                             
+                                console.log("template")
+                                console.log($("#trips div:first-child"));
+                                
+                                //copy tripwindow template 
+
+
+
+                               for(var i = 0; i < returnedtripdata.length; i++){                                
+                                    thistrip = returnedtripdata[i];
+                                    //gettripdetail(thistrip.TripId);
+                                    console.log(thistrip);
+                                    console.log(Application.masterVM.vmProfile.Vehicles()[self.page]);
+                                    console.log("triptemplate");                                    
+
+                                    Application.masterVM.vmProfile.Vehicles()[self.page].trips.push(
+                                            new Trip(
+                                                $(self.activeElement).attr("rel"),
+                                                 thistrip.TripId, 
+                                                 thistrip.DriveTime, 
+                                                 thistrip.EndDate, 
+                                                 thistrip.IdleTime, 
+                                                 thistrip.MaxSpeed, 
+                                                 thistrip.StartDate, 
+                                                 thistrip.StartOdometer, 
+                                                 thistrip.TotalDistance, 
+                                                 thistrip.TripTime));      
+                                                 
+                                                                                                                                                         
+                               }
+                          // $('#preloader').hide();
+                }, 1000);
+                
+
+            setTimeout(function(){
+            
+                    $(".busprivbut").click(function () {
+
+                        if ($(this).html() == "B") {
+                            $(this).html("P");
+                        } else {
+                            $(this).html("B");
+                        }
+                    });
+
+                $('#preloader').hide();
+            
+            
+            }, 10000);
+
+
+
+
+}
+
+function formatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
+function formatdate(datetime){
+
+                datetime = datetime.split("T");
+                time = datetime[1];
+                time = time.split(":");
+
+
+                datetime = datetime[0].split("-");
+                year = datetime[0];
+                month = datetime[1];
+                day = datetime[2];
+
+                datetime = new Date(year, month, day, time[0], time[1]);
+                var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                tripdatetime = datetime.getDate() + " " + monthNames[datetime.getMonth()] + " " + datetime.getUTCFullYear() + " " + formatAMPM(datetime);
+
+                return tripdatetime;
 }

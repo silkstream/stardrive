@@ -1,4 +1,4 @@
-﻿var PATH = "http://41.0.34.35:25000/uat/";
+﻿var PATH = "41.0.34.35:25000/uat/";
 var USER = new Object();
 var MAP;
 var alertPinOverlay;
@@ -7,23 +7,28 @@ var startendPinsOverlay;
 var speedingOverlay;
 var alertpin;
 var infowindow = 0;
+var returnedtripdata;
 
 function callProxyPHP(proxy_url_ext, req_type, user_data, callback, async_val) {
 
-    var root_path = "http://10.0.0.24/";
-    //var url = root_path + "Stardriveusers/proxyConnect.json?data=" + proxy_url_ext;
-    var url = "http://jsonp.jit.su/?url="+proxy_url_ext;
+    //var root_path = "http://10.0.0.24/";
+    var root_path = "http://stardrive.cloudapp.net/";
+    var url = root_path + "Stardriveusers/proxyConnect.json?data=" + proxy_url_ext;
+    //var url = "http://jsonp.jit.su/?url="+proxy_url_ext;
     $.ajax({
         type: req_type,
-        url: url,
+        url: url + "&calback=cb",
         data: user_data,
         async: async_val,
-       dataType: 'jsonp',
+        dataType: 'json',
         success: function (data) {
             callback(data);
         },
         error: function (xhr, errorString, exception) {
-            console.log("xhr.status="+xhr.status+" error="+errorString+" exception=("+exception+")");
+            console.log("xhr.status=" + xhr.status + " error=" + errorString + " exception=(" + exception + ")");
+        },
+        beforeSend: function () {
+            $('#preloader').show();
         }
     });
 }
@@ -40,14 +45,15 @@ function netstar_login(username, password) {
 }
 /* set user login */
 function loginCallback(callbackData) {
-    alert("netstar logged in");
+    console.log("netstar logged in  " + callbackData.Token);
     console.log("login data ---------------------->",callbackData);
     Application.masterVM.vmProfile.netstarkey(callbackData.Token);
 }
 
 
 function gettrips(vehicle) {
-
+    returnedtripdata = [];
+    netstar_login('colossusadmin', 'c0l0ssus');
     to = new Date();
     to.setDate(to.getDate());
     to = to.getFullYear() + ('0' + (to.getMonth() + 1)).slice(-2) + ('0' + to.getDate()).slice(-2) + "235930";
@@ -56,21 +62,125 @@ function gettrips(vehicle) {
     from.setDate(from.getDate() - 3);
     from = from.getFullYear() + ('0' + (from.getMonth() + 1)).slice(-2) + ('0' + from.getDate()).slice(-2) + "000000";
 
-
-
     var url = PATH + Application.masterVM.vmProfile.netstarkey() + '/trips/' + vehicle + "/" + from + "/" + to;
     console.log("trips:::::::::", url);
     callProxyPHP(url, 'GET', " ", tripsCallback, true);
 
+}
+
+function gettripdetail(tripid) {
+    $("#trips").empty();
+    var url = PATH + Application.masterVM.vmProfile.netstarkey() + '/trip-coordinates/' + tripid;
+    console.log("trips:::::::::", url);
+    callProxyPHP(url, 'GET', " ", function (tripdetail) {
+
+        console.log(tripdetail)
+        copytemplate = template.clone();
+        //copytemplate.empty();
+        //copytemplate.html(thistrip.MaxSpeed);
+
+        fromaddress = tripdetail[0].GeoAddress.split(", ");
+        toaddress = tripdetail[tripdetail.length - 1].GeoAddress.split(", ");
+        datetime = tripdetail[0].CreateDate;
+        copytemplate.find('.atripdetail .tripaddress').html(fromaddress[0] + " to " + toaddress[0]);
+        copytemplate.find('.atripdetail .tripdatetime').html(formatdate(datetime));
+
+
+        var alerttemplate = copytemplate.find('.atripalerts').clone();
+        var alertcount = 0;
+
+
+
+        copytemplate.find('.atripalerts').empty();
+
+        var tripobj = [];
+        for (var i = 0; i < tripdetail.length; i++) {
+            /*tripobj[i]['lat'] = tripdetail[i].Latitude;
+            tripobj[i]['lon'] = tripdetail[i].Longitude;
+            tripobj[i]['geoaddress'] = tripdetail[i].GeoAddress;*/
+            var speeding = 0;
+
+            if (tripdetail[i].OverSpeed == "true")
+                speeding = { "speed": tripdetail[i].Speed, "roadspeed": tripdetail[i].RoadSpeed};
+           tripobj[i] = { "lat": tripdetail[i].Latitude, "lon": tripdetail[i].Longitude, "geoaddress": tripdetail[i].GeoAddress, "datetime": tripdetail[i].PositionDate, "speeding": speeding };
+
+            if (tripdetail[i].OverSpeed == "true") {
+                alertcount = alertcount + 1;
+                alerttemplate.find('.alerttime').html(tripdetail[i].PositionDate);
+                copytemplate.find('.atripalerts').append(alerttemplate);
+            }
+        }
+
+
+        copytemplate.find('.atripdetail .alertcount').html(alertcount);
+        copytemplate.find('.atripdetail .triplink').attr("rel", JSON.stringify(tripobj));
+
+        // console.log(copytemplate.html());
+
+        // $('#trips').append(template);    
+        //$("#trips").append(copytemplate);
+        $("#trips").append(copytemplate);
+
+
+    }, true);
+
 
 }
 
-function tripsCallback(callbackData){
-console.log("trip callback");
-console.log(callbackData);
+function tripsCallback(callbackData, container){
+
+
+   
+    returnedtripdata = callbackData;
+           // console.log("trip callback");
+           // console.log(returnedtripdata);
+
 
 }
 
+function getstatus(vehicle, container) {
+   // netstar_login('colossusadmin', 'c0l0ssus');
+
+    var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/vehicles?$filter=" + (encodeURIComponent("AssetId eq guid'" + vehicle + "'").replace(/'/g, "%27"));
+    console.log("status:::::::::", url);
+
+    setTimeout(function () {
+        var speeds = [];
+        var Sum = 0;
+        for (var i = 0; i < returnedtripdata.length; i++) {
+
+            speeds.push(returnedtripdata[i].MaxSpeed);
+            Sum = Sum + returnedtripdata[i].MaxSpeed;
+
+
+
+        }
+        console.log("max speeed");
+        console.log(Math.max.apply(Math, speeds));
+        $(container).find('div .maxspeed').html((Math.max.apply(Math, speeds)).toFixed(2));
+        $(container).find('div .avgspeed').html((Sum / returnedtripdata.length).toFixed(2));
+    }, 5000);
+    
+  /*  callProxyPHP(url, 'GET', " ",
+        function (calbackdata) {
+
+            console.log("status");
+            //console.log(calbackdata[0].Status);
+            //console.log($(container).find('div:nth-child(3)').html());
+            var status = calbackdata[0].Status;
+            if (calbackdata[0].Status == "") {
+                status = "unavailable";
+            }
+
+            $(container).find('div .status').html(status);
+
+            //$('#preloader').hide();
+
+
+        },
+     true);*/
+
+}
 
 function mapINIT() {
 
@@ -223,12 +333,12 @@ function showtrip(tripobj) {
     
     MAP.addOverlay(tripRouteOverlay);
     console.log("tripbobj");
-    console.log(tripbobj);
+    console.log(tripobj);
 
     var routeCriteria = new deCarta.Core.RouteCriteria();
     console.log("routeCriteria");
     routeCriteria.waypoints = [];
-    if (typeof tripbobj === "undefined") {
+    if (typeof tripobj === "undefined") {
         alert(Application.masterVM.vmProfile.WorkAddress());
         homeaddress = Application.masterVM.vmProfile.HomeAddress().split(',');
         workaddress = Application.masterVM.vmProfile.WorkAddress().split(',');
@@ -264,36 +374,47 @@ function showtrip(tripobj) {
         startendPinsOverlay.addObject(endpin);        
     } else {
 
+        MAP.addOverlay(alertPinOverlay);
         for (var i = 0; i < tripobj.length; i++) {
-            console.log("tripobj[i]");
+            console.log("tripobj[i]" + tripobj[i]['geoaddress']);
             console.log(tripobj[i]);
-           
 
-            routeCriteria.waypoints.push(
-                                            
-                                                new deCarta.Core.Position( 
-                                                                                tripobj[i]['lat'] + "," + tripobj[i]['lon']
-                                                                          )
+            if (tripobj[i].speeding != "0") {
+
+                alertpin = new deCarta.Core.Pin({
+                    position: new deCarta.Core.Position(tripobj[i]['lat'] + "," + tripobj[i]['lon']),
+                    // text: pinobj.alert_description(),
+                    yOffset: 32,
+                    xOffset: 15,
+                    imageSrc: "images/alert_pin.png"
+                });
+                alertPinOverlay.addObject(alertpin);     
+           
+           }
+
+            routeCriteria.waypoints.push(new deCarta.Core.Position( 
+                                            tripobj[i]['lat'] + "," + tripobj[i]['lon']
+                                                                   )
                                          );
 
         }
 
         var startpin = new deCarta.Core.Pin({
             position: new deCarta.Core.Position( tripobj[0]['lat'] + "," + tripobj[0]['lon']),
-            text: "Home",
+            text: tripobj[0].geoaddress,
             yOffset: 32,
-            xOffset: 15,
-            imageSrc: "images/startpoint_icon_1.png"
+            xOffset: 22,
+            imageSrc: "images/green_start_icon.png"
 
         });
         startendPinsOverlay.addObject(startpin);
 
         var endpin = new deCarta.Core.Pin({
             position: new deCarta.Core.Position( tripobj[tripobj.length-1]['lat'] + "," + tripobj[tripobj.length-1]['lon']),
-            text: "Work",
+            text: tripobj[tripobj.length - 1].geoaddress,
             yOffset: 32,
-            xOffset: 15,
-            imageSrc: "images/startpoint_icon_1.png"
+            xOffset: 22,
+            imageSrc: "images/red_end_icon.png"
 
         });
         startendPinsOverlay.addObject(endpin);

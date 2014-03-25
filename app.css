@@ -85,6 +85,7 @@ h1
     #top-nav .logo
     {
         padding-top:5px;
+        width: inherit;
     }
     #top-nav .drawer
     {
@@ -634,3 +635,50 @@ background: #E7E7E8;
 }
 
 
+#preloader
+{
+  position: absolute; 
+  width: 100%;
+  height: 100%;  
+  z-index: 99;      
+}
+
+#preloader .loaderbg
+{
+  position: absolute; 
+  width: 100%;
+  height: 100%;  
+  opacity: 0.5;
+  top: 0;
+  left:0;
+  background: #666666;    
+    
+}
+
+#preloader .loaderimg
+{
+  position: absolute; 
+  width: 100%;
+  height: 100%;  
+  opacity: 0.5;
+  top: 30%;
+  left: 0;
+  text-align: center;
+  color: #ffffff;  
+}
+
+#preloader .loaderimg img
+{
+    max-width: 48px;
+}
+.blue_link {
+	color:3ac1f0;
+	
+}
+.blue_link :active {
+	color:3ac1f0;
+	
+}
+.blue_link :hover,visted{
+	color:3ac1f0;	
+}
