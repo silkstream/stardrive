@@ -151,8 +151,6 @@ function LoginViewModel() {
                 Application.masterVM.vmStarRating.pullRatings(7);
                 Application.gotoPage('page-profile');
 
-
-
             },
             dataType: 'json',
             crossDomain: true
@@ -195,7 +193,7 @@ function ProfileViewModel() {
     self.Vehicles = ko.observableArray();
     self.netstarkey = ko.observableArray('');
     self.stardrivekey = ko.observableArray('');
-
+    
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
     }, self).extend({ reset: true });
@@ -209,9 +207,17 @@ function ProfileViewModel() {
     }
 
     self.setHomeAddress = function () {
-        //build up the json value and submit it to the API
-        console.log("Setting home address");
-    }
+        
+        $.ajax({
+
+            url: 'http://stardrive.cloudapp.net/stardriveusers/setWorkAddress.json?home_address=' + this.HomeAddresstext() + '&key=' + this.stardrivekey(),
+                data: {},
+                success: function (data) {
+                    Application.gotoPage('page-account');
+                },
+                dataType: 'json'
+            });
+    };    
 
     self.showWorkAddress = function () {
         //Set the home address;
@@ -221,8 +227,20 @@ function ProfileViewModel() {
 
     self.setWorkAddress = function () {
         //build up the json value and submit it to the API
-        console.log("Setting work address");
+
+        $.ajax({
+
+            url: 'http://stardrive.cloudapp.net/stardriveusers/setWorkAddress.json?work_address=' + this.WorkAddresstext() + '&key=' + this.stardrivekey(),
+            data: {},
+            success: function (data) {
+                Application.gotoPage('page-account');
+            },
+            dataType: 'json'
+        });
     }
+
+   
+
 }
 
 function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg) {
@@ -250,16 +268,24 @@ function MessagesViewModel() {
         Application.masterVM.vmMessages.chosenmsg(msgobj);
         Application.gotoPage('page-messages');
     }
-    self.setchosenmsgfrnd = function (friend_id) {
-        var theid = $("#friend_id").val();
-        var thename = $("#friend_name").val();
+    self.setchosenmsgfrnd = function (friend) {
+        //var theid = $("#friend_id").val();
+        //console.log("test");
+        //console.log(friend.friend_id());
+
+
+        var theid = friend.friend_id();
+
+        //var thename = $("#friend_name").val();
+        var thename = friend.friend_name();
+
         var myname = Application.masterVM.vmProfile.FirstName + " " + Application.masterVM.vmProfile.SurName;
         var myid = Application.masterVM.vmProfile.UserId
 
         msgobj = new Message('zz', theid, thename, myname, myid, "", "", "2014-02-02", "0", "")
         Application.masterVM.vmMessages.chosenmsg(msgobj);
         //Application.masterVM.vmMessages.chosenmsg();
-        $('.friendModal').dialog('close');
+        //$('.friendModal').dialog('close');
         Application.gotoPage('page-messages');
     }
     self.delmessage = function () {
@@ -406,7 +432,6 @@ function AlertsViewModel() {
 
 
 
-
     /*
     ko.bindingHandlers.reversegeocode = {
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -508,6 +533,13 @@ function FriendsViewModel() {
     var self = this;
     self.allfriends = ko.observableArray();
 
+    self.delfriend = function () {
+
+
+        Application.masterVM.vmFriends.allfriends.remove(this);
+    
+    
+    };
 
     self.pullFriends = function () {
 
@@ -563,6 +595,7 @@ function Routes(from, fromtext, to, totext, datetime) {
 function MapsViewModel() {
     var self = this;
     self.chosenalert = ko.observable();
+    self.chosenposition = ko.observable();
     self.chosenroute = ko.observable();
     self.whattoshow = ko.observable();
     self.initmap = '0';
@@ -572,6 +605,28 @@ function MapsViewModel() {
         return type === this.whattoshow();
     };
 
+
+
+
+    self.setchosenposition = function (posobj, element) {
+
+        self.whattoshow("position");
+
+        posobj = JSON.parse($(element.currentTarget).find("input.positionjson").val());
+        posobj.vehicle = $(element.currentTarget).find("div .vehiclename").html();
+
+        console.log(posobj);
+        self.whattoshow("position");
+        Application.masterVM.vmMaps.chosenposition(posobj);
+        Application.gotoPage('page-location');
+        if (self.initmap == '0') {
+        mapINIT();
+        self.initmap = "1";
+        }
+        clearmap();
+        placepositionpin(posobj);
+
+    }
 
 
     self.setchosenalert = function (alertobj) {
@@ -1228,6 +1283,28 @@ function Vehicle(vehicleid, description, status, avatar, registration, trips) {
         self.trips = ko.observableArray(trips);
 
 
+        /*self.lastposition = function (data, event) {
+            console.log("starsafe container");
+            console.log(event.srcElement);
+            //getlastposition(vehicle, container);
+
+            return "gfsdd " + data.VehicleId();
+        }*/
+
+        ko.bindingHandlers.lastposition = {
+            update: function (element, valueAccessor, allBindings) {
+                // First get the latest data that we're bound to
+                console.log("starsafe container");
+                console.log($(element).parent().parent());
+                console.log("value accessor ");
+                console.log(valueAccessor().VehicleId());
+                netstar_login('colossusadmin', 'c0l0ssus');
+                getlastposition(valueAccessor().VehicleId(), $(element).parent().parent());
+                setTimeout(function () { $('#preloader').hide(); }, 500);
+                //$("");
+
+            }
+        };
 
     }
 

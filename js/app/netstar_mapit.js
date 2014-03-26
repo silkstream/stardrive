@@ -138,11 +138,49 @@ function tripsCallback(callbackData, container){
 
 }
 
+
+function getlastposition(vehicle, container) {
+   // netstar_login('colossusadmin', 'c0l0ssus');
+    var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/VehicleLastPosition/" + vehicle;
+
+    callProxyPHP(url, 'GET', " ",
+    function (calbackdata) {
+
+        console.log("status");
+        console.log(calbackdata);
+        //console.log($(container).find('div:nth-child(3)').html());
+        var status = calbackdata.Ignition == "true" ? "moving" : "stationary";
+        var vehiclelocation = calbackdata.GeoAddress;
+
+        var vehiclelocationdate = calbackdata.PositionDate;
+        var coordinates = JSON.stringify({ "lat": calbackdata.Latitude, "lon": calbackdata.Longitude, "address": calbackdata.GeoAddress, "date": formatdate(calbackdata.PositionDate) });
+        /*if (calbackdata[0].Status == "") {
+        status = "unavailable";
+        }*/
+        //return calbackdata.status;
+        $(container).find('div .location').html(vehiclelocation);
+        $(container).find('div .locationdate').html(formatdate(vehiclelocationdate));
+        $(container).find('div .status').html(status);
+        $(container).find('.positionjson').val(coordinates);
+
+
+        //$('#preloader').hide();
+
+
+    },
+    true);
+
+
+}
+
+
 function getstatus(vehicle, container) {
    // netstar_login('colossusadmin', 'c0l0ssus');
 
-    var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/vehicles?$filter=" + (encodeURIComponent("AssetId eq guid'" + vehicle + "'").replace(/'/g, "%27"));
-    console.log("status:::::::::", url);
+    //var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/vehicles?$filter=" + (encodeURIComponent("AssetId eq guid'" + vehicle + "'").replace(/'/g, "%27"));
+    //var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/VehicleLastPosition/" + vehicle;
+
+    //console.log("status:::::::::", url);
 
     setTimeout(function () {
         var speeds = [];
@@ -160,7 +198,7 @@ function getstatus(vehicle, container) {
         $(container).find('div .maxspeed').html((Math.max.apply(Math, speeds)).toFixed(2));
         $(container).find('div .avgspeed').html((Sum / returnedtripdata.length).toFixed(2));
     }, 5000);
-    
+    getlastposition(vehicle, container);
   /*  callProxyPHP(url, 'GET', " ",
         function (calbackdata) {
 
@@ -303,6 +341,37 @@ function placealertpin(pinobj) {
     //$(alertpin.domElement).click(function () { alert("haha"); });
 
 }
+
+
+function placepositionpin(pinobj) {
+
+
+
+    MAP.addOverlay(alertPinOverlay);
+
+    //console.log(pinobj.alert_location());
+
+
+    positionpin = new deCarta.Core.Pin({
+        position: new deCarta.Core.Position(pinobj.lat + "," + pinobj.lon),
+        // text: pinobj.alert_description(),
+        imageSrc: "images/startpoint_icon_1.png"
+
+
+
+    });
+    console.log("alertpin");
+    console.log(positionpin);
+    positionpin.onclick(function () { showinfowindow() });
+    $(".custominfowindow").html(pinobj.vehicle + "<br/>" + pinobj.address);
+    alertPinOverlay.addObject(positionpin);
+    MAP.zoomTo(8);
+    MAP.centerOn(new deCarta.Core.Position(pinobj.lat + "," + pinobj.lon));
+    //$(alertpin.domElement).click(function () { alert("haha"); });
+
+}
+
+
 
 
 function clearmap() {

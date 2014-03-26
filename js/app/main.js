@@ -44,6 +44,10 @@ $(document).ready(function () {
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('alerttotal'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('msgtotal')); 
 
+    //bindings for user address edit screens
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('page-homeaddress'));
+
+
     //bindings for starsocial messages
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('allmessages'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('chosenmsgn'));
@@ -124,7 +128,7 @@ $(document).ready(function () {
         //console.log(Application.pagetrail);
     });
 
-    $('#allfriends').on('click', '*', function () {
+   /* $('#allfriends').on('click', '*', function () {
 
         // alert($(this).attr('rel'));
         $("#friend_id").val($(this).attr('data-fid'));
@@ -147,7 +151,7 @@ $(document).ready(function () {
 
 
 
-    });
+    }); */
 
     var chart = new Highcharts.Chart({
     chart: {
@@ -439,6 +443,15 @@ function toggleroute(way){
 
 }
 
+function togglehomeAddress() {
+    $("#lblHomeAddress").toggle();
+}
+
+function toggleworkAddress() {
+    $("#lblWorkAddress").toggle();
+
+}
+
 function toggleratedays2(element){
 
 
@@ -547,7 +560,7 @@ $('#trips').empty();
             setTimeout(function(){
             
                     $(".busprivbut").click(function () {
-
+                    <!-- a comment -->
                         if ($(this).html() == "B") {
                             $(this).html("P");
                         } else {
@@ -558,7 +571,7 @@ $('#trips').empty();
                 $('#preloader').hide();
             
             
-            }, 10000);
+            }, 15000);
 
 
 
@@ -577,11 +590,9 @@ function formatAMPM(date) {
 }
 
 function formatdate(datetime){
-
                 datetime = datetime.split("T");
                 time = datetime[1];
                 time = time.split(":");
-
 
                 datetime = datetime[0].split("-");
                 year = datetime[0];
