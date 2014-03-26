@@ -204,9 +204,7 @@ $(".rotated").rotate(180);
 
 
 });
-$(".message-sub-header").click(function(){
-    alert("wow");
-});
+
 function APPMANAGER() {
     //DECLARE LOCAL PROPERTIES AS NULL
     this.pages = new Array();
@@ -225,9 +223,6 @@ function APPMANAGER() {
         $("#menu").toggle('slide', {
             direction: 'right'
         });
-    }
-    APPMANAGER.prototype.refreshMessages = function (pageName) {
-        Application.masterVM.vmMessages.pullMessages();
     }
     APPMANAGER.prototype.gotoPage = function (pageName) {
         //CLOSE ALL WINDOWS

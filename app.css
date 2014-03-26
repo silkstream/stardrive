@@ -3,37 +3,32 @@
  width:100%;
  font-family: Verdana, Geneva, sans-serif;
  margin: 0;
+ padding: 0;
  overflow: hidden;
- 
 }
 
-p
-{
-    
-    font-size:  15px;    
-    
+p{   
+    font-size:  15px;   
 }
-
-input
-{
+input{
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     color:#808080;
-    font-size:13px;
-
+    font-size:16px;
 }
-h1
-{
+h1{
     color:#00C3FF;
     font-size:13px;
 }
-
 #pagebody
 {
     width:100%;   
     overflow:hidden;
-         
+    height: 100%;
+}
+#pagebpdy-container{
+    height: 100%; overflow-y: auto;padding:0; margin: 0;"
 }
 
 
@@ -227,6 +222,7 @@ input{
 
 textarea
 {
+    font-family: Verdana, Geneva, sans-serif;
     border-radius: 4px;
     border: 2px solid #E7E7E8;    
     padding: 10px 10px;
@@ -234,9 +230,17 @@ textarea
     width: 100%;
     margin: 5px auto;
     resize: none;    
-    
+    color:#808080;
+    font-size:16px;    
 }
-
+#newmessage{
+    height: 40%;
+}
+#friend-name{
+    margin-top: 15px;
+    height: 53px;
+    line-height: 53px;
+}
 .selectable{
     cursor: pointer;
     
@@ -274,6 +278,12 @@ textarea
 {
 background: #ffffff;    
     
+}
+
+.gpsbutton
+{
+       background: url(images/gps_button.png)  no-repeat;
+       cursor:pointer;
 }
 
 .profilemsgbutton
@@ -681,4 +691,45 @@ background: #E7E7E8;
 }
 .blue_link :hover,visted{
 	color:3ac1f0;	
+}
+.sub-header{
+    width: 100%;
+    background: #F5F6F7;
+    height: 40px;
+    position: relative;
+    float: left;
+    border-bottom: 3px solid #E7E7E8;
+}
+.message-sub-header{
+    padding: 5px 4%;
+    width: 42%;
+    float: left;
+}
+.message-sub-header .text{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    min-width:20%;
+    color: 3ac1f0;
+}
+
+.message-sub-header .image-rep{
+    float: left;
+    width: 30px;
+    height: 30px;
+    border: 0px solid blue;
+    margin: 0px 5px;
+}
+.message-sub-header #inbox{
+    background: url("images/messaging_btn_2.png");
+    background-size: 100%;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 30px; 
+    text-align: center;
+}
+
+.message-sub-header #refresh{
+    background: url("images/refresh_button.png");
+    background-size: 100%;
 }
