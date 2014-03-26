@@ -139,11 +139,13 @@
          <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;" data-bind="click: function(){Application.masterVM.vmProfile.showHomeAddress()}">
                  <div style="width:160px;">Home Address</div>
                  <div style="text-align:right;" class="colorblue" data-bind="text: $data.HomeAddresstext" ></div>
+                 <div style="" class="gpsbutton"></div>
              </div>
         <div style="clear: both !important;float: none !important;"></div> 
              <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;" data-bind="click: function(){Application.masterVM.vmProfile.showWorkAddress()}">
                  <div style="width:160px;">Work Address</div>
                  <div style="text-align:right;" class="colorblue" data-bind="text: $data.WorkAddresstext"></div>
+                 <div style="" class="gpsbutton"></div>
              </div>
         </div>        
        </div>
@@ -379,14 +381,9 @@
        </div>
      
         </div>       
-        
-        
-                 
-    
+
  <!-- Alert Screen Ends -->       
-        
-        
-        
+  
         <!-- StarSocial Messages Starts -->   
         <div id="page-starsocial" data-page-type="main"  title="StarSocial">            
             <!-- Subnavigation -->
@@ -504,6 +501,32 @@
                 <div class="colorgrey" style="padding:15px 0; margin: 0;outline: 1px solid #E7E7E8;width: 50%;overflow: hidden;text-align: center;" onclick="return Application.gotoPage('page-starsocial');">Messages</div>
                 <div style="clear: both;float: none;"></div>            
             </div>
+             <div id="allfriends"  data-bind="foreach: allfriends" style="position: relative;width: 100%;">         
+                <div class="row colorgrey" style="position: relative;padding-left: 0;padding-bottom: 0;width: 100%;" data-bind="attr: { 'data-fid': friend_id, 'data-fname': friend_name}">    
+                       <div style="width:100%;padding: 0;margin: 0;" class="colorgrey" >
+                               <div onclick="showmsgcontrol(this);" style="width:100%;padding: 0;margin: 0;">
+                               <div style="margin: 0 10px 0 10px;width: 75%;" class="colorgrey" >
+                                       <img  data-bind="src: friend_img" src="images/account_btn.png" align="left" style="" width="50px;"/>                               
+                                       <span data-bind="text: friend_name" class="colorblue"></span>
+                               </div>
+                               <div style="float: left;width: 10%;margin: 30px 0 20px 0;text-align: right;" class="arrow">
+                               <img src="images/accordion_down.png">
+                               </div>
+
+                               </div>
+                               <div style="clear:both;float:none;"></div>  
+                               <div style="display: none;padding: 5px 0 5px 0;width: 100%;" class="msgcontrol grey">
+                                    <div style="float: left;margin-left: 10px;"  data-bind="click: Application.masterVM.vmMessages.setchosenmsgfrnd">
+                                        <div style="float: left;margin-left: 10px;"><img src="images/email_icon.png"/></div>
+                                        <div style="float: left;margin-left: 10px;">Message</div>
+                                    </div>
+                                    <div style="float: left;margin-left: 10px;"   data-bind="click: $parent.delfriend"> 
+                                        <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
+                                        <div style="float: left;margin-left: 10px;">Delete</div>
+                                    </div>
+                                    <div style="float: none; clear: both;"></div>
+                               </div>
+                               <div style="clear:both;float:none;"></div>
 
              <div id="allfriends"  data-bind="foreach: allfriends" style="position: relative;width: 100%;">
          
@@ -533,20 +556,9 @@
                                     <div style="float: none; clear: both;"></div>
                                </div>
                                <div style="clear:both;float:none;"></div>
-
                        </div>
                        <div style="clear:both;float:none;"></div>                      
-
-
-
                 </div>
-
-
-
-
-
-
-        
             </div>      
         </div>  
         <!-- StarSocial Friends Ends -->
@@ -573,6 +585,14 @@
                </div>               
                <div style="clear:both;float:none;"></div>  
             </div>
+           <div class="row grey"   data-bind="visible: (whattoshow() === 'position'),with:chosenposition">               
+                <span data-bind="text: vehicle" class="colorred"></span><br/>
+                <span class="colorblue" data-bind="text: address">Location</span> (<span data-bind="text: (date)" class="colorgrey"></span>)
+                <div class="colorblue" style="font-size: 30px;padding: 0;left:85%;top:5px;position: absolute;width: 10%;text-align: right;" onclick="showinfowindow();">+</div>
+                <div style="clear:both;float:none;"></div>
+            </div>
+           
+
 
         </div>
                        
@@ -798,14 +818,15 @@
  
              <div id="starsafevehicles" data-bind="foreach:Vehicles" style="margin: 0; padding: 0;">
 
-             <div class="row" style="width: 100%;margin: 0;padding: 10px 0 10px 0;">
+             <div class="row" style="width: 100%;margin: 0;padding: 10px 0 10px 0;"  data-bind="click: Application.masterVM.vmMaps.setchosenposition">
+                <input type="hidden" class="positionjson" value="">
                 <div style="width: 20%;padding-left: 10px;"> <img src="" data-bind="attr: { src: $data.avatar}" style="width: 100%;border-radius: 5px;"></div>
-                <div style="width: 40%;padding: 10px;" class="colorgrey"> Vehicle<br/><span class="colorblue" data-bind="text: $data.description" ></span></div>
-                <div style="width: 20%;padding: 10px;padding-left: 10px;float: right;text-align: right;" class="colorgrey"> Status<br/><span class="colorblue" data-bind="text: $data.status" ></span></div>
+                <div style="width: 40%;padding: 10px;" class="colorgrey"> Vehicle<br/><span class="vehiclename colorblue" data-bind="text: $data.description" ></span></div>
+                <div style="width: 20%;padding: 10px;padding-left: 10px;float: right;text-align: right;" class="colorgrey"> Status<br/><span class="status colorblue" data-bind="lastposition: $data" ></span></div>
                 <div class="clearfix"></div>
                 <hr style="border: 1px solid #E7E7E8;"/>
-                <div style="width: 40%;padding-left: 10px;" class="colorblue"> N1<br/><span class="colorgrey" >Location</span></div>
-                <div style="width: 40%;padding-right: 10px;float: right;text-align: right;" class="colorblue"> 3 August 2013<br/><span class="colorgrey" >Last 3 Days</span></div>
+                <div style="width: 40%;padding-left: 10px;" class="colorblue"><span class="location">N1</span><br/><span class="colorgrey" >Location</span></div>
+                <div style="width: 40%;padding-right: 10px;float: right;text-align: right;" class="colorblue"> <span class="locationdate">3 August 2013</span><br/><span class="colorgrey" >Last 3 Days</span></div>
 
                 <div class="clearfix"></div>
 

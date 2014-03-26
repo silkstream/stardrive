@@ -238,6 +238,9 @@ function ProfileViewModel() {
             dataType: 'json'
         });
     }
+
+   
+
 }
 
 function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg) {
@@ -592,6 +595,7 @@ function Routes(from, fromtext, to, totext, datetime) {
 function MapsViewModel() {
     var self = this;
     self.chosenalert = ko.observable();
+    self.chosenposition = ko.observable();
     self.chosenroute = ko.observable();
     self.whattoshow = ko.observable();
     self.initmap = '0';
@@ -601,6 +605,28 @@ function MapsViewModel() {
         return type === this.whattoshow();
     };
 
+
+
+
+    self.setchosenposition = function (posobj, element) {
+
+        self.whattoshow("position");
+
+        posobj = JSON.parse($(element.currentTarget).find("input.positionjson").val());
+        posobj.vehicle = $(element.currentTarget).find("div .vehiclename").html();
+
+        console.log(posobj);
+        self.whattoshow("position");
+        Application.masterVM.vmMaps.chosenposition(posobj);
+        Application.gotoPage('page-location');
+        if (self.initmap == '0') {
+        mapINIT();
+        self.initmap = "1";
+        }
+        clearmap();
+        placepositionpin(posobj);
+
+    }
 
 
     self.setchosenalert = function (alertobj) {
@@ -1257,6 +1283,28 @@ function Vehicle(vehicleid, description, status, avatar, registration, trips) {
         self.trips = ko.observableArray(trips);
 
 
+        /*self.lastposition = function (data, event) {
+            console.log("starsafe container");
+            console.log(event.srcElement);
+            //getlastposition(vehicle, container);
+
+            return "gfsdd " + data.VehicleId();
+        }*/
+
+        ko.bindingHandlers.lastposition = {
+            update: function (element, valueAccessor, allBindings) {
+                // First get the latest data that we're bound to
+                console.log("starsafe container");
+                console.log($(element).parent().parent());
+                console.log("value accessor ");
+                console.log(valueAccessor().VehicleId());
+                netstar_login('colossusadmin', 'c0l0ssus');
+                getlastposition(valueAccessor().VehicleId(), $(element).parent().parent());
+                setTimeout(function () { $('#preloader').hide(); }, 500);
+                //$("");
+
+            }
+        };
 
     }
 

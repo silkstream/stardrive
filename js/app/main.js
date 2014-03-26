@@ -560,7 +560,7 @@ $('#trips').empty();
             setTimeout(function(){
             
                     $(".busprivbut").click(function () {
-
+                    <!-- a comment -->
                         if ($(this).html() == "B") {
                             $(this).html("P");
                         } else {
@@ -571,7 +571,7 @@ $('#trips').empty();
                 $('#preloader').hide();
             
             
-            }, 10000);
+            }, 15000);
 
 
 
@@ -590,11 +590,9 @@ function formatAMPM(date) {
 }
 
 function formatdate(datetime){
-
                 datetime = datetime.split("T");
                 time = datetime[1];
                 time = time.split(":");
-
 
                 datetime = datetime[0].split("-");
                 year = datetime[0];
