@@ -8,6 +8,10 @@ var speedingOverlay;
 var alertpin;
 var infowindow = 0;
 var returnedtripdata;
+var startloadercount = 0;
+
+
+
 
 function callProxyPHP(proxy_url_ext, req_type, user_data, callback, async_val) {
 
@@ -28,7 +32,15 @@ function callProxyPHP(proxy_url_ext, req_type, user_data, callback, async_val) {
             console.log("xhr.status=" + xhr.status + " error=" + errorString + " exception=(" + exception + ")");
         },
         beforeSend: function () {
+            startloadercount = startloadercount +1;
             $('#preloader').show();
+        },
+        complete: function(){
+            startloadercount = startloadercount -1;
+            if(startloadercount < 1){
+                $('#preloader').hide();
+            }
+        
         }
     });
 }

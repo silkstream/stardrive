@@ -655,9 +655,11 @@ function MapsViewModel() {
         self.whattoshow("position");
         Application.masterVM.vmMaps.chosenposition(posobj);
         Application.gotoPage('page-location');
+        $(".vehicleselectwindow").show();
+
         if (self.initmap == '0') {
-        mapINIT();
-        self.initmap = "1";
+            mapINIT();
+            self.initmap = "1";
         }
         clearmap();
         placepositionpin(posobj);
@@ -666,6 +668,8 @@ function MapsViewModel() {
 
 
     self.setchosenalert = function (alertobj) {
+        $(".vehicleselectwindow").hide();
+        $(".vehicleselectionwindow").hide();
         self.whattoshow("alert");
         Application.masterVM.vmMaps.chosenalert(alertobj);
         Application.gotoPage('page-location');
@@ -679,8 +683,8 @@ function MapsViewModel() {
 
 
     self.setchosenroute = function (way) {
-
-
+        $(".vehicleselectwindow").hide();
+        $(".vehicleselectionwindow").hide();
         self.whattoshow("route");
 
         // Application.masterVM.vmMaps.chosenroute(tripobj);
