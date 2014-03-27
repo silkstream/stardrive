@@ -252,7 +252,7 @@ function mapINIT() {
 
 
         controls.push(new deCarta.UI.SelectControl({ position: 'bottomLeft' }));
-        controls.push(new deCarta.UI.LocateControl({ position: 'leftTop' }));
+        controls.push(new deCarta.UI.LocateControl({ position: 'bottomRight' }));
         controls.push(new deCarta.UI.LayerControl({ position: 'bottomRight' }));
         //controls.push(new deCarta.UI.TrafficControl({position: 'rightTop'}));
 	 	
