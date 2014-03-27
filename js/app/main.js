@@ -2,6 +2,7 @@
 var swipebutton="1";
 var template = "";
 var selectedvehicle = 1;
+
 $(document).ready(function () {
 
 //CREATE APPLICATION PAGES
@@ -62,6 +63,8 @@ $(document).ready(function () {
     //bindings for alert location page
     ko.applyBindings(Application.masterVM.vmMaps, document.getElementById('alertlocation'));
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('daylyroute'));
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('vehicleselect'));
+    
 
 
     ko.applyBindings(Application.masterVM.vmLogin, $(Application.pages[0])[0]);
@@ -204,7 +207,9 @@ $(".rotated").rotate(180);
 
 
 });
-
+$(".message-sub-header").click(function(){
+    alert("wow");
+});
 function APPMANAGER() {
     //DECLARE LOCAL PROPERTIES AS NULL
     this.pages = new Array();
@@ -223,6 +228,9 @@ function APPMANAGER() {
         $("#menu").toggle('slide', {
             direction: 'right'
         });
+    }
+    APPMANAGER.prototype.refreshMessages = function (pageName) {
+        Application.masterVM.vmMessages.pullMessages();
     }
     APPMANAGER.prototype.gotoPage = function (pageName) {
         //CLOSE ALL WINDOWS
@@ -520,7 +528,10 @@ $('#trips').empty();
                                                 thistrip = returnedtripdata[i];
                                                 gettripdetail(thistrip.TripId);
 
-                                                setTimeout(function(){$('#preloader').hide();}, 500);
+                                                setTimeout(function(){
+                                                //$('#preloader').hide();
+                                                
+                                                }, 500);
                                             }
                                 
                                 });                             
@@ -568,7 +579,7 @@ $('#trips').empty();
                         }
                     });
 
-                $('#preloader').hide();
+              //  $('#preloader').hide();
             
             
             }, 15000);
@@ -604,4 +615,15 @@ function formatdate(datetime){
                 tripdatetime = datetime.getDate() + " " + monthNames[datetime.getMonth()] + " " + datetime.getUTCFullYear() + " " + formatAMPM(datetime);
 
                 return tripdatetime;
+}
+
+function vehicleselecttoggle(){
+        //alert("nkl");
+        if($(".vehicleselectionwindow").is(":visible") ){
+            $(".vehicleselectionwindow").fadeOut();
+        
+        }else{
+            $(".vehicleselectionwindow").fadeIn();
+        }
+
 }

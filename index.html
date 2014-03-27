@@ -13,7 +13,7 @@
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/SelectControl.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/LocateControl.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/OverviewControl.css" />
-        <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
+        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
 
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
@@ -78,7 +78,7 @@
 <!-- Top Navigation Ends -->
 
 
-<div style="height: 80%; overflow-y: scroll;padding:0; margin: 0;" >
+<div id="pagebody-container" >
 <!-- Login Screen Starts -->
         <div id="page-intro" title="Login" data-page-type="main" >
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
@@ -97,8 +97,8 @@
         <div id="page-login" title="Login">
             <!-- This is a *view* - HTML markup that defines the appearance of your UI -->
             <div></div>
-            <p><input type="email" pattern="[^ @]*@[^ @]*" data-bind="value: LoginName" /></p>
-            <p><input type="password" data-bind="value: UserPassword" /></p>
+            <p><input type="email" pattern="[^ @]*@[^ @]*" data-bind="value: LoginName" placeholder="email"/></p>
+            <p><input type="password" data-bind="value: UserPassword" placeholder="password"/></p>
             <p><strong data-bind="text: ErrorMessage, visible:LoginFail"></strong></p>
 
             <div class="blue button" data-bind="click: doLogin">Login</div>
@@ -139,13 +139,13 @@
          <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;" data-bind="click: function(){Application.masterVM.vmProfile.showHomeAddress()}">
                  <div style="width:160px;">Home Address</div>
                  <div style="text-align:right;" class="colorblue" data-bind="text: $data.HomeAddresstext" ></div>
-                 <div style="" class="gpsbutton"></div>
+                 <div class="gpsbutton" style="width:50px;float:left;margin-left:10px;height:40px;margin-top:-5px;">&nbsp;</div>
              </div>
         <div style="clear: both !important;float: none !important;"></div> 
              <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;" data-bind="click: function(){Application.masterVM.vmProfile.showWorkAddress()}">
                  <div style="width:160px;">Work Address</div>
                  <div style="text-align:right;" class="colorblue" data-bind="text: $data.WorkAddresstext"></div>
-                 <div style="" class="gpsbutton"></div>
+                  <div class="gpsbutton" style="width:50px;float:left;margin-left:10px;height:40px;margin-top:-5px;">&nbsp;</div>
              </div>
         </div>        
        </div>
@@ -241,6 +241,24 @@
         </div>
 
         <!-- Daily Route Endz-->
+          <!--Latest Trip-->
+        <div class="row colorgrey" style="position:relative; width:100%; padding:0; ">
+                       <div style="width:100%;padding:  10px 0 10px 0; border-bottom: 3px solid #E7E7E8;" class="colorgrey"  onclick="showmsgcontrol(this);">
+                               <div style="text-align: center;width: 10%;"> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
+                        <div style="width: 75%;" class="colorgrey">
+                         <div style="width:100%;" class="colorred">Bellville - Durbanville </div>
+                         <span class="colorblue">Durbanville</span><span class="colorgrey">&nbsp;(26 March 2014 05:17)</span>
+                         <div><span class="colorgrey">Vehicle Registration:</span><span class="colorblue">&nbsp;WDL456GP</span></div>
+                        </div>
+                         <div style="float: left;width: 10%;margin: 30px 0 20px 0;text-align: right;"  class="arrow">
+                             <img src="images/accordion_down.png"> 
+                         </div>
+                         <div style="clear:both;float:none;"></div>
+                       </div>
+        </div> 
+        <div style="clear:both;float:none;"></div>
+        <!--End latest trip-->
+
         <!--Latest  Alert -->
         <div class="row colorgrey" data-bind="foreach: allalerts"  id="latestalert" style="position: relative;padding: 0;">      
        <!-- ko if: ( $index() === ($parent.allalerts().length -1)) -->
@@ -328,9 +346,9 @@
 
 
         <!-- Bottom buttons -->
-        <div class="row grey" style="position: relative;padding: 0;position:relative;height: 100px;overflow: hidden;">
-        <div  onclick="return Application.gotoPage('page-starsocial');" style="position:relative;height: 100%;width: 30%; border-right: solid 2px #E7E7E8;" id="msgtotal" class="profilemsgbutton"><div class="circleBase blue colorwhite" style="padding: 6px 10px;" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
-        <div  onclick="return Application.gotoPage('page-alerts');" style="width: 30%;height: 100%;" class="profilealertbutton"><div class="circleBase red colorwhite" style="padding: 6px 10px;" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
+        <div class="row grey" id="profile-footer">
+        <div  onclick="return Application.gotoPage('page-starsocial');" id="msgtotal" class="profilemsgbutton"><div class="circleBase profile-circle blue colorwhite" style="padding: 6px 10px;" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
+        <div  onclick="return Application.gotoPage('page-alerts');"  class="profilealertbutton"><div class="circleBase  profile-circle red colorwhite" style="padding: 6px 10px;" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
         <div style="clear:both;float:none;"></div>
         </div>
 
@@ -388,16 +406,21 @@
         <div id="page-starsocial" data-page-type="main"  title="StarSocial">            
             <!-- Subnavigation -->
             <div class="row colorblue grey" style="position: relative;padding:0;">
-            
                 <div class="colorgrey" style="padding:15px 0; margin: 0;outline: 1px solid #E7E7E8;width: 50%;overflow: hidden;text-align: center;" onclick="return Application.gotoPage('page-friends');">Friends</div>
                 <div  class="white" style="padding:15px 0; margin: 0;outline: 1px solid #E7E7E8;width: 50%;overflow: hidden;text-align: center;" onclick="return Application.gotoPage('page-starsocial');">Messages</div>
                 <div style="clear: both;float: none;"></div>
-            
             </div>
-
-
-           <div id="allmessages"  data-bind="foreach: allmessages" style="position: relative;width: 100%;">
-           <!-- ko if:  reminder() !== '0' || fromid() !== '30' -->
+            <div class="sub-header">
+                <div class="message-sub-header">
+                    <div class="text left" >Inbox   </div> <div class="image-rep" id="inbox" > 0 </div>
+                </div>
+                <div class="message-sub-header" onclick="return Application.refreshMessages();">
+                    <div class="image-rep right" id="refresh"> </div> <div class="text right" >Refresh </div>
+                </div> 
+            </div>
+            <div style="clear: both;float: none;"></div>
+            <div id="allmessages"  data-bind="foreach: allmessages" style="position: relative;width: 100%;">
+            
                 <div class="row colorgrey" style="position: relative;width: 100%;padding: 0;margin:0;">    
        
        
@@ -435,7 +458,6 @@
                        </div>
                        <div style="float: none; clear: both;"></div>
                 </div>
-            <!-- /ko  -->
             </div>   
         </div>    
         <!-- StarSocial Messages Ends -->
@@ -451,7 +473,7 @@
             </div>
 
            <div id="chosenmsgn"  data-bind="with: chosenmsg" class="row" style="position: relative;">
-                                       <div data-bind="blur: console.log(fromid())"  style="margin: 0 10px 0 10px;width:100%;" class="colorgrey"  onclick="showmsgcontrol(this);">
+                                       <div data-bind="blur: console.log(fromid())"  style="margin: 0 px;width:100%;" class="colorgrey"  onclick="showmsgcontrol(this);">
                        <!-- ko if: ( reminder != 0) -->
                        <img   src="images/account_btn.png" align="left" style="" width="70px;"/>
                        <!-- /ko -->
@@ -464,9 +486,7 @@
                        <span style="color: #000000;">Message</span> (<span data-bind="text: msgdate" class="colorgrey"></span>)              
                        <p data-bind="text: message"></p>
                        <!-- /ko -->
-                       <!-- ko if: ( subject() == "" && message() == "") -->
                        <input type="text" placeholder="Subject" data-bind="value: subject" style="width: auto;">
-                       <!-- /ko -->
 
                        </div>
                        <div style="clear:both;float:none;"></div>
@@ -507,9 +527,9 @@
                                <div onclick="showmsgcontrol(this);" style="width:100%;padding: 0;margin: 0;">
                                <div style="margin: 0 10px 0 10px;width: 75%;" class="colorgrey" >
                                        <img  data-bind="src: friend_img" src="images/account_btn.png" align="left" style="" width="50px;"/>                               
-                                       <span data-bind="text: friend_name" class="colorblue"></span>
+                                       <span data-bind="text: friend_name" class="colorblue" id="friend-name"></span>
                                </div>
-                               <div style="float: left;width: 10%;margin: 30px 0 20px 0;text-align: right;" class="arrow">
+                               <div style="float: left;width: 10%;margin: 10px 0 20px 0;text-align: right;" class="arrow">
                                <img src="images/accordion_down.png">
                                </div>
 
@@ -528,37 +548,9 @@
                                </div>
                                <div style="clear:both;float:none;"></div>
 
-             <div id="allfriends"  data-bind="foreach: allfriends" style="position: relative;width: 100%;">
-         
-                <div class="row colorgrey" style="position: relative;padding-left: 0;padding-bottom: 0;width: 100%;" data-bind="attr: { 'data-fid': friend_id, 'data-fname': friend_name}">    
-       
-                       <div style="width:100%;padding: 0;margin: 0;" class="colorgrey" >
-                               <div onclick="showmsgcontrol(this);" style="width:100%;padding: 0;margin: 0;">
-                               <div style="margin: 0 10px 0 10px;width: 75%;" class="colorgrey" >
-                                       <img  data-bind="src: friend_img" src="images/account_btn.png" align="left" style="" width="50px;"/>                               
-                                       <span data-bind="text: friend_name" class="colorblue"></span>
-                               </div>
-                               <div style="float: left;width: 10%;margin: 30px 0 20px 0;text-align: right;" class="arrow">
-                               <img src="images/accordion_down.png">
-                               </div>
-
-                               </div>
-                               <div style="clear:both;float:none;"></div>  
-                               <div style="display: none;padding: 5px 0 5px 0;width: 100%;" class="msgcontrol grey">
-                                    <div style="float: left;margin-left: 10px;"  data-bind="click: Application.masterVM.vmMessages.setchosenmsgfrnd">
-                                        <div style="float: left;margin-left: 10px;"><img src="images/email_icon.png"/></div>
-                                        <div style="float: left;margin-left: 10px;">Message</div>
-                                    </div>
-                                    <div style="float: left;margin-left: 10px;"   data-bind="click: $parent.delfriend"> 
-                                        <div style="float: left;margin-left: 10px;"><img src="images/clear_icon_delete_btn.png"/></div>
-                                        <div style="float: left;margin-left: 10px;">Delete</div>
-                                    </div>
-                                    <div style="float: none; clear: both;"></div>
-                               </div>
-                               <div style="clear:both;float:none;"></div>
                        </div>
                        <div style="clear:both;float:none;"></div>                      
-                </div>
+                </div>        
             </div>      
         </div>  
         <!-- StarSocial Friends Ends -->
@@ -597,9 +589,29 @@
         </div>
                        
                 <div id="mapContainerzzz" name="mapContainerzzz" style="position:relative;backgound: #666666;float:none;overflow: hidden;">
-               <div style="display:block; width: 100%; height: 100%;position:relative;"></div>
+               <div style="display:block; width: 100%; height: 80%;position:relative;"></div>
+                <div class="vehicleselectionwindow colorwhite" id="vehicleselect" style="display: none;">
+               
+                     <div data-bind="foreach:Vehicles" style="margin: 0; padding: 0;">
+                     <span data-bind="text: $data.description"></span>
+
+                     </div>
+                     <div class="clearfix"></div>
+                </div>
+
+
+                <div class="vehicleselectwindow" style="display: none;">
+                <div class="selectwindowbg"> </div>                    
+                    <div class="button blue" style="position: absolute;margin-left: 10px;padding: 10px;width: 200px;" onclick="vehicleselecttoggle();">
+                        <div style="float: left;">Select Vehicle</div> <div style="float: right;padding: 3px;margin-left: 10px;" class="circleBase white"><img src="images/arrow_down_button.png"/></div>
+                    </div>                
+                </div>              
+              
                 </div>
                 <div class="custominfowindow"></div>
+                
+                
+
          
         </div>
         </div>
