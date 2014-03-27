@@ -5,7 +5,7 @@
 		<meta name='apple-mobile-web-app-capable' content='yes' />
 		<meta http-equiv="Access-Control-Allow-Origin" content="*"> 
         <meta name="format-detection" content="telephone=no" />
-		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
+		<meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=0" />
 
         <link rel="stylesheet" type="text/css" href="app.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/core.css" />
@@ -224,17 +224,16 @@
                 </div>
                
                 <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
-                <div style="width: 100%;float:left;display:none;" id="lblWorkAddress" class="colorblue"><span class="colorblue" data-bind="text: WorkAddresstext"></div>
+                <div style="width: 100%;float:left;display:none;" id="lblWorkAddress" class="colorblue" onclick="Application.masterVM.vmMaps.setchosenroute('homework')"><span class="colorblue" data-bind="text: WorkAddresstext"></div>
             </div> 
            
-            <div onclick="togglehomeAddress()" style="font-size: 15px;float:left;width:100%;">
+            <div style="font-size: 15px;float:left;width:100%;" onclick="togglehomeAddress()">        
                 <div style="width: 120px;float:left;">Route Home</div>
                 <div style="margin-left: 10px;float:left;">
                     <img src="images/accordion_down.png" style="width: 20px;"/>
                 </div>
-               
                 <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
-                <div style="width: 100%;float:left;display:none;" id="lblHomeAddress" class="colorblue"><span class="colorblue" data-bind="text: HomeAddresstext"></div>
+                <div style="width: 100%;float:left;display:none;" id="lblHomeAddress" class="colorblue"  onclick="click: Application.masterVM.vmMaps.setchosenroute('workhome')"><span class="colorblue" data-bind="text: HomeAddresstext"></div>
             </div> 
         </div>
         <div style="clear: both;float: none;"></div>

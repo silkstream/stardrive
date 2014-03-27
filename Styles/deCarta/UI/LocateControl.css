@@ -2,10 +2,17 @@
 	height:50px;
 	width:50px;
 	margin:2px;
+	bottom: 140px !important;
+	right: 10px !important;
+	position: absolute;
 }
 .deCarta-control-locate-off {
-	background-image : url("../../../img/gpsOff.png");
+	background-image : url("../../../images/mapitui/location_off.png");
+	height: 35px !important;
+	width: 35px !important;		
 }
 .deCarta-control-locate-on {
-	background-image : url("../../../img/gpsOn.png");
+	background-image : url("../../../images/mapitui/location_on.png");
+	height: 35px !important;
+	width: 35px !important;		
 }
