@@ -33,7 +33,7 @@ h1{
 #profile-footer
 {
     width: 100%;
-    position: fixed;
+    position: absolute;
     padding: 0;
     height: 15%;
     left:0; right: 0; bottom:0;
