@@ -27,9 +27,8 @@ h1{
     overflow:hidden;
     height: 100%;
 }
-
 #pagebody-container{
-    height: 90%; overflow-y: scroll;padding:0; margin: 0;
+    height: 90%; overflow-y: scroll;padding:0; margin: 0;"
 }
 #profile-footer
 {

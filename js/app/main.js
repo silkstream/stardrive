@@ -571,7 +571,7 @@ $('#trips').empty();
             setTimeout(function(){
             
                     $(".busprivbut").click(function () {
-
+                    <!-- a comment -->
                         if ($(this).html() == "B") {
                             $(this).html("P");
                         } else {
@@ -582,7 +582,7 @@ $('#trips').empty();
               //  $('#preloader').hide();
             
             
-            }, 10000);
+            }, 15000);
 
 
 
