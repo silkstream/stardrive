@@ -5,8 +5,7 @@
 		<meta name='apple-mobile-web-app-capable' content='yes' />
 		<meta http-equiv="Access-Control-Allow-Origin" content="*"> 
         <meta name="format-detection" content="telephone=no" />
-
-		<meta name="viewport" content="width=360.1,initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=0" />
 
         <link rel="stylesheet" type="text/css" href="app.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/core.css" />
@@ -593,12 +592,34 @@
                 <div class="vehicleselectionwindow colorwhite" id="vehicleselect" style="display: none;">
                
                      <div data-bind="foreach:Vehicles" style="margin: 0; padding: 0;">
-                     <span data-bind="text: $data.description"></span>
-
+<div data-bind="click: Application.masterVM.vmMaps.setchosenposition">
+                        <span data-bind="text: $data.description"></span>
+                        
+                        <input type="hidden" class="positionjson" value="">                        
+                        <div style="display:none"> Vehicle<br/><span class="vehiclename colorblue" data-bind="text: $data.description" ></span></div>
+                        <div style="display:none"> Status<br/><span class="status colorblue" data-bind="lastposition: $data" ></span></div>
+                        <div style="display:none"><span class="location">N1</span><br/><span class="colorgrey" >Location</span></div>
+                        <div style="display:none"> <span class="locationdate">3 August 2013</span><br/><span class="colorgrey" >Last 3 Days</span></div>
+</div>                    
+                    
                      </div>
                      <div class="clearfix"></div>
                 </div>
+<!-- 
 
+
+                <input type="hidden" class="positionjson" value="">
+                <div style="width: 20%;padding-left: 10px;"> <img src="" data-bind="attr: { src: $data.avatar}" style="width: 100%;border-radius: 5px;"></div>
+                <div style="width: 40%;padding: 10px;" class="colorgrey"> Vehicle<br/><span class="vehiclename colorblue" data-bind="text: $data.description" ></span></div>
+                <div style="width: 20%;padding: 10px;padding-left: 10px;float: right;text-align: right;" class="colorgrey"> Status<br/><span class="status colorblue" data-bind="lastposition: $data" ></span></div>
+                <div class="clearfix"></div>
+                <hr style="border: 1px solid #E7E7E8;"/>
+                <div style="width: 40%;padding-left: 10px;" class="colorblue"><span class="location">N1</span><br/><span class="colorgrey" >Location</span></div>
+                <div style="width: 40%;padding-right: 10px;float: right;text-align: right;" class="colorblue"> <span class="locationdate">3 August 2013</span><br/><span class="colorgrey" >Last 3 Days</span></div>
+
+
+
+-->
 
                 <div class="vehicleselectwindow" style="display: none;">
                 <div class="selectwindowbg"> </div>                    
