@@ -150,6 +150,7 @@ function LoginViewModel() {
                 Application.masterVM.vmAlerts.pullAlerts();
                 Application.masterVM.vmFriends.pullFriends();
                 Application.masterVM.vmStarRating.pullRatings(7);
+                netstar_login('colossusadmin', 'c0l0ssus');
                 Application.gotoPage('page-profile');
 
             },
@@ -572,6 +573,14 @@ function Friend(friendid, friend_name, friend_img) {
 function FriendsViewModel() {
     var self = this;
     self.allfriends = ko.observableArray();
+    self.showAddFriend = function () {
+        Application.gotoPage("page-addfriend");
+    }
+
+    self.addfriend = function () {
+        //Send friend request
+        console.log("adding friend");
+    }
 
     self.delfriend = function () {
 
@@ -698,12 +707,8 @@ function MapsViewModel() {
         clearmap();
         Application.gotoPage('page-location');
 
-        homeaddress = Application.masterVM.vmProfile.HomeAddress().split(',');
-        workaddress = Application.masterVM.vmProfile.WorkAddress().split(',');
 
-        var tripbobj = [{ lat: homeaddress[0], lon: homeaddress[1] }, { lat: workaddress[0], lon: workaddress[1]}];
-
-
+        var tripobj = [];
 
         if (way != 'homework' && way != 'workhome') {
             self.whattoshow("trip");
@@ -713,16 +718,24 @@ function MapsViewModel() {
             console.log("for trip");
             console.log(tripbobj);
 
+        } else {
+
+            homeaddress = Application.masterVM.vmProfile.HomeAddress().split(',');
+            workaddress = Application.masterVM.vmProfile.WorkAddress().split(',');
+
+            tripbobj = [{ lat: homeaddress[0], lon: homeaddress[1], speeding: 0 }, { lat: workaddress[0], lon: workaddress[1], speeding: 0}];
+            var homeaddrezz = (Application.masterVM.vmProfile.HomeAddress());
+            var workaddrezz = (Application.masterVM.vmProfile.WorkAddress());
+
+
+            var homeaddrezztxt = (Application.masterVM.vmProfile.HomeAddresstext());
+            var workaddrezztxt = (Application.masterVM.vmProfile.WorkAddresstext());
+        
+        
         }
 
         //  alert(homeaddrezz);
         // alert(workaddrezz);
-        var homeaddrezz = (Application.masterVM.vmProfile.HomeAddress());
-        var workaddrezz = (Application.masterVM.vmProfile.WorkAddress());
-
-
-        var homeaddrezztxt = (Application.masterVM.vmProfile.HomeAddresstext());
-        var workaddrezztxt = (Application.masterVM.vmProfile.WorkAddresstext());
         showtrip(tripbobj);
         var routeobj;
         switch (way) {
@@ -738,7 +751,7 @@ function MapsViewModel() {
                 toaddress = toaddress[toaddress.length - 1];
                 tocords = tripbobj[tripbobj.length - 1].lat + ", " + tripbobj[tripbobj.length - 1].lon;
 
-               /* datetime = datetime.split("T");
+                /* datetime = datetime.split("T");
                 time = datetime[1];
                 time = time.split(":");
 
@@ -1338,9 +1351,9 @@ function Vehicle(vehicleid, description, status, avatar, registration, trips) {
                 console.log($(element).parent().parent());
                 console.log("value accessor ");
                 console.log(valueAccessor().VehicleId());
-                netstar_login('colossusadmin', 'c0l0ssus');
+                //netstar_login('colossusadmin', 'c0l0ssus');
                 getlastposition(valueAccessor().VehicleId(), $(element).parent().parent());
-                setTimeout(function () { $('#preloader').hide(); }, 500);
+                //setTimeout(function () { $('#preloader').hide(); }, 500);
                 //$("");
 
             }

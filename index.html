@@ -244,7 +244,7 @@
           <!--Latest Trip-->
         <div class="row colorgrey" style="position:relative; width:100%; padding:0; ">
                        <div style="width:100%;padding:  10px 0 10px 0; border-bottom: 3px solid #E7E7E8;" class="colorgrey"  onclick="showmsgcontrol(this);">
-                               <div style="text-align: center;width: 10%;"> <img src="images/trips_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
+                               <div style="text-align: center;width: 10%;"> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
                         <div style="width: 75%;" class="colorgrey">
                          <div style="width:100%;" class="colorred">Bellville - Durbanville </div>
                          <span class="colorblue">Durbanville</span><span class="colorgrey">&nbsp;(26 March 2014 05:17)</span>
@@ -345,17 +345,14 @@
         </div>
 
 
+        </div>         
+<!-- Profile Screen Ends -->
         <!-- Bottom buttons -->
-        <div class="row grey" id="profile-footer">
+        <div class="row grey" id="profile-footer" style="display:none">
         <div  onclick="return Application.gotoPage('page-starsocial');" id="msgtotal" class="profilemsgbutton"><div class="circleBase profile-circle blue colorwhite" style="padding: 6px 10px;" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
         <div  onclick="return Application.gotoPage('page-alerts');"  class="profilealertbutton"><div class="circleBase  profile-circle red colorwhite" style="padding: 6px 10px;" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
         <div style="clear:both;float:none;"></div>
         </div>
-
-
-
-        </div>         
-<!-- Profile Screen Ends -->
 
 <!-- Alert Screen Starts -->
         <div id="page-alerts" data-page-type="main"  title="Alerts">  
@@ -415,7 +412,7 @@
                     <div class="text left" >Inbox   </div> <div class="image-rep" id="inbox" > 0 </div>
                 </div>
                 <div class="message-sub-header" onclick="return Application.refreshMessages();">
-                    <div class="image-rep right" id="refresh"> </div> <div class="text right" >Refresh </div>
+                    <div class="image-rep right" id="refresh" onclick="return Application.refreshMessages();" > </div> <div class="text right" >Refresh </div>
                 </div> 
             </div>
             <div style="clear: both;float: none;"></div>
@@ -465,7 +462,7 @@
         <!-- StarSocial Send Message Starts -->
         <div id="page-messages" title="StarSocial">    
         
-            <div class="row colorblue grey" style="position: relative;padding:0;">       
+           <div class="row colorblue grey" style="position: relative;padding:0;">       
           
                 <div class="colorgrey" style="padding:15px 0; margin: 0;outline: 1px solid #E7E7E8;width: 50%;overflow: hidden;text-align: center;" onclick="return Application.gotoPage('page-friends');">Friends</div>
                 <div class="white" style="padding:15px 0; margin: 0;outline: 1px solid #E7E7E8;width: 50%;overflow: hidden;text-align: center;" onclick="return Application.gotoPage('page-starsocial');">Messages</div>
@@ -500,7 +497,7 @@
             </div>   
         </div>  
         <!-- StarSocial Send Message Ends -->
-                <div class="friendModal" title="myfriend" style="display: none;" id="chosenfriend">
+            <div class="friendModal" title="myfriend" style="display: none;" id="chosenfriend">
                 <div class="bluegradientbg" id="friend_name_title">njk</div>
                 <input type="hidden" id="friend_id" />    
                 <input type="hidden" id="friend_name" />  
@@ -514,13 +511,21 @@
 
         
         </div>
+    
         <!-- StarSocial Friends Starts -->
-        <div id="page-friends" title="StarSocial" data-page-type="main">            
+            <div id="page-friends" title="StarSocial" data-page-type="main">            
             <div class="row colorblue grey" style="position: relative;padding:0;">            
                 <div class="white" style="padding:15px 0; margin: 0;outline: 1px solid #E7E7E8;width: 50%;overflow: hidden;text-align: center;" onclick="return Application.gotoPage('page-friends');">Friends</div>
                 <div class="colorgrey" style="padding:15px 0; margin: 0;outline: 1px solid #E7E7E8;width: 50%;overflow: hidden;text-align: center;" onclick="return Application.gotoPage('page-starsocial');">Messages</div>
-                <div style="clear: both;float: none;"></div>            
+                <div style="clear: both;float: none;"></div>        
             </div>
+            <div class="sub-header">
+                <div class="friend-sub-header">
+                    <div class="image-rep" id="add-friend" > </div> <div class="text left" >Add Friend </div>
+                </div>
+            </div>
+            <div style="clear: both;float: none;"></div>        
+
              <div id="allfriends"  data-bind="foreach: allfriends" style="position: relative;width: 100%;">         
                 <div class="row colorgrey" style="position: relative;padding-left: 0;padding-bottom: 0;width: 100%;" data-bind="attr: { 'data-fid': friend_id, 'data-fname': friend_name}">    
                        <div style="width:100%;padding: 0;margin: 0;" class="colorgrey" >
@@ -551,12 +556,17 @@
                        </div>
                        <div style="clear:both;float:none;"></div>                      
                 </div>        
-            </div>      
+            </div>   
+            
+             <div id="page-addfriend">
+                <input type="text" placeholder="Email address"></input>
+                <div class="blue button" data-bind="click: Application.masterVM.vmFriends.addfriend">Add</div>
+            </div>   
         </div>  
         <!-- StarSocial Friends Ends -->
 
         <!-- Alert Location Starts -->   
-        <div id="page-location"  title="Location" style="height: 100%;">
+            <div id="page-location"  title="Location" style="height: 100%;">
         <div  style="height: 100%;position: relative;">
         <div id="alertlocation" >
            <div class="row grey"   data-bind="visible: (whattoshow() === 'alert'),with:chosenalert">
@@ -639,9 +649,8 @@
         </div>
         <!-- Alert Location Ends -->
 
-
         <!-- StarRating Starts -->
-        <div id="page-starrate" data-page-type="main"  title="StarRate">            
+            <div id="page-starrate" data-page-type="main"  title="StarRate">            
               <input type="hidden" value="7" id="currentratedays">
           
             <div class="grey row colorblue" syle="text-align: center;">
@@ -677,12 +686,10 @@
 
         </div>     
  
-
-      <!-- StarRating Ends -->
-
+        <!-- StarRating Ends -->
 
         <!-- StarRating Composition Starts -->
-        <div id="page-starratecomposition" data-page-type="main"  title="StarRate">            
+            <div id="page-starratecomposition" data-page-type="main"  title="StarRate">            
             <div class="grey row colorblue" syle="text-align: center;">
                <div class="left" style="width:10% !important; min-height: 1px;" ></div>
                <div class="left" style="width:75%;min-width:75% !important;text-align:center;position: relative;" id="togglemenu">           
@@ -717,12 +724,10 @@
 
         </div>     
 
-
-      <!-- StarRating Composition Ends -->
-
+        <!-- StarRating Composition Ends -->
 
         <!-- StarRating sliders Starts -->
-        <div id="page-starratesliders" data-page-type="main" title="StarRate">            
+            <div id="page-starratesliders" data-page-type="main" title="StarRate">            
            <div class="grey row colorblue" syle="text-align: center;">
                <div class="left" style="width:10% !important; min-height: 1px;" ></div>
                <div class="left" style="width:75%;min-width:75% !important;text-align:center;position: relative;"id="slideday">           
@@ -843,9 +848,7 @@
 
         </div>     
 
-
-      <!-- StarRating sliders  Ends -->
-
+        <!-- StarRating sliders  Ends -->
 
       <!-- StarSafe Screen Starts -->
         <div id="page-starsafe" title="StarSafe" data-page-type="main" >
@@ -910,7 +913,7 @@
                                               
             </div>
 
-            <div id="trips" class="white row colorblue" style="text-align: center;width: 100%;position: relative;margin:0;padding: 0;">
+            <div id="trips" class="trips white row colorblue" style="text-align: center;width: 100%;position: relative;margin:0;padding: 0;">
                 <div class="atrip white"  style="float:none;width: 100%;position: relative;padding:0;margin:0px !important;border-bottom: 1px solid #E7E7E8;padding: 10px 0 0px 0 !important;">                    
                         <div class="atripdetail" style="float:none;width: 100%;position: relative;padding:0;margin:0;" >
                             <div style="position: relative;width: 85%;padding-left: 10px;padding-bottom: 10px;">

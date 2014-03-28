@@ -65,7 +65,7 @@ function loginCallback(callbackData) {
 
 function gettrips(vehicle) {
     returnedtripdata = [];
-    netstar_login('colossusadmin', 'c0l0ssus');
+    //netstar_login('colossusadmin', 'c0l0ssus');
     to = new Date();
     to.setDate(to.getDate());
     to = to.getFullYear() + ('0' + (to.getMonth() + 1)).slice(-2) + ('0' + to.getDate()).slice(-2) + "235930";

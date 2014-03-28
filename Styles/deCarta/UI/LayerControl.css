@@ -8,13 +8,13 @@
 }
 
 .deCarta-control-layer .button.street {
-	background : url("../../../images/mapitui/hybrid_view.png") no-repeat;
+	background : url("../../../images/mapitui/map_off.png") no-repeat;
 	height: 35px !important;
 	width: 35px !important;	
 }
 
 .deCarta-control-layer .button.satellite {
-	background : url("../../../images/mapitui/satellite_view.png") no-repeat;
+	background : url("../../../images/mapitui/satellite_off.png") no-repeat;
 	height: 35px !important;
 	width: 35px !important;	
 }
@@ -23,18 +23,17 @@
 	background : url("../../../images/mapitui/hybrid_off.png") no-repeat;
 	height: 35px !important;
 	width: 67px !important;	
-	display: none;
 }
 
 
 .deCarta-control-layer .button.street:hover {
-	background : url("../../../images/mapitui/hybrid_view.png") no-repeat;
+	background : url("../../../images/mapitui/map_rollover.png") no-repeat;
 	height: 35px !important;
 	width: 35px !important;	
 }
 
 .deCarta-control-layer .button.satellite:hover {
-	background : url("../../../images/mapitui/satellite_view.png") no-repeat;
+	background : url("../../../images/mapitui/satellite_rollover.png") no-repeat;
 	height: 35px !important;
 	width: 35px !important;	
 }
@@ -43,17 +42,16 @@
 	background : url("../../../images/mapitui/hybrid_rollover.png") no-repeat;
 	height: 35px !important;
 	width: 67px !important;	
-	display: none;
 }
 
 .deCarta-control-layer .button.street.selected {
-	background : url("../../../images/mapitui/hybrid_view.png") no-repeat;
+	background : url("../../../images/mapitui/map_on.png") no-repeat;
 	height: 35px !important;
 	width: 35px !important;	
 }
 
 .deCarta-control-layer .button.satellite.selected {
-	background : url("../../../images/mapitui/satellite_view.png") no-repeat;
+	background : url("../../../images/mapitui/satellite_on.png") no-repeat;
 	height: 35px !important;
 	width: 35px !important;	
 }
@@ -62,5 +60,4 @@
 	background : url("../../../images/mapitui/hybrid_on.png") no-repeat;
 	height: 35px !important;
 	width: 67px !important;	
-	display: none;
 }

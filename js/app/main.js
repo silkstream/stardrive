@@ -5,7 +5,7 @@ var selectedvehicle = 1;
 
 $(document).ready(function () {
 
-//CREATE APPLICATION PAGES
+    //CREATE APPLICATION PAGES
     Application = new APPMANAGER();
     Application.pages[0] = "#page-login";
     Application.pages[1] = "#page-profile";
@@ -24,6 +24,7 @@ $(document).ready(function () {
     Application.pages[14] = "#page-account";
     Application.pages[15] = "#page-homeaddress";
     Application.pages[16] = "#page-workaddress";
+    Application.pages[17] = "#page-addfriend";
     Application.closePages();
     
     //top nav binding
@@ -56,6 +57,7 @@ $(document).ready(function () {
     //bindings for starsocial friends
     ko.applyBindings(Application.masterVM.vmFriends, document.getElementById('allfriends'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('chosenfriend'));
+    ko.applyBindings(Application.masterVM.vmFriends, document.getElementById('page-addfriend'));
 
     //bindings for alerts page
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('allalerts'));
@@ -89,8 +91,6 @@ $(document).ready(function () {
     //empty tripwindow
     $('#trips').empty();
  
-
-
 
 
 
@@ -210,6 +210,7 @@ $(".rotated").rotate(180);
 $(".message-sub-header").click(function(){
     alert("wow");
 });
+
 function APPMANAGER() {
     //DECLARE LOCAL PROPERTIES AS NULL
     this.pages = new Array();
@@ -237,7 +238,8 @@ function APPMANAGER() {
         this.closePages();
         $("#menu").hide('slide', {direction: 'right'}, 300);
         //SHOW THE SELECTED WINDOW        
-
+        if(pageName == "page-profile"){ $("#profile-footer").show(); }
+        else{ $("#profile-footer").hide(); }
         this.showpage(pageName);
        //var mySwiper = new Swiper('.vehicleslide');
     //var mySwiper = $('.vehicleslide').swiper({
@@ -503,7 +505,8 @@ setTimeout(function () {
 
 function swipeaction(self){
 
-$('#trips').empty();
+                $('.trips').empty();
+                $('.trips').html("");
 
                 console.log("thispage");
                 console.log(self.page);
