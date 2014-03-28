@@ -33,15 +33,19 @@ h1{
 #profile-footer
 {
     width: 100%;
-    position: fixed;
+    position: absolute;
     padding: 0;
     height: 15%;
     left:0; right: 0; bottom:0;
     border-top: 3px solid #E7E7E8;
 }
 #page-profile{
-    height: 72%;
+    height: 77%;
     overflow-y: scroll;
+}
+#page-login{
+    width: 98%;
+    padding: 0px 1%;
 }
 #menu
 {
@@ -789,4 +793,23 @@ background: #E7E7E8;
 .message-sub-header #refresh{
     background: url("images/refresh_button.png");
     background-size: 100%;
+}
+.friend-sub-header{
+    padding: 5px 4%;
+    float: left;
+    width: 100%;
+}
+.friend-sub-header #add-friend{
+    width: 30px;
+    height: 30px;
+    background: url("images/add_friend_button.png") no-repeat;
+    float: left;
+    margin-right: 5px;
+}
+.friend-sub-header .text{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    min-width:50%;
+    color: 3ac1f0;
 }
