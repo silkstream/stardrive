@@ -1,6 +1,7 @@
 ﻿body {
  background-color:white;
  width:100%;
+ min-width: 217px;
  font-family: Verdana, Geneva, sans-serif;
  margin: 0;
  padding: 0;
@@ -20,6 +21,35 @@ input{
 h1{
     color:#00C3FF;
     font-size:13px;
+}
+
+.user-logo{
+    margin-top: 2% px;
+    width:15%; 
+    max-width: 70px;    
+    min-width: 50px;    
+    height: 100%;
+    border: 0px solid red;
+    max-height: 70px;
+    margin-right: 10px;
+}
+.user-logo img.back-arrow
+{
+    width:25%;
+    margin-top: 40%;
+    height: 30%;
+    border: 0px solid blue;
+}
+.user-logo img.profile-image
+{
+    width:100%;
+    height: auto;
+    border: 0px solid blue;
+    max-height: 70px;    
+}
+.menu-list{
+    float:right;
+    
 }
 #pagebody
 {
@@ -90,11 +120,6 @@ h1{
     {
        font-size: 20px;
     }
-    #top-nav .logo
-    {
-        padding-top:5px;
-        width: inherit;
-    }
     #top-nav .drawer
     {
         float:right;
@@ -104,9 +129,9 @@ h1{
 
 #pageheader
 {
-    
-    width: 80%;    
-    
+    margin-top: 15px;
+    position: relative; 
+    min-width: 20%;    
 }
 
 @media only screen and (max-width: 479px) 
@@ -115,7 +140,7 @@ h1{
          #pageheader
         {
     
-            width: 68% !important;   
+            min-width: 20% !important;   
 
     
         }  

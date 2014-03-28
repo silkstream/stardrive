@@ -290,10 +290,6 @@ function MessagesViewModel() {
         //$('.friendModal').dialog('close');
         Application.gotoPage('page-messages');
     }
-    self.clearReply = function () {
-        Application.gotoPage('page-starsocial');
-    }
-    
     self.delmessage = function () {
         var msg_id = this.msgid();
         var key = Application.masterVM.vmProfile.stardrivekey();
@@ -578,8 +574,7 @@ function FriendsViewModel() {
     var self = this;
     self.allfriends = ko.observableArray();
     self.showAddFriend = function () {
-        console.log("showing friends screen");
-        //Application.gotoPage("page-addfriend");
+        Application.gotoPage("page-addfriend");
     }
 
     self.addfriend = function () {

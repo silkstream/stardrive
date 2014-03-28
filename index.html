@@ -7,7 +7,6 @@
         <meta name="format-detection" content="telephone=no" />
 		<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=0" />
 
-
         <link rel="stylesheet" type="text/css" href="app.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/core.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/LayerControl.css" />
@@ -30,8 +29,7 @@
         <script type="text/javascript" src="js/lib/deCarta/UI/LayerControl.js"></script>
         <script type="text/javascript" src="js/lib/deCarta/UI/SelectControl.js"></script>
         <script type="text/javascript" src="js/lib/deCarta/UI/OverviewControl.js"></script>
-
-  <script defer src="js/lib/dragend-0.2.0_rc3.js"></script>
+        <script defer src="js/lib/dragend-0.2.0_rc3.js"></script>
 
     </head>
     <body>
@@ -57,7 +55,7 @@
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsafe');"><div style="width: 40px;float: left"><img src="images/starsafe_btn.png" /></div><div style="float: left;width:50%;">StarSafe</div><div style="float:none; clear:both;"></div></div></li>
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsocial');"><div style="width: 40px;float: left"><img src="images/starsocial.png" /></div><div style="float: left;width:50%;">StarSocial</div><div style="float:none; clear:both;"></div></div></li>   
                <li><div class="menuitem" onclick="return Application.gotoPage('page-starsight');"><div style="width: 40px;float: left"><img src="images/starsight_btn.png" /></div><div style="float: left;width:50%;">StarSight</div><div style="float:none; clear:both;"></div></div></li>   
-               <li><div class="menuitem" onclick="return Application.gotoPage('page-account');"><div style="width: 40px;float: left"><img src="images/account_btn.png" /></div><div style="float: left;width:50%;">Account</div><div style="float:none; clear:both;"></div></div></li>
+               <li><div class="menuitem" onclick="return Application.gotoPage('page-account');"><div style="width: 40px;float: left"><img src="images/mini_blue_profile_pic.png" /></div><div style="float: left;width:50%;">Account</div><div style="float:none; clear:both;"></div></div></li>
                 <!--  <li><div class="menuitem" onclick="return Application.gotoPage('page-starrate');"><img src="images/settings_btn.png" />&nbsp;Settings</div></li>   -->              
                <li><div class="menuitem" onclick="return Application.masterVM.vmLogin.doLogout();"><div style="width: 40px;float: left"><img src="images/logout_btn.png" /></div><div style="float: left;width:50%;">Logout</div><div style="float:none; clear:both;"></div></div></li>                                                   
             </ul>
@@ -69,11 +67,11 @@
 
 <!-- Top Navigation Starts -->
         <div id="top-nav" style="vertical-align: middle;">
-           <div class="left selectable" id="nav-left" style="width:auto; min-height: 1px;min-width: 55px; " data-bind="attr: {'data-mypic' : Image}"><img src="images/arrow_back.png" class="logo"/></div>
-           <div class="left" id="pageheader" style="margin-top: 15px;width: 80%;position: relative;"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span>
+           <div class="left selectable user-logo" id="nav-left" data-bind="attr: {'data-mypic' : Image}"><img src="images/arrow_back.png" class="logo"/></div>
+           <div class="left" id="pageheader"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span>
                 <div style="position: absolute;right: 10px;top: 0;font-size: 20px;" id="headerratings" class="colorgrey"><b><i><span id="headingscore" class="colorblue"></span>/<span id="headingrating"  class="colororange"></span></i></b></div>
            </div>
-           <div class="left selectable" id="nav-right" style="width:10%;min-height: 1px;margin-top: 15px;"><img src="images/side_menu_icon.png" class="drawer" onclick="Application.toggleMenu();"/></div>
+           <div class="menu-list" style="width:10%;min-height: 1px;margin-top: 15px;"><img src="images/side_menu_icon.png" class="drawer" onclick="Application.toggleMenu();"/></div>
            <div style="clear: both;"></div>
         </div>
 <!-- Top Navigation Ends -->
@@ -244,14 +242,16 @@
           <!--Latest Trip-->
         <div class="row colorgrey" style="position:relative; width:100%; padding:0; ">
                        <div style="width:100%;padding:  10px 0 10px 0; border-bottom: 3px solid #E7E7E8;" class="colorgrey"  onclick="showmsgcontrol(this);">
-                               <div style="text-align: center;width: 10%;"> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
+                               <div style="text-align: center;width: 10%;"><img src="images/car_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
                         <div style="width: 75%;" class="colorgrey">
-                         <div style="width:100%;" class="colorred">Bellville - Durbanville </div>
-                         <span class="colorblue">Durbanville</span><span class="colorgrey">&nbsp;(26 March 2014 05:17)</span>
-                         <div><span class="colorgrey">Vehicle Registration:</span><span class="colorblue">&nbsp;WDL456GP</span></div>
+                        <div style="width:100%;" class="colorred">Bellville - Durbanville </div>
+                        <span class="colorblue">Durbanville</span><span class="colorgrey">&nbsp;(26 March 2014 05:17)</span>
+                        <div><span class="colorgrey">Vehicle Registration:</span><span class="colorblue">&nbsp;WDL456GP</span></div>
                         </div>
+                        
                          <div style="float: left;width: 10%;margin: 30px 0 20px 0;text-align: right;"  class="arrow">
-                             <img src="images/accordion_down.png"> 
+                        <div class="button blue busprivbut" style="padding: 10px;margin: 0;" onclick="setTripLogBook(this)">B</div>
+                            
                          </div>
                          <div style="clear:both;float:none;"></div>
                        </div>
@@ -492,6 +492,7 @@
             
                        <div style="clear:both;float:none;"></div>
                        <div class="blue button" style="float:none;" data-bind="click: $parent.sendmessage, text: (message() != '' && subject != '')? 'Reply':'Send'">Reply</div>
+                       <div class="blue button" style="float:none;" data-bind="click: function(){Application.masterVM.vmMessages.clearReply()}">Cancel</div>
                        <div style="clear:both;float:none;"></div> 
 
             </div>   
@@ -521,7 +522,7 @@
             </div>
             <div class="sub-header">
                 <div class="friend-sub-header">
-                    <div class="image-rep" id="add-friend" > </div> <div class="text left" >Add Friend </div>
+                    <div class="image-rep" id="add-friend" data-bind="click:  Application.masterVM.vmFriends.showAddFriend"> </div> <div class="text left" >Add Friend </div>
                 </div>
             </div>
             <div style="clear: both;float: none;"></div>        
@@ -559,7 +560,9 @@
             </div>   
             
              <div id="page-addfriend">
-                <input type="text" placeholder="Email address"></input>
+               <div class="row grey">
+              
+               </div>
                 <div class="blue button" data-bind="click: Application.masterVM.vmFriends.addfriend">Add</div>
             </div>   
         </div>  

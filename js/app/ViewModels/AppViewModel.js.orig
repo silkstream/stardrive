@@ -79,7 +79,7 @@ ko.asyncComputed = function (evaluatorFunction, target) {
 
 function LoginViewModel() {
 
-    this.LoginName = ko.observable("Email Address");
+    this.LoginName = ko.observable("robinfourie@gmail.com");
     this.UserPassword = ko.observable("123456");
     this.LoginFail = ko.observable(false);
     this.LoginData = ko.observable();
@@ -99,16 +99,17 @@ function LoginViewModel() {
         Application.masterVM.vmProfile.WorkAddress('');
         Application.masterVM.vmProfile.HomeAddresstext('');
         Application.masterVM.vmProfile.WorkAddresstext('');
-        Application.gotoPage('page-intro');
+        Application.gotoPage('page-login');
     }
 
     this.doLogin = function () {
         //Do a login
-
+        console.log("login url :", login_url);
+        var login_url = 'http://stardrive.cloudapp.net/stardriveusers/loginMobile.json?username=' + this.LoginName() + '&password=' + this.UserPassword();
+        console.log("logging in :", login_url);
         var self = this;
         $.ajax({
-
-            url: 'http://stardrive.cloudapp.net/stardriveusers/loginMobile.json?username=' + this.LoginName() + '&password=' + this.UserPassword() + "&",
+            url: login_url,
             data: { username: this.LoginName(), password: this.UserPassword() },
             success: function (data) {
                 console.log(data);
@@ -158,22 +159,22 @@ function LoginViewModel() {
 
 
 
-       /* if (this.UserPassword() == "123456") {
+        /* if (this.UserPassword() == "123456") {
 
-            $.ajax({
-                url: window.location.pathname + '/../json/successlogin.js',
-                data: { username: this.LoginName(), password: this.UserPassword() },
-                success: function (data) {
-                    // console.log(data[0].Stardriveuser);
+        $.ajax({
+        url: window.location.pathname + '/../json/successlogin.js',
+        data: { username: this.LoginName(), password: this.UserPassword() },
+        success: function (data) {
+        // console.log(data[0].Stardriveuser);
                     
-                },
-                dataType: 'json'
-            });
+        },
+        dataType: 'json'
+        });
 
 
         }
         else {
-            this.LoginFail(true);
+        this.LoginFail(true);
         }*/
     }
 }
@@ -288,21 +289,64 @@ function MessagesViewModel() {
         //$('.friendModal').dialog('close');
         Application.gotoPage('page-messages');
     }
-    self.delmessage = function () {
-        Application.masterVM.vmMessages.allmessages.remove(this);
-    }
-    self.sendmessage = function (mydata) {
-        //alert($("#newmessage").val());
-        Application.masterVM.vmMessages.outbox.push(new Message('zz', mydata.toid(), mydata.toname(), mydata.fromid(), mydata.fromname(), mydata.subject(), $("#newmessage").val(), "2014-02-02", "0", ""));
+    self.clearReply = function () {
         Application.gotoPage('page-starsocial');
     }
-    self.pullMessages = function () {
-
+    
+    self.delmessage = function () {
+        var msg_id = this.msgid();
+        var key = Application.masterVM.vmProfile.stardrivekey();
+        var del_msg_url = "http://stardrive.cloudapp.net/stardriveusers/deleteMobileMessage.json?message_id=" + msg_id + "&key=" + key;
+        console.log("del", del_msg_url);
+        var self = this;
         $.ajax({
-            url: window.location.pathname + '/../json/getmessages.js',
+            url: del_msg_url,
             data: {},
             success: function (data) {
-                // console.log(data);
+                console.log("message deleted", data);
+                if (data.code == 200) {
+                    //alert("message deleted");
+                    Application.masterVM.vmMessages.allmessages.remove(self);
+                }
+            },
+            dataType: 'json'
+        });
+        //Application.masterVM.vmMessages.allmessages.remove(this);
+    }
+    self.sendmessage = function (mydata) {
+        /* send message to server */
+        //alert($("#newmessage").val());
+        var key = Application.masterVM.vmProfile.stardrivekey();
+        var to = mydata.fromid();
+        var message = $("#newmessage").val();
+        var header = this.subject();
+        var msg_url = "http://stardrive.cloudapp.net/stardriveusers/sendMobileMessage.json?key=" + key + "&to=" + to + "&heading=" + header + "&message=" + message;
+        //console.log("message url :", msg_url);
+        $.ajax({
+            url: msg_url,
+            data: {},
+            success: function (data) {
+                console.log("message sent", data);
+                if (data.code == 200) {
+                    return Application.gotoPage('page-starsocial');
+                }
+            },
+            dataType: 'json'
+        });
+        //Application.masterVM.vmMessages.outbox.push(new Message('zz', mydata.toid(), mydata.toname(), mydata.fromid(), mydata.fromname(), mydata.subject(), $("#newmessage").val(), "2014-02-02", "0", ""));
+        //Application.gotoPage('page-starsocial');
+    }
+    self.pullMessages = function () {
+        var key = Application.masterVM.vmProfile.stardrivekey();
+        var msg_url = "http://stardrive.cloudapp.net/stardriveusers/getMobileMessages.json?key=" + key;
+        console.log("get messages :", msg_url);
+        $.ajax({
+            url: msg_url,
+            data: {},
+            success: function (data) {
+                console.log("message server data :", data);
+                $("div .message-sub-header #inbox").text(data.length);
+                $("#allmessages").empty();
                 for (var i = 0; i < data.length; i++) {
 
                     var msgid = data[i].Message.id;
@@ -330,7 +374,7 @@ function MessagesViewModel() {
                     Application.masterVM.vmMessages.allmessages.push(new Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg));
 
                 }
-                console.log(Application.masterVM.vmMessages.allmessages);
+                console.log("all messages ", Application.masterVM.vmMessages.allmessages());
 
             },
             dataType: 'json'
@@ -532,6 +576,15 @@ function Friend(friendid, friend_name, friend_img) {
 function FriendsViewModel() {
     var self = this;
     self.allfriends = ko.observableArray();
+    self.showAddFriend = function () {
+        console.log("showing friends screen");
+        //Application.gotoPage("page-addfriend");
+    }
+
+    self.addfriend = function () {
+        //Send friend request
+        console.log("adding friend");
+    }
 
     self.delfriend = function () {
 
@@ -542,43 +595,39 @@ function FriendsViewModel() {
     };
 
     self.pullFriends = function () {
-
+        var key = Application.masterVM.vmProfile.stardrivekey();
+        var friend_url = "http://stardrive.cloudapp.net/stardriveusers/getMobileFriends.json?key=" + key;
+        //var demo_url = window.location.pathname + '/../json/getfriends.js';
         $.ajax({
-            url: window.location.pathname + '/../json/getfriends.js',
+            url: friend_url,
             data: {},
             success: function (data) {
 
                 for (var i = 0; i < data.length; i++) {
-
+                    console.log("friends", data);
                     var friend_id = "";
                     var friend_name = "";
                     var friend_img = "";
 
+                    /*
                     if (Application.masterVM.vmProfile.UserId == data[i].UserFrom.id) {
-
-                        friend_id = data[i].UserTo.id;
-                        friend_name = data[i].UserTo.username + " " + data[i].UserTo.surname;
-                        friend_img = data[i].UserTo.userimage;
+                    friend_id = data[i].UserTo.id;
+                    friend_name = data[i].UserTo.username + " " + data[i].UserTo.surname;
+                    friend_img = data[i].UserTo.userimage;
                     } else {
-
-
-                        friend_id = data[i].UserFrom.id;
-                        friend_name = data[i].UserFrom.username + " " + data[i].UserFrom.surname;
-                        friend_img = data[i].UserFrom.userimage;
-
-                    }
+                    friend_id = data[i].UserFrom.id;
+                    friend_name = data[i].UserFrom.username + " " + data[i].UserFrom.surname;
+                    friend_img = data[i].UserFrom.userimage;
+                    }*/
+                    friend_id   = data[i].Friend.id;
+                    friend_name = data[i].Friend.username + " " + data[i].Friend.surname;
+                    friend_img  = data[i].Friend.userimage;
 
                     Application.masterVM.vmFriends.allfriends.push(new Friend(friend_id, friend_name, friend_img));
                 }
-
-
             },
             dataType: 'json'
-
-
         });
-
-
     };
 }
 
@@ -619,9 +668,11 @@ function MapsViewModel() {
         self.whattoshow("position");
         Application.masterVM.vmMaps.chosenposition(posobj);
         Application.gotoPage('page-location');
+        $(".vehicleselectwindow").show();
+
         if (self.initmap == '0') {
-        mapINIT();
-        self.initmap = "1";
+            mapINIT();
+            self.initmap = "1";
         }
         clearmap();
         placepositionpin(posobj);
@@ -630,6 +681,8 @@ function MapsViewModel() {
 
 
     self.setchosenalert = function (alertobj) {
+        $(".vehicleselectwindow").hide();
+        $(".vehicleselectionwindow").hide();
         self.whattoshow("alert");
         Application.masterVM.vmMaps.chosenalert(alertobj);
         Application.gotoPage('page-location');
@@ -643,8 +696,8 @@ function MapsViewModel() {
 
 
     self.setchosenroute = function (way) {
-
-
+        $(".vehicleselectwindow").hide();
+        $(".vehicleselectionwindow").hide();
         self.whattoshow("route");
 
         // Application.masterVM.vmMaps.chosenroute(tripobj);

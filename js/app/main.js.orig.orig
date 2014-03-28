@@ -5,7 +5,7 @@ var selectedvehicle = 1;
 
 $(document).ready(function () {
 
-//CREATE APPLICATION PAGES
+    //CREATE APPLICATION PAGES
     Application = new APPMANAGER();
     Application.pages[0] = "#page-login";
     Application.pages[1] = "#page-profile";
@@ -91,8 +91,6 @@ $(document).ready(function () {
     //empty tripwindow
     $('#trips').empty();
  
-
-
 
 
 
@@ -363,6 +361,8 @@ function APPMANAGER() {
             }
             $("#top-nav .logo").show();
         }
+
+
         return false;
     }
     APPMANAGER.prototype.closePages = function () {
@@ -370,17 +370,6 @@ function APPMANAGER() {
         for (i = 0; i < this.pages.length; i++) {
             $(Application.pages[i]).hide();
         }
-    }
-
-}
-
-function setTripLogBook(element){
-    var loObject = $(element);
-    if (loObject.text() == "B"){
-        loObject.text("P");
-    }
-    else {
-        loObject.text("B");
     }
 
 }
@@ -516,7 +505,8 @@ setTimeout(function () {
 
 function swipeaction(self){
 
-$('#trips').empty();
+                $('.trips').empty();
+                $('.trips').html("");
 
                 console.log("thispage");
                 console.log(self.page);
