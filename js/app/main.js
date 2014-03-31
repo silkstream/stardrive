@@ -538,12 +538,11 @@ function swipeaction(self){
                                    $("#lasttrip").click(function(){
                                            for(var i = 0; i < returnedtripdata.length; i++){                                
                                                 thistrip = returnedtripdata[i];
-                                                gettripdetail(thistrip.TripId);
-
-                                                setTimeout(function(){
-                                                //$('#preloader').hide();
+                                                console.log("thistrip");
+                                                console.log(thistrip);
                                                 
-                                                }, 500);
+                                                gettripdetail(thistrip.Id);
+
                                             }
                                 
                                 });                             
