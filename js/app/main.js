@@ -331,7 +331,7 @@ function APPMANAGER() {
         $("#top-nav .logo").unbind("click");
 
         if ($("#" + pageName).data('page-type') == "main") {
-            $("#top-nav .logo").attr('src', $("#nav-left").data('mypic')).css({ 'height': '100%', 'margin': '0' });
+            $("#top-nav .logo").attr('src', $("#nav-left").data('mypic')).removeClass("back-arrow").addClass("profile-image");
             if ($("#" + pageName).attr('title') == "Login"){
                 $("#top-nav .logo").hide();
                 $('#pageheader').css('text-align', 'center');
@@ -350,7 +350,7 @@ function APPMANAGER() {
             });
 
         } else {
-            $("#top-nav .logo").attr('src', "images/arrow_back.png").css({ 'width': 'auto', 'height': 'auto', 'margin-top': '15px' });
+            $("#top-nav .logo").attr('src', "images/arrow_back.png").removeClass("profile-image").addClass("back-arrow");
             if (pageName != this.pagetrail[this.pagetrail.length - 1]) {
                 self.pagetrail.push(pageName);
                 $("#top-nav .logo").click(function () {
@@ -361,8 +361,6 @@ function APPMANAGER() {
             }
             $("#top-nav .logo").show();
         }
-
-
         return false;
     }
     APPMANAGER.prototype.closePages = function () {
@@ -370,6 +368,17 @@ function APPMANAGER() {
         for (i = 0; i < this.pages.length; i++) {
             $(Application.pages[i]).hide();
         }
+    }
+
+}
+
+function setTripLogBook(element){
+    var loObject = $(element);
+    if (loObject.text() == "B"){
+        loObject.text("P");
+    }
+    else {
+        loObject.text("B");
     }
 
 }
@@ -529,12 +538,11 @@ function swipeaction(self){
                                    $("#lasttrip").click(function(){
                                            for(var i = 0; i < returnedtripdata.length; i++){                                
                                                 thistrip = returnedtripdata[i];
-                                                gettripdetail(thistrip.TripId);
-
-                                                setTimeout(function(){
-                                                //$('#preloader').hide();
+                                                console.log("thistrip");
+                                                console.log(thistrip);
                                                 
-                                                }, 500);
+                                                gettripdetail(thistrip.Id);
+
                                             }
                                 
                                 });                             

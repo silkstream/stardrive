@@ -99,7 +99,7 @@ function LoginViewModel() {
         Application.masterVM.vmProfile.WorkAddress('');
         Application.masterVM.vmProfile.HomeAddresstext('');
         Application.masterVM.vmProfile.WorkAddresstext('');
-        Application.gotoPage('page-intro');
+        Application.gotoPage('page-login');
     }
 
     this.doLogin = function () {
@@ -126,16 +126,16 @@ function LoginViewModel() {
                 Application.masterVM.vmProfile.WorkAddresstext(data.Stardriveuser.workaddress1);
                 Application.masterVM.vmProfile.stardrivekey(data.key);
 
-                for (var i = 0; i < data.Vehicle.length; i++) {
-                    vehicleid = data.Vehicle[i].id;
-                    description = data.Vehicle[i].description;
-                    status = data.Vehicle[i].status;
-                    avatar = "http://stardrive.cloudapp.net/img/" + data.Vehicle[i].photo;
-                    registration = data.Vehicle[i].registration;
-                    Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
+                /*          for (var i = 0; i < data.Vehicle.length; i++) {
+                vehicleid = data.Vehicle[i].id;
+                description = data.Vehicle[i].description;
+                status = data.Vehicle[i].status;
+                avatar = "http://stardrive.cloudapp.net/img/" + data.Vehicle[i].photo;
+                registration = data.Vehicle[i].registration;
+                Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
                 }
 
-
+                */
                 if ($('#rememberme').val() == 1) {
 
                     self.RememberMe(1);
@@ -145,6 +145,10 @@ function LoginViewModel() {
                 console.log("remembereduser");
                 console.log(window.localStorage.getItem("remembereduser"));
 
+                setcurrentlocation();
+
+
+                Application.masterVM.vmProfile.pullVehicles();
                 Application.masterVM.vmWeather.pullWeather();
                 Application.masterVM.vmMessages.pullMessages();
                 Application.masterVM.vmAlerts.pullAlerts();
@@ -241,7 +245,35 @@ function ProfileViewModel() {
         });
     }
 
-   
+
+    self.pullVehicles = function () {
+        // var key = Application.masterVM.vmProfile.stardrivekey();
+        key = "979";
+
+        var url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/vehiclesowner?ownerId=" + key;
+        console.log("get messages :", url);
+        $.ajax({
+            url: url,
+            data: {},
+            success: function (data) {
+                console.log("vehicles");
+                console.log(data);
+                console.log("vehicles");
+                for (var i = 0; i < data.length; i++) {
+                    vehicleid = data[i].Id;
+                    description = data[i].Registration;
+                    status = "0";
+                    avatar = "http://stardrive.cloudapp.net/img/vehicle_profile/e8572636c795307b7ef59d522ee02e46.jpg";
+                    registration = data[i].Registration;
+                    Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
+                }
+            },
+            dataType: 'json'
+        });
+    }
+
+
+
 
 }
 
@@ -290,6 +322,10 @@ function MessagesViewModel() {
         //$('.friendModal').dialog('close');
         Application.gotoPage('page-messages');
     }
+    self.clearReply = function () {
+        Application.gotoPage('page-starsocial');
+    }
+    
     self.delmessage = function () {
         var msg_id = this.msgid();
         var key = Application.masterVM.vmProfile.stardrivekey();
@@ -396,7 +432,7 @@ function WeatherViewModel() {
     self.pullWeather = function () {
 
         $.ajax({
-            url: 'http://api.openweathermap.org/data/2.5/weather?q="Cape Town"&units=metric',
+            url: 'http://api.openweathermap.org/data/2.5/weather?q="' + localStorage.location_name + '"&units=metric',
             data: {},
             success: function (data) {
                 //console.log(data.main.temp);
@@ -574,7 +610,8 @@ function FriendsViewModel() {
     var self = this;
     self.allfriends = ko.observableArray();
     self.showAddFriend = function () {
-        Application.gotoPage("page-addfriend");
+        console.log("showing friends screen");
+        //Application.gotoPage("page-addfriend");
     }
 
     self.addfriend = function () {
@@ -1352,7 +1389,7 @@ function Vehicle(vehicleid, description, status, avatar, registration, trips) {
                 console.log("value accessor ");
                 console.log(valueAccessor().VehicleId());
                 //netstar_login('colossusadmin', 'c0l0ssus');
-                getlastposition(valueAccessor().VehicleId(), $(element).parent().parent());
+                setTimeout(function () { getlastposition(valueAccessor().VehicleId(), $(element).parent().parent()) }, 500);
                 //setTimeout(function () { $('#preloader').hide(); }, 500);
                 //$("");
 

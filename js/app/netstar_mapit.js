@@ -68,22 +68,138 @@ function gettrips(vehicle) {
     //netstar_login('colossusadmin', 'c0l0ssus');
     to = new Date();
     to.setDate(to.getDate());
-    to = to.getFullYear() + ('0' + (to.getMonth() + 1)).slice(-2) + ('0' + to.getDate()).slice(-2) + "235930";
+    //to = to.getFullYear() + ('0' + (to.getMonth() + 1)).slice(-2) + ('0' + to.getDate()).slice(-2) + "235930";
+    to = to.getFullYear() + "-" + ('0' + (to.getMonth() + 1)).slice(-2) + "-" + ('0' + to.getDate()).slice(-2) + "T00:00:00.4200410Z";
+
+
 
     from = new Date();
     from.setDate(from.getDate() - 3);
-    from = from.getFullYear() + ('0' + (from.getMonth() + 1)).slice(-2) + ('0' + from.getDate()).slice(-2) + "000000";
+    //from = from.getFullYear() + ('0' + (from.getMonth() + 1)).slice(-2) + ('0' + from.getDate()).slice(-2) + "000000";
+    from = from.getFullYear() + "-" + ('0' + (from.getMonth() + 1)).slice(-2) + "-" + ('0' + from.getDate()).slice(-2) + "T00:00:00.4200410Z";
 
     var url = PATH + Application.masterVM.vmProfile.netstarkey() + '/trips/' + vehicle + "/" + from + "/" + to;
+
+    url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/trips?vehicleId=" + vehicle + "&fromDate=" + from + "&toDate=" + to;
+
+
+    $.ajax({
+        url: url,
+        data: {},
+        async: true,
+        dataType: 'json',
+        success: tripsCallback,
+        error: function (xhr, errorString, exception) {
+            console.log("xhr.status=" + xhr.status + " error=" + errorString + " exception=(" + exception + ")");
+        },
+        beforeSend: function () {
+            startloadercount = startloadercount + 1;
+            $('#preloader').show();
+        },
+        complete: function () {
+            startloadercount = startloadercount - 1;
+            if (startloadercount < 1) {
+                $('#preloader').hide();
+            }
+
+        }
+    });
+
     console.log("trips:::::::::", url);
-    callProxyPHP(url, 'GET', " ", tripsCallback, true);
+    //callProxyPHP(url, 'GET', " ", tripsCallback, true);
 
 }
 
 function gettripdetail(tripid) {
     $("#trips").empty();
-    var url = PATH + Application.masterVM.vmProfile.netstarkey() + '/trip-coordinates/' + tripid;
+    //var url = PATH + Application.masterVM.vmProfile.netstarkey() + '/trip-coordinates/' + tripid;
+
+    var url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/triplocations?tripId=" + tripid;
+
+    $.ajax({
+        url: url,
+        data: {},
+        async: true,
+        dataType: 'json',
+        success: function (tripdetail) {
+
+            console.log(tripdetail)
+            copytemplate = template.clone();
+            //copytemplate.empty();
+            //copytemplate.html(thistrip.MaxSpeed);
+
+            fromaddress = tripdetail[0].GeoAddress.split(", ");
+            toaddress = tripdetail[tripdetail.length - 1].GeoAddress.split(", ");
+            datetime = tripdetail[0].DateTime;
+            copytemplate.find('.atripdetail .tripaddress').html(fromaddress[0] + " to " + toaddress[0]);
+            copytemplate.find('.atripdetail .tripdatetime').html(formatdate(datetime));
+
+
+            var alerttemplate = copytemplate.find('.atripalerts').clone();
+            var alertcount = 0;
+
+
+
+            copytemplate.find('.atripalerts').empty();
+
+            var tripobj = [];
+            for (var i = 0; i < tripdetail.length; i++) {
+                // alert(i);
+                /*tripobj[i]['lat'] = tripdetail[i].Latitude;
+                tripobj[i]['lon'] = tripdetail[i].Longitude;
+                tripobj[i]['geoaddress'] = tripdetail[i].GeoAddress;*/
+                var speeding = 0;
+
+                if (tripdetail[i].EventId == 69 || tripdetail[i].EventId == 53 || tripdetail[i].EventId == 51 || tripdetail[i].EventId == 49 || tripdetail[i].EventId == 55 || tripdetail[i].EventId == 56 || tripdetail[i].EventId == 58 || tripdetail[i].EventId == 59)
+                    speeding = { "speed": tripdetail[i].Speed, "roadspeed": tripdetail[i].RoadSpeed };
+                tripobj[i] = { "lat": tripdetail[i].Latitude, "lon": tripdetail[i].Longitude, "geoaddress": tripdetail[i].GeoAddress, "datetime": tripdetail[i].PositionDate, "speeding": speeding };
+
+                if (tripdetail[i].EventId == 69  || tripdetail[i].EventId == 53 || tripdetail[i].EventId == 51 || tripdetail[i].EventId == 49 || tripdetail[i].EventId == 55 || tripdetail[i].EventId == 56 || tripdetail[i].EventId == 58 || tripdetail[i].EventId == 59) {
+                    alertcount = alertcount + 1;
+                    alerttemplate.find('.alerttime').html(formatdate(tripdetail[i].DateTime));
+                    alerttemplate.find('.alertdescription').html(tripdetail[i].EventDescription);
+                    //alert(copytemplate.find('.atripalerts').html());
+                    copytemplate.find('.atripalerts').append(alerttemplate.html());
+                    
+                    //alert(copytemplate.find('.atripalerts').html());
+                }
+            }
+            
+            console.log("alertcount");
+            console.log(alertcount);
+
+            copytemplate.find('.atripdetail .alertcount').html(alertcount);
+            copytemplate.find('.atripdetail .triplink').attr("rel", JSON.stringify(tripobj));
+
+
+
+            // $('#trips').append(template);    
+            //$("#trips").append(copytemplate);
+            $("#trips").append(copytemplate);
+
+
+        },
+        error: function (xhr, errorString, exception) {
+            console.log("xhr.status=" + xhr.status + " error=" + errorString + " exception=(" + exception + ")");
+        },
+        beforeSend: function () {
+            startloadercount = startloadercount + 1;
+            $('#preloader').show();
+        },
+        complete: function () {
+            startloadercount = startloadercount - 1;
+            if (startloadercount < 1) {
+                $('#preloader').hide();
+            }
+
+        }
+    });
+
+
+
+  
     console.log("trips:::::::::", url);
+    /*
     callProxyPHP(url, 'GET', " ", function (tripdetail) {
 
         console.log(tripdetail)
@@ -107,9 +223,7 @@ function gettripdetail(tripid) {
 
         var tripobj = [];
         for (var i = 0; i < tripdetail.length; i++) {
-            /*tripobj[i]['lat'] = tripdetail[i].Latitude;
-            tripobj[i]['lon'] = tripdetail[i].Longitude;
-            tripobj[i]['geoaddress'] = tripdetail[i].GeoAddress;*/
+
             var speeding = 0;
 
             if (tripdetail[i].OverSpeed == "true")
@@ -135,14 +249,12 @@ function gettripdetail(tripid) {
 
 
     }, true);
-
+    */
 
 }
 
 function tripsCallback(callbackData, container){
 
-
-   
     returnedtripdata = callbackData;
            // console.log("trip callback");
            // console.log(returnedtripdata);
@@ -155,32 +267,52 @@ function getlastposition(vehicle, container) {
    // netstar_login('colossusadmin', 'c0l0ssus');
     var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/VehicleLastPosition/" + vehicle;
 
-    callProxyPHP(url, 'GET', " ",
-    function (calbackdata) {
-
-        console.log("status");
-        console.log(calbackdata);
-        //console.log($(container).find('div:nth-child(3)').html());
-        var status = calbackdata.Ignition == "true" ? "moving" : "stationary";
-        var vehiclelocation = calbackdata.GeoAddress;
-
-        var vehiclelocationdate = calbackdata.PositionDate;
-        var coordinates = JSON.stringify({ "lat": calbackdata.Latitude, "lon": calbackdata.Longitude, "address": calbackdata.GeoAddress, "date": formatdate(calbackdata.PositionDate) });
-        /*if (calbackdata[0].Status == "") {
-        status = "unavailable";
-        }*/
-        //return calbackdata.status;
-        $(container).find('div .location').html(vehiclelocation);
-        $(container).find('div .locationdate').html(formatdate(vehiclelocationdate));
-        $(container).find('div .status').html(status);
-        $(container).find('.positionjson').val(coordinates);
+    url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/latestlocation?vehicleId=" + vehicle;
 
 
-        //$('#preloader').hide();
+   // callProxyPHP(url, 'GET', " ",
 
 
-    },
-    true);
+    $.ajax({
+
+        url: url,
+        data: {},
+        dataType: 'json',
+        success: function (calbackdata) {
+
+            console.log("status");
+            console.log(calbackdata);
+            //console.log($(container).find('div:nth-child(3)').html());
+            var status = calbackdata.EventDescription;
+            var vehiclelocation = calbackdata.GeoAddress;
+
+            var vehiclelocationdate = calbackdata.DateTime;
+            var coordinates = JSON.stringify({ "lat": calbackdata.Latitude, "lon": calbackdata.Longitude, "address": calbackdata.GeoAddress, "date": formatdate(calbackdata.DateTime) });
+            /*if (calbackdata[0].Status == "") {
+            status = "unavailable";
+            }*/
+            //return calbackdata.status;
+            $(container).find('div .location').html(vehiclelocation);
+            $(container).find('div .locationdate').html(formatdate(vehiclelocationdate));
+            $(container).find('div .status').html(status);
+            $(container).find('.positionjson').val(coordinates);
+
+
+            //$('#preloader').hide();
+
+
+        }
+
+
+   
+   
+   
+   
+   });
+
+
+
+    //true);
 
 
 }
@@ -199,10 +331,10 @@ function getstatus(vehicle, container) {
         var Sum = 0;
         for (var i = 0; i < returnedtripdata.length; i++) {
 
-            speeds.push(returnedtripdata[i].MaxSpeed);
-            Sum = Sum + returnedtripdata[i].MaxSpeed;
-
-
+            //speeds.push(returnedtripdata[i].MaxSpeed);
+            //Sum = Sum + returnedtripdata[i].MaxSpeed;
+            speeds.push(returnedtripdata[i].Start.Speed);
+            Sum = Sum + 100;
 
         }
         console.log("max speeed");
@@ -284,12 +416,14 @@ function mapINIT() {
         name: "AlertPins"
     });
 
-    startendPinsOverlay = new deCarta.Core.MapOverlay({
-        name: "StartEndPins"
-    });
+
 
     tripRouteOverlay = new deCarta.Core.MapOverlay({
         name: 'route'
+    });
+
+    startendPinsOverlay = new deCarta.Core.MapOverlay({
+        name: "StartEndPins"
     });
    // MAP.setSatelliteView();
 
@@ -343,8 +477,8 @@ function placealertpin(pinobj) {
 
 
     });
-    console.log("alertpin");
-    console.log(alertpin);
+    //console.log("alertpin");
+    //console.log(alertpin);
     alertpin.onclick(function () { showinfowindow() });
     $(".custominfowindow").html(pinobj.alert_description());
     alertPinOverlay.addObject(alertpin);
@@ -372,8 +506,8 @@ function placepositionpin(pinobj) {
 
 
     });
-    console.log("alertpin");
-    console.log(positionpin);
+    //console.log("alertpin");
+    //console.log(positionpin);
     positionpin.onclick(function () { showinfowindow() });
     $(".custominfowindow").html(pinobj.vehicle + "<br/>" + pinobj.address);
     alertPinOverlay.addObject(positionpin);
@@ -407,20 +541,20 @@ function clearmap() {
 function showtrip(tripobj) {
 
 
-
+    MAP.addOverlay(tripRouteOverlay);
      MAP.addOverlay(startendPinsOverlay);
 
 
     
-    MAP.addOverlay(tripRouteOverlay);
-    console.log("tripbobj");
-    console.log(tripobj);
+
+   // console.log("tripbobj");
+   // console.log(tripobj);
 
     var routeCriteria = new deCarta.Core.RouteCriteria();
     console.log("routeCriteria");
     routeCriteria.waypoints = [];
     if (typeof tripobj === "undefined") {
-        alert(Application.masterVM.vmProfile.WorkAddress());
+       // alert(Application.masterVM.vmProfile.WorkAddress());
         homeaddress = Application.masterVM.vmProfile.HomeAddress().split(',');
         workaddress = Application.masterVM.vmProfile.WorkAddress().split(',');
 
@@ -435,7 +569,7 @@ function showtrip(tripobj) {
             position: new deCarta.Core.Position(new deCarta.Core.Position(homeaddress[0] + "," + homeaddress[1])),
             text: "Home",
             yOffset: 32,
-            xOffset: 15,
+            xOffset: 10,
             imageSrc: "images/startpoint_icon_1.png"
 
         });
@@ -448,7 +582,7 @@ function showtrip(tripobj) {
             position: new deCarta.Core.Position(new deCarta.Core.Position(workaddress[0] + "," + workaddress[1])),
             text: "Work",
             yOffset: 32,
-            xOffset: 15,
+            xOffset: 10,
             imageSrc: "images/startpoint_icon_1.png"
 
         });
@@ -457,16 +591,16 @@ function showtrip(tripobj) {
 
         MAP.addOverlay(alertPinOverlay);
         for (var i = 0; i < tripobj.length; i++) {
-            console.log("tripobj[i]" + tripobj[i]['geoaddress']);
-            console.log(tripobj[i]);
+           // console.log("tripobj[i]" + tripobj[i]['geoaddress']);
+           // console.log(tripobj[i]);
 
             if (tripobj[i].speeding != "0") {
 
                 alertpin = new deCarta.Core.Pin({
                     position: new deCarta.Core.Position(tripobj[i]['lat'] + "," + tripobj[i]['lon']),
                     // text: pinobj.alert_description(),
-                    yOffset: 32,
-                    xOffset: 15,
+                    yOffset: 10,
+                    xOffset: 10,
                     imageSrc: "images/alert_pin.png"
                 });
                 alertPinOverlay.addObject(alertpin);     
@@ -484,7 +618,7 @@ function showtrip(tripobj) {
             position: new deCarta.Core.Position( tripobj[0]['lat'] + "," + tripobj[0]['lon']),
             text: tripobj[0].geoaddress,
             yOffset: 32,
-            xOffset: 22,
+            xOffset: 10,
             imageSrc: "images/green_start_icon.png"
 
         });
@@ -494,7 +628,7 @@ function showtrip(tripobj) {
             position: new deCarta.Core.Position( tripobj[tripobj.length-1]['lat'] + "," + tripobj[tripobj.length-1]['lon']),
             text: tripobj[tripobj.length - 1].geoaddress,
             yOffset: 32,
-            xOffset: 22,
+            xOffset: 10,
             imageSrc: "images/red_end_icon.png"
 
         });
@@ -533,6 +667,31 @@ function showinfowindow() {
         infowindow = 0
         $(".custominfowindow").hide('slide', { direction: 'left' }, 300);        
     }    // alertpin.showText();
+
+
+}
+
+
+function setcurrentlocation() { 
+
+navigator.geolocation.getCurrentPosition(function (position) {
+    //alert("gbjh");
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    position = new deCarta.Core.Position(lat + "," + lon);
+
+    deCarta.Core.Geocoder.reverseGeocode(
+					position,
+					function (addressResults) {
+					    //console.log(addressResults.Address.buildingNumber + " "+ addressResults.Address.street+" "+addressResults.Address.municipality);
+					    $("#location").html(addressResults.Address.buildingNumber + " " + addressResults.Address.street + "<br> " + addressResults.Address.municipality);
+					    localStorage.location_name = addressResults.Address.municipality;
+					}
+			);
+
+
+    //			console.log(position);
+	});	
 
 
 }
