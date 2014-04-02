@@ -99,7 +99,7 @@ function LoginViewModel() {
         Application.masterVM.vmProfile.WorkAddress('');
         Application.masterVM.vmProfile.HomeAddresstext('');
         Application.masterVM.vmProfile.WorkAddresstext('');
-        Application.gotoPage('page-login');
+        Application.gotoPage('page-intro');
     }
 
     this.doLogin = function () {
@@ -126,16 +126,16 @@ function LoginViewModel() {
                 Application.masterVM.vmProfile.WorkAddresstext(data.Stardriveuser.workaddress1);
                 Application.masterVM.vmProfile.stardrivekey(data.key);
 
-                for (var i = 0; i < data.Vehicle.length; i++) {
-                    vehicleid = data.Vehicle[i].id;
-                    description = data.Vehicle[i].description;
-                    status = data.Vehicle[i].status;
-                    avatar = "http://stardrive.cloudapp.net/img/" + data.Vehicle[i].photo;
-                    registration = data.Vehicle[i].registration;
-                    Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
+                /*          for (var i = 0; i < data.Vehicle.length; i++) {
+                vehicleid = data.Vehicle[i].id;
+                description = data.Vehicle[i].description;
+                status = data.Vehicle[i].status;
+                avatar = "http://stardrive.cloudapp.net/img/" + data.Vehicle[i].photo;
+                registration = data.Vehicle[i].registration;
+                Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
                 }
 
-
+                */
                 if ($('#rememberme').val() == 1) {
 
                     self.RememberMe(1);
@@ -145,11 +145,16 @@ function LoginViewModel() {
                 console.log("remembereduser");
                 console.log(window.localStorage.getItem("remembereduser"));
 
+                setcurrentlocation();
+
+
+                Application.masterVM.vmProfile.pullVehicles();
                 Application.masterVM.vmWeather.pullWeather();
                 Application.masterVM.vmMessages.pullMessages();
                 Application.masterVM.vmAlerts.pullAlerts();
                 Application.masterVM.vmFriends.pullFriends();
                 Application.masterVM.vmStarRating.pullRatings(7);
+                netstar_login('colossusadmin', 'c0l0ssus');
                 Application.gotoPage('page-profile');
 
             },
@@ -240,7 +245,35 @@ function ProfileViewModel() {
         });
     }
 
-   
+
+    self.pullVehicles = function () {
+        // var key = Application.masterVM.vmProfile.stardrivekey();
+        key = "979";
+
+        var url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/vehiclesowner?ownerId=" + key;
+        console.log("get messages :", url);
+        $.ajax({
+            url: url,
+            data: {},
+            success: function (data) {
+                console.log("vehicles");
+                console.log(data);
+                console.log("vehicles");
+                for (var i = 0; i < data.length; i++) {
+                    vehicleid = data[i].Id;
+                    description = data[i].Registration;
+                    status = "0";
+                    avatar = "http://stardrive.cloudapp.net/img/vehicle_profile/e8572636c795307b7ef59d522ee02e46.jpg";
+                    registration = data[i].Registration;
+                    Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
+                }
+            },
+            dataType: 'json'
+        });
+    }
+
+
+
 
 }
 
@@ -289,10 +322,6 @@ function MessagesViewModel() {
         //$('.friendModal').dialog('close');
         Application.gotoPage('page-messages');
     }
-    self.clearReply = function () {
-        Application.gotoPage('page-starsocial');
-    }
-    
     self.delmessage = function () {
         var msg_id = this.msgid();
         var key = Application.masterVM.vmProfile.stardrivekey();
@@ -399,7 +428,7 @@ function WeatherViewModel() {
     self.pullWeather = function () {
 
         $.ajax({
-            url: 'http://api.openweathermap.org/data/2.5/weather?q="Cape Town"&units=metric',
+            url: 'http://api.openweathermap.org/data/2.5/weather?q="' + localStorage.location_name + '"&units=metric',
             data: {},
             success: function (data) {
                 //console.log(data.main.temp);
@@ -577,8 +606,7 @@ function FriendsViewModel() {
     var self = this;
     self.allfriends = ko.observableArray();
     self.showAddFriend = function () {
-        console.log("showing friends screen");
-        //Application.gotoPage("page-addfriend");
+        Application.gotoPage("page-addfriend");
     }
 
     self.addfriend = function () {
@@ -711,12 +739,8 @@ function MapsViewModel() {
         clearmap();
         Application.gotoPage('page-location');
 
-        homeaddress = Application.masterVM.vmProfile.HomeAddress().split(',');
-        workaddress = Application.masterVM.vmProfile.WorkAddress().split(',');
 
-        var tripbobj = [{ lat: homeaddress[0], lon: homeaddress[1] }, { lat: workaddress[0], lon: workaddress[1]}];
-
-
+        var tripobj = [];
 
         if (way != 'homework' && way != 'workhome') {
             self.whattoshow("trip");
@@ -726,16 +750,24 @@ function MapsViewModel() {
             console.log("for trip");
             console.log(tripbobj);
 
+        } else {
+
+            homeaddress = Application.masterVM.vmProfile.HomeAddress().split(',');
+            workaddress = Application.masterVM.vmProfile.WorkAddress().split(',');
+
+            tripbobj = [{ lat: homeaddress[0], lon: homeaddress[1], speeding: 0 }, { lat: workaddress[0], lon: workaddress[1], speeding: 0}];
+            var homeaddrezz = (Application.masterVM.vmProfile.HomeAddress());
+            var workaddrezz = (Application.masterVM.vmProfile.WorkAddress());
+
+
+            var homeaddrezztxt = (Application.masterVM.vmProfile.HomeAddresstext());
+            var workaddrezztxt = (Application.masterVM.vmProfile.WorkAddresstext());
+        
+        
         }
 
         //  alert(homeaddrezz);
         // alert(workaddrezz);
-        var homeaddrezz = (Application.masterVM.vmProfile.HomeAddress());
-        var workaddrezz = (Application.masterVM.vmProfile.WorkAddress());
-
-
-        var homeaddrezztxt = (Application.masterVM.vmProfile.HomeAddresstext());
-        var workaddrezztxt = (Application.masterVM.vmProfile.WorkAddresstext());
         showtrip(tripbobj);
         var routeobj;
         switch (way) {
@@ -751,7 +783,7 @@ function MapsViewModel() {
                 toaddress = toaddress[toaddress.length - 1];
                 tocords = tripbobj[tripbobj.length - 1].lat + ", " + tripbobj[tripbobj.length - 1].lon;
 
-               /* datetime = datetime.split("T");
+                /* datetime = datetime.split("T");
                 time = datetime[1];
                 time = time.split(":");
 
@@ -1351,9 +1383,9 @@ function Vehicle(vehicleid, description, status, avatar, registration, trips) {
                 console.log($(element).parent().parent());
                 console.log("value accessor ");
                 console.log(valueAccessor().VehicleId());
-                netstar_login('colossusadmin', 'c0l0ssus');
-                getlastposition(valueAccessor().VehicleId(), $(element).parent().parent());
-                setTimeout(function () { $('#preloader').hide(); }, 500);
+                //netstar_login('colossusadmin', 'c0l0ssus');
+                setTimeout(function () { getlastposition(valueAccessor().VehicleId(), $(element).parent().parent()) }, 500);
+                //setTimeout(function () { $('#preloader').hide(); }, 500);
                 //$("");
 
             }
