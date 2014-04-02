@@ -5,12 +5,6 @@ var selectedvehicle = 1;
 
 $(document).ready(function () {
 
-    var windowHeight = window.innerHeight;
-    $("body").css({"margin-top":"20px"});
-    /*get new window height */
-    var heightRemain = 100-(20/windowHeight)*100;
-    $("body").css({"height":heightRemain+"%"});
-
     //CREATE APPLICATION PAGES
     Application = new APPMANAGER();
     Application.pages[0] = "#page-login";
