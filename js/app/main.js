@@ -2,7 +2,7 @@
 var swipebutton="1";
 var template = "";
 var selectedvehicle = 1;
-var HOST = "http://www.stardriveapi.mobi";
+var HOST = "http://stardrive.cloudapp.net";
 
 $(document).ready(function () {
 
@@ -397,6 +397,42 @@ function setTripLogBook(element){
 }
 
 
+function setTripLogBookbyid(element, id){
+
+var TripStatus;
+
+    var loObject = $(element);
+    if (loObject.text() == "B"){
+        loObject.text("P");
+        TripStatus = "true";
+    }
+    else {
+        loObject.text("B");
+        TripStatus = "false";
+    }
+        var url = netstarpath + "/updatetripinfo";
+
+        var tripdata = {
+            tripId: id,
+            isBusiness: TripStatus
+        }
+        //console.log(tripdata);
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: tripdata,
+            success: function (data) {
+
+            },
+            dataType: 'json'
+        });
+
+
+}
+
+
+
 function showmsgcontrol(element) {
         //alert();
    // $(".msgcontrol").slideUp();
@@ -539,7 +575,16 @@ function swipeaction(self){
                setTimeout(gettrips($(self.activeElement).attr("rel")), 2000);
                 
                 
-                setTimeout(getstatus($(self.activeElement).attr("rel"), self.activeElement), 1000);
+                setTimeout(
+                
+                function(){
+
+                    getstatus($(self.activeElement).attr("rel"), self.activeElement);
+                
+                }
+                
+                
+                , 30000);
 
                 //console.log(this.activeElement);
                 //console.log($(this.activeElement).attr("rel"));            
@@ -557,7 +602,7 @@ function swipeaction(self){
                                                 console.log("thistrip");
                                                 console.log(thistrip);
                                                 
-                                                gettripdetail(thistrip.Id);
+                                                gettripdetail(thistrip);
 
                                             }
                                 
@@ -594,10 +639,13 @@ function swipeaction(self){
                           // $('#preloader').hide();
                 }, 1000);
                 
-
+                /*
             setTimeout(function(){
             
                     $(".busprivbut").click(function () {
+
+                        alert("clicked");
+
                     <!-- a comment -->
                         if ($(this).html() == "B") {
                             $(this).html("P");
@@ -609,7 +657,7 @@ function swipeaction(self){
               //  $('#preloader').hide();
             
             
-            }, 15000);
+            }, 10000);*/
 
 
 

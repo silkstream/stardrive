@@ -1,4 +1,4 @@
-﻿var urlpath = "http://localhost:81/stardrivewebhg";
+﻿var urlpath = "stardrive.cloudapp.net";
 var netstarpath = "http://infaz-dev-tfs.cloudapp.net/PublicApi/";
 
 ko.async = {

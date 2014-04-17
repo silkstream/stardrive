@@ -110,11 +110,11 @@ function gettrips(vehicle) {
 
 }
 
-function gettripdetail(tripid) {
+function gettripdetail(thistrip) {
     $("#trips").empty();
     //var url = PATH + Application.masterVM.vmProfile.netstarkey() + '/trip-coordinates/' + tripid;
 
-    var url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/triplocations?tripId=" + tripid;
+    var url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/triplocations?tripId=" + thistrip.Id;
 
     $.ajax({
         url: url,
@@ -122,7 +122,7 @@ function gettripdetail(tripid) {
         async: true,
         dataType: 'json',
         success: function (tripdetail) {
-
+            console.log("tripdetail");
             console.log(tripdetail)
             copytemplate = template.clone();
             //copytemplate.empty();
@@ -132,6 +132,7 @@ function gettripdetail(tripid) {
             toaddress = tripdetail[tripdetail.length - 1].GeoAddress.split(", ");
             datetime = tripdetail[0].DateTime;
             copytemplate.find('.atripdetail .tripaddress').html(fromaddress[0] + " to " + toaddress[0]);
+            copytemplate.find('.atripdetail .tripdatetime').html(formatdate(datetime));
             copytemplate.find('.atripdetail .tripdatetime').html(formatdate(datetime));
 
 
@@ -150,7 +151,7 @@ function gettripdetail(tripid) {
                 tripobj[i]['geoaddress'] = tripdetail[i].GeoAddress;*/
                 var speeding = 0;
 
-                if ( tripdetail[i].EventId == 53 || tripdetail[i].EventId == 51 || tripdetail[i].EventId == 49 || tripdetail[i].EventId == 55 || tripdetail[i].EventId == 56 || tripdetail[i].EventId == 58 || tripdetail[i].EventId == 59)
+                if (tripdetail[i].EventId == 53 || tripdetail[i].EventId == 51 || tripdetail[i].EventId == 49 || tripdetail[i].EventId == 55 || tripdetail[i].EventId == 56 || tripdetail[i].EventId == 58 || tripdetail[i].EventId == 59)
                     speeding = { "speed": tripdetail[i].Speed, "roadspeed": tripdetail[i].RoadSpeed };
                 tripobj[i] = { "lat": tripdetail[i].Latitude, "lon": tripdetail[i].Longitude, "geoaddress": tripdetail[i].GeoAddress, "datetime": tripdetail[i].PositionDate, "speeding": speeding };
 
@@ -160,17 +161,26 @@ function gettripdetail(tripid) {
                     alerttemplate.find('.alertdescription').html(tripdetail[i].EventDescription);
                     //alert(copytemplate.find('.atripalerts').html());
                     copytemplate.find('.atripalerts').append(alerttemplate.html());
-                    
+
                     //alert(copytemplate.find('.atripalerts').html());
                 }
             }
-            
+
             console.log("alertcount");
             console.log(alertcount);
 
             copytemplate.find('.atripdetail .alertcount').html(alertcount);
             copytemplate.find('.atripdetail .triplink').attr("rel", JSON.stringify(tripobj));
 
+
+
+            copytemplate.find('.atripdetail .busprivbut').attr("onclick", "setTripLogBookbyid(this," + thistrip.Id + ")");
+            if (thistrip.IsBusiness == "false") {
+                copytemplate.find('.atripdetail .busprivbut').html("P");
+            }
+            else {
+                copytemplate.find('.atripdetail .busprivbut').html("B");
+            }
 
 
             // $('#trips').append(template);    
@@ -260,6 +270,7 @@ function tripsCallback(callbackData, container){
            // console.log(returnedtripdata);
 
 
+
 }
 
 
@@ -324,8 +335,8 @@ function getstatus(vehicle, container) {
     //var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/VehicleLastPosition/" + vehicle;
 
     //console.log("status:::::::::", url);
-
-    setTimeout(function () {
+    
+   // setTimeout(function () {
         var speeds = [];
         var Sum = 0;
         for (var i = 0; i < returnedtripdata.length; i++) {
@@ -340,7 +351,7 @@ function getstatus(vehicle, container) {
         console.log(Math.max.apply(Math, speeds));
         $(container).find('div .maxspeed').html((Math.max.apply(Math, speeds)).toFixed(2));
         $(container).find('div .avgspeed').html((Sum / returnedtripdata.length).toFixed(2));
-    }, 5000);
+    //}, 5000);
     getlastposition(vehicle, container);
   /*  callProxyPHP(url, 'GET', " ",
         function (calbackdata) {
