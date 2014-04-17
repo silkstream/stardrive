@@ -2,10 +2,11 @@
 var swipebutton="1";
 var template = "";
 var selectedvehicle = 1;
+var HOST = "http://www.stardriveapi.mobi";
 
 $(document).ready(function () {
 
-//CREATE APPLICATION PAGES
+    //CREATE APPLICATION PAGES
     Application = new APPMANAGER();
     Application.pages[0] = "#page-login";
     Application.pages[1] = "#page-profile";
@@ -91,8 +92,6 @@ $(document).ready(function () {
     //empty tripwindow
     $('#trips').empty();
  
-
-
 
 
 
@@ -236,24 +235,29 @@ function APPMANAGER() {
         Application.masterVM.vmMessages.pullMessages();
     }
     APPMANAGER.prototype.gotoPage = function (pageName) {
+        console.log("current page:", pageName);
+        /* change title alignment in different sessions */
         //CLOSE ALL WINDOWS
         this.closePages();
         $("#menu").hide('slide', {direction: 'right'}, 300);
         //SHOW THE SELECTED WINDOW        
         if(pageName == "page-profile"){ $("#profile-footer").show(); }
         else{ $("#profile-footer").hide(); }
+        if(pageName == "page-login"){
+            $("div #pageheader span#title.title").css({"text-align":"center"});   
+        }else{
+            $("div #pageheader span#title.title").css({"text-align":"left"});   
+        }
         this.showpage(pageName);
-       //var mySwiper = new Swiper('.vehicleslide');
-    //var mySwiper = $('.vehicleslide').swiper({
-    //Your options here:
-   // mode:'horizontal',
-   // loop: true,
-   // grabCursor: true
-    //etc..
-  //});
-       //reinitSwiper(mySwiper);
-
- 
+        //var mySwiper = new Swiper('.vehicleslide');
+        //var mySwiper = $('.vehicleslide').swiper({
+        //Your options here:
+        // mode:'horizontal',
+        // loop: true,
+        // grabCursor: true
+        //etc..
+        //});
+        //reinitSwiper(mySwiper);
 
    if($("#" + pageName).attr('title') == "StarSight"){
        $("#demo").dragend({
@@ -516,14 +520,17 @@ setTimeout(function () {
 
 function swipeaction(self){
 
-$('#trips').empty();
+                $('.trips').empty();
+                $('.trips').html("");
 
                 console.log("thispage");
                 console.log(self.page);
                 //console.log(Application.masterVM.vmProfile.netstarkey());
                 //console.log($(this.activeElement).attr("rel") +  " **** " + this.page +" %%% " + swipebutton);
                
-                gettrips($(self.activeElement).attr("rel"));
+               setTimeout(gettrips($(self.activeElement).attr("rel")), 2000);
+                
+                
                 setTimeout(getstatus($(self.activeElement).attr("rel"), self.activeElement), 1000);
 
                 //console.log(this.activeElement);
@@ -539,12 +546,11 @@ $('#trips').empty();
                                    $("#lasttrip").click(function(){
                                            for(var i = 0; i < returnedtripdata.length; i++){                                
                                                 thistrip = returnedtripdata[i];
-                                                gettripdetail(thistrip.TripId);
-
-                                                setTimeout(function(){
-                                                //$('#preloader').hide();
+                                                console.log("thistrip");
+                                                console.log(thistrip);
                                                 
-                                                }, 500);
+                                                gettripdetail(thistrip.Id);
+
                                             }
                                 
                                 });                             
