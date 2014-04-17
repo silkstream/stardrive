@@ -14,6 +14,7 @@
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/LocateControl.css" />
         <link rel="stylesheet" type="text/css" href="Styles/deCarta/UI/OverviewControl.css" />
         <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
 
         <script type="text/javascript" src="js/lib/jquery-2.0.2.js"></script>
         <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
@@ -69,13 +70,20 @@
         <div id="top-nav" style="vertical-align: middle;">
            <div class="left selectable user-logo" id="nav-left" data-bind="attr: {'data-mypic' : Image}"><img src="images/arrow_back.png" class="logo"/></div>
            <div class="left" id="pageheader"><!--<img src="images/star_drive_icon.png" />--><span class="title" id="title" >&nbsp;StarDrive</span>
-                <div style="position: absolute;right: 10px;top: 0;font-size: 20px;" id="headerratings" class="colorgrey"><b><i><span id="headingscore" class="colorblue"></span>/<span id="headingrating"  class="colororange"></span></i></b></div>
+                <!-- discontinued for build 2014 March 08 -->
+                <!--
+                <div style="clear: both;"></div>
+                <div id="headerratings" class="colorgrey">
+                    <b><i>  <span id="headingscore" class="colorblue"></span>/
+                            <span id="headingrating"  class="colororange"></span>
+                    </i></b>
+                </div>
+                -->    
            </div>
            <div class="menu-list" style="width:10%;min-height: 1px;margin-top: 15px;"><img src="images/side_menu_icon.png" class="drawer" onclick="Application.toggleMenu();"/></div>
            <div style="clear: both;"></div>
         </div>
 <!-- Top Navigation Ends -->
-
 
 <div id="pagebody-container" >
 <!-- Login Screen Starts -->
@@ -87,7 +95,7 @@
                     <div style="text-align:center;"><img src="images/blue_star.png"></div>
                     <div style="text-align:center;"><img src="images/logo.png"></div>
                 </div>
-                <div class="blue button" onclick="return Application.gotoPage('page-login');">Login</div>
+                <div class="blue button" onclick="return Application.gotoPage('page-login');" >Login</div>
                 <div class="greybutton">Register</div>    
             </div>
         </div> 
@@ -126,25 +134,25 @@
      <div id="page-account"  title="My Account" data-page-type="main">            
        <div class="colorgrey"  id="accountblock" style="position:relative;width:95%;">
             <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;">
-                 <div style="width:160px;">Username</div>
-                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.FullName"></div>
+                 <div style="width:40%;">Username</div>
+                 <div style="text-align:right;width: 45%; margin-left: 1%;": class="colorblue" data-bind="text: $data.FullName"></div>
              </div>
             <div style="clear: both !important;float: none !important;"></div> 
             <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;">
-                 <div style="width:160px;">Email Address</div>
-                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.Email"></div>
+                 <div style="width:40%;">Email Address</div>
+                 <div style="text-align:right; width: 45%; margin-left: 1%;" class="colorblue" data-bind="text: $data.Email"></div>
              </div>
             <div style="clear: both !important;float: none !important;"></div> 
          <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;" data-bind="click: function(){Application.masterVM.vmProfile.showHomeAddress()}">
-                 <div style="width:160px;">Home Address</div>
-                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.HomeAddresstext" ></div>
-                 <div class="gpsbutton" style="width:50px;float:left;margin-left:10px;height:40px;margin-top:-5px;">&nbsp;</div>
+                 <div style="width:40%;">Home Address</div>
+                 <div style="text-align:right; width: 40%" class="colorblue profile-address" data-bind="text: $data.HomeAddresstext" ></div>
+                 <div class="gpsbutton" style="width:40px;float:right;margin-left:2px;height:40px;margin-top:-5px;">&nbsp;</div>
              </div>
         <div style="clear: both !important;float: none !important;"></div> 
              <div class="row" style="width:100%;position:relative;float:left;height:40px;top:20px;" data-bind="click: function(){Application.masterVM.vmProfile.showWorkAddress()}">
-                 <div style="width:160px;">Work Address</div>
-                 <div style="text-align:right;" class="colorblue" data-bind="text: $data.WorkAddresstext"></div>
-                  <div class="gpsbutton" style="width:50px;float:left;margin-left:10px;height:40px;margin-top:-5px;">&nbsp;</div>
+                 <div style="width:40%;">Work Address</div>
+                 <div style="text-align:right; width: 40%" class="colorblue profile-address" data-bind="text: $data.WorkAddresstext"></div>
+                  <div class="gpsbutton" style="width:40px;float:right;margin-left:2px;height:40px;margin-top:-5px;">&nbsp;</div>
              </div>
         </div>        
        </div>
@@ -192,20 +200,33 @@
 
          <div style="clear: both !important;float: none !important;"></div>
         </div>
-          <!-- Scores and starts -->
+        <!-- Scores and starts -->
         <div class="grey" style="float:right;width:50%;min-height:120px;" id="homerating">
-                <div style="width: 50%;float:left;">
-                  
+                <div style="width:90%;float:left;">                  
                         <div class="floatnone">
-                            <div><img src="images/star_rate_icon_.png"></div><div class="colorblue" style="font-size: 27px;margin-top: -4px;font-weight: bold;font-style: italic;"><span id="profilescore"></span><span style="font-size: 18px;">Rt</span></div>
+                            <div class="rate-icons">
+                                <img src="images/star_rate_icon_.png">
+                            </div>
+                            <div class="colorblue" style="font-size: 22px;margin-top: -4px;font-weight: 900 !important;font-style: italic; width: 100%; font-family: Verdana;">
+                                <span id="profilescore"></span>
+                                <span style="font-size: 18px;">Rt</span>
+                            </div>
                         </div>                
                 </div>
-                <div>
-                 
-                        <div class="floatnone">
-                            <div><img src="images/star_points_icon.png" height=28></div><div  class="colororange" style="font-size: 27px;margin-top: -4px;font-weight: bold;font-style: italic;"><span id="profilerating"></span><span style="font-size: 18px;">Pts</span></div>
-                        </div>              
+                <!--
+                <div style="height: 120px;">
+                    <div class="floatnone">
+                        <div class="rate-icons">
+                            <img src="images/star_points_icon.png">
+                        </div>
+
+                       
+                         <div  class="colororange" style="font-size: 20px;margin-top: -4px;font-weight: bold;font-style: italic;">
+                            <span id="profilerating"></span><span style="font-size: 18px;">Pts</span>
+                        </div>
+                    </div>              
                 </div>    
+                -->
         </div>
         <div style="clear: both !important;float: none !important;"></div>
 
@@ -214,43 +235,47 @@
         <!--WEATHER AND RATING BLOCK ENDS-->
 
        <!-- Daily Route Starts-->
-        <div class="row grey" style="position:relative;" id="daylyroute"  >
+        <div class="row grey" style="position:relative; border-bottom: 0px solid #fff; " id="daylyroute" >
         <div class="colorgrey" style="margin: auto 0px;width: 100%;float:left;">
-            <div style="font-size: 15px;float:left;width:100%;margin-bottom:3px;" onclick="toggleworkAddress()">
-                <div style="width: 120px;float:left;">Route Work</div>
-                <div style="margin-left: 10px;float:left;">
-                    <img src="images/accordion_down.png" style="width: 20px;" />
-                </div>
-               
-                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
-                <div style="width: 100%;float:left;display:none;" id="lblWorkAddress" class="colorblue" onclick="Application.masterVM.vmMaps.setchosenroute('homework')"><span class="colorblue" data-bind="text: WorkAddresstext"></div>
-            </div> 
-           
-            <div style="font-size: 15px;float:left;width:100%;" onclick="togglehomeAddress()">        
-                <div style="width: 120px;float:left;">Route Home</div>
+            <div style="font-size: 15px;float:left;width:50%;" onclick="togglehomeAddress()">        
+                <div style="min-width: 10%;float:left;">Home</div>
+                <!--
                 <div style="margin-left: 10px;float:left;">
                     <img src="images/accordion_down.png" style="width: 20px;"/>
                 </div>
-                <div style="float:right;"><span class="colorgreen" style="font-size: 20px;">Clear</span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
+                -->
+                <div class="home-green"><span class="colorgreen" style="font-size: 20px;"></span><img src="images/traffic_route_clear_icon.png" ></div>
                 <div style="width: 100%;float:left;display:none;" id="lblHomeAddress" class="colorblue"  onclick="click: Application.masterVM.vmMaps.setchosenroute('workhome')"><span class="colorblue" data-bind="text: HomeAddresstext"></div>
             </div> 
+
+            <div style="font-size: 15px;float:left;width:50%;margin-bottom:3px;" onclick="toggleworkAddress()">
+                <div style="min-width: 10%;float:left;">Work</div>
+                <!--
+                <div style="margin-left: 10px;float:left;">
+                    <img src="images/accordion_down.png" style="width: 20px;" />
+                </div>
+                -->
+
+                <div class="work-green"><span class="colorgreen" style="font-size: 20px;"></span><img src="images/traffic_route_clear_icon.png" style="margin-left:5px;" align="right"></div>
+                <div style="width: 100%;float:left;display:none;" id="lblWorkAddress" class="colorblue" onclick="Application.masterVM.vmMaps.setchosenroute('homework')"><span class="colorblue" data-bind="text: WorkAddresstext"></div>
+            </div> 
+           
         </div>
         <div style="clear: both;float: none;"></div>
         </div>
 
         <!-- Daily Route Endz-->
-          <!--Latest Trip-->
-        <div class="row colorgrey" style="position:relative; width:100%; padding:0; ">
+        <!--Latest Trip-->
+        <div class="row colorgrey" style="position:relative; width:100%; padding:0;" id="latestTrip" data-bind="foreach: LastTrips" >
                        <div style="width:100%;padding:  10px 0 10px 0; border-bottom: 3px solid #E7E7E8;" class="colorgrey"  onclick="showmsgcontrol(this);">
-                               <div style="text-align: center;width: 10%;"><img src="images/car_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
-                        <div style="width: 75%;" class="colorgrey">
-                        <div style="width:100%;" class="colorred">Bellville - Durbanville </div>
-                        <span class="colorblue">Durbanville</span><span class="colorgrey">&nbsp;(26 March 2014 05:17)</span>
-                        <div><span class="colorgrey">Vehicle Registration:</span><span class="colorblue">&nbsp;WDL456GP</span></div>
+                        <div style="text-align: center;width: 10%;"><img src="images/car_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
+                        <div style="width: 75%; vertical-align: middle; margin-top: 15px;" class="colorgrey main-trip-container">
+                        <div style="width:100%;" class="colorred" data-bind="text: (startposition)"></div>
+                        <span class="colorgrey" data-bind="text: (tripdate)"></span>                        
                         </div>
                         
-                         <div style="float: left;width: 10%;margin: 30px 0 20px 0;text-align: right;"  class="arrow">
-                        <div class="button blue busprivbut" style="padding: 10px;margin: 0;" onclick="setTripLogBook(this)">B</div>
+                        <div style="float: left;width: 10%; margin: 30px 0px;text-align: right;"  class="arrow">
+                        <div class="button blue busprivbut" style="padding: 10px;margin: 0; float: right;" onclick="setTripLogBook(this)">B</div>
                             
                          </div>
                          <div style="clear:both;float:none;"></div>
@@ -264,7 +289,7 @@
        <!-- ko if: ( $index() === ($parent.allalerts().length -1)) -->
        <div style="padding:  10px 0 10px 0;width:100%;" class="colorgrey"  onclick="showmsgcontrol(this);">
                <div style="text-align: center;width: 10%;"> <img src="images/alert_notification_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
-               <div style="width: 75%;" class="colorgrey">
+               <div style="width: 75%;" class="colorgrey alert-containter">
                     <span data-bind="text: alert_type" class="colorred"></span><br/>
                     <span class="colorblue" data-bind="text: alert_address">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
                     <p data-bind="html: alert_description"></p>
@@ -306,7 +331,7 @@
        
                        <div style="width:100%;padding:  10px 0 10px 0;" class="colorgrey"  onclick="showmsgcontrol(this);">
                                <div style="text-align: center;width: 10%;"> <img src="images/message_notification_icon.png" style="margin: 30px 10px 20px 10px;" align="middle"/></div>
-                               <div style="width: 75%;" class="colorgrey">
+                               <div style="width: 75%; margin-top: 15px;" class="colorgrey message-containter">
                                        <!-- ko if: ( reminder() != '0') -->
                                        <img   src="images/account_btn.png" align="left" style="" width="50px;"/>
                                        <!-- /ko -->
@@ -349,8 +374,8 @@
 <!-- Profile Screen Ends -->
         <!-- Bottom buttons -->
         <div class="row grey" id="profile-footer" style="display:none">
-        <div  onclick="return Application.gotoPage('page-starsocial');" id="msgtotal" class="profilemsgbutton"><div class="circleBase profile-circle blue colorwhite" style="padding: 6px 10px;" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
-        <div  onclick="return Application.gotoPage('page-alerts');"  class="profilealertbutton"><div class="circleBase  profile-circle red colorwhite" style="padding: 6px 10px;" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
+        <div  onclick="return Application.gotoPage('page-alerts');"  class="profilealertbutton"><div class="circleBase  profile-circle red colorwhite" id="alerttotal" data-bind="text: allalerts().length">7</div></div>
+        <div  onclick="return Application.gotoPage('page-starsocial');" id="msgtotal" class="profilemsgbutton"><div class="circleBase profile-circle blue colorwhite" id="msgtotal" data-bind="text: allmessages().length">7</div></div>
         <div style="clear:both;float:none;"></div>
         </div>
 
@@ -421,7 +446,7 @@
                 <div class="row colorgrey" style="position: relative;width: 100%;padding: 0;margin:0;">    
        
        
-                       <div style="width:100%;padding: 10px;" class="colorgrey"  onclick="showmsgcontrol(this);">
+                       <div style="width:100%;padding: 10px 0px;" class="colorgrey"  onclick="showmsgcontrol(this);">
                            <div style="width:85%;">
                                    <!-- ko if: ( reminder() != '0') -->
                                    <img   src="images/account_btn.png" align="left" style="" width="50px;"/>
@@ -522,7 +547,7 @@
             </div>
             <div class="sub-header">
                 <div class="friend-sub-header">
-                    <div class="image-rep" id="add-friend" data-bind="click:  Application.masterVM.vmFriends.showAddFriend"> </div> <div class="text left" >Add Friend </div>
+                    <div class="image-rep" id="add-friend" data-bind="click: function(){ Application.masterVM.vmFriends.showAddFriend()}"> </div> <div class="text left" >Add Friend </div>
                 </div>
             </div>
             <div style="clear: both;float: none;"></div>        
@@ -576,7 +601,7 @@
                
                 <span data-bind="text: alert_type" class="colorred"></span><br/>
                 <span class="colorblue" data-bind="text: alert_address">Location</span> (<span data-bind="text: (alert_date)" class="colorgrey"></span>)
-                <div class="colorblue" style="font-size: 30px;padding: 0;left:85%;top:5px;position: absolute;width: 10%;text-align: right;" onclick="showinfowindow();">+</div>
+                <div class="colorblue" style="font-size: 30px;padding: 0;left:85%;top:5px;position: absolute;width: 30%;text-align: right;" onclick="showinfowindow();">+</div>
                 <div style="clear:both;float:none;"></div>
             </div>
             <div class="row grey colorblue"   data-bind="visible: (whattoshow() === 'route'),with:chosenroute">
@@ -675,9 +700,9 @@
 
             <div class="row colorblue grey" style="position: relative;padding:0;">       
           
-                <div class="white" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
-                <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
-                <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
+                <div class="white" style="width:33%; padding: 7px 0px; margin: 0; text-align:center; " onclick="return Application.gotoPage('page-starrate');">Rating</div>
+                <div class="colorgrey" style="width:33%; padding: 7px 0px; margin: 0; text-align:center;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
+                <div class="colorgrey" style="width: 33%; padding: 7px 0px; margin: 0; text-align:center;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
                 <div style="clear: both;float: none;"></div>            
             </div>
 
@@ -713,9 +738,9 @@
 
             <div class="row colorblue grey" style="position: relative;padding:0;">       
           
-                <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
-                <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
-                <div class="white" style="padding:15px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
+                <div class="white" style="width:33%; padding: 7px 0px; margin: 0; text-align:center; " onclick="return Application.gotoPage('page-starrate');">Rating</div>
+                <div class="colorgrey" style="width:33%; padding: 7px 0px; margin: 0; text-align:center;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
+                <div class="colorgrey" style="width: 33%; padding: 7px 0px; margin: 0; text-align:center;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
                 <div style="clear: both;float: none;"></div>            
             </div>
 
@@ -751,9 +776,9 @@
 
             <div class="row colorblue grey" style="position: relative;padding:0;">       
           
-                <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starrate');">Rating</div>
-                <div class="white" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
-                <div class="colorgrey" style="padding:15px 7px 15px 7px; margin: 0;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
+                <div class="white" style="width:33%; padding: 7px 0px; margin: 0; text-align:center; " onclick="return Application.gotoPage('page-starrate');">Rating</div>
+                <div class="colorgrey" style="width:33%; padding: 7px 0px; margin: 0; text-align:center;" onclick="return Application.gotoPage('page-starratesliders');">Score Analyses</div>
+                <div class="colorgrey" style="width: 33%; padding: 7px 0px; margin: 0; text-align:center;" onclick="return Application.gotoPage('page-starratecomposition');">Composition</div>
                 <div style="clear: both;float: none;"></div>            
             </div>
 
@@ -776,7 +801,7 @@
                     <div class="slideBoxHead">Speeding</div>
                     <div class="slideBoxValue" id="slideBoxValue0" name="slideBoxValue0" data-bind="text: (21 - $data.sliderValues()[0])">NaN Alerts</div>
                         <div style="width: 100%;">
-                        <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider0" name="slider0" rel="0" data-bind="slider: $data.sliderValues()[0], sliderOptions: {min: 0, max: 21, range: 'min', step: 1}">
+                        <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider0" name="slider0" rel="0" data-bind="slider: $data.sliderValues()[0], sliderOptions: {min: 0, max: 100, range: 'min', step: 1}">
                         </div><div class='colorblue slideplus' data-bind="click: slideoneup">+</div>
                         <div style="clear:both;float:none;"></div>
                         </div>
@@ -785,7 +810,7 @@
                     <div class="slideBoxHead">Impacts</div>
                     <div class="slideBoxValue" id="slideBoxValue1" name="slideBoxValue1">NaN Alerts</div>
                     <div style="width: 100%;">
-                        <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider1" name="slider1" rel="1" data-bind="slider: $data.sliderValues()[1], sliderOptions: {min: 0, max: 21, range: 'min', step: 1}">
+                        <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider1" name="slider1" rel="1" data-bind="slider: $data.sliderValues()[1], sliderOptions: {min: 0, max: 100, range: 'min', step: 1}">
                         </div><div class='colorblue slideplus' data-bind="click: slideoneup">+</div>
                         <div style="clear:both;float:none;"></div>
                     </div>
@@ -794,7 +819,7 @@
                         <div class="slideBoxHead">Harsh Acceleration</div>
                         <div class="slideBoxValue" id="slideBoxValue2" name="slideBoxValue2">19 Alerts</div>
                         <div style="width: 100%;">
-                            <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider2" name="slider2" rel="2" data-bind="slider: $data.sliderValues()[2], sliderOptions: {min: 0, max: 21, range: 'min', step: 1}">
+                            <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider2" name="slider2" rel="2" data-bind="slider: $data.sliderValues()[2], sliderOptions: {min: 0, max: 100, range: 'min', step: 1}">
                             </div><div class='colorblue slideplus' data-bind="click: slideoneup">+</div>
                             <div style="clear:both;float:none;"></div>
                         </div>            
@@ -803,7 +828,7 @@
                     <div class="slideBoxHead">Harsh Braking</div>
                     <div class="slideBoxValue" id="slideBoxValue3" name="slideBoxValue3">17 Alerts</div>
                         <div style="width: 100%;">
-                            <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider3" name="slider3" rel="3" data-bind="slider: $data.sliderValues()[3], sliderOptions: {min: 0, max: 21, range: 'min', step: 1}">
+                            <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider3" name="slider3" rel="3" data-bind="slider: $data.sliderValues()[3], sliderOptions: {min: 0, max: 100, range: 'min', step: 1}">
                             </div><div class='colorblue slideplus' data-bind="click: slideoneup">+</div>
                             <div style="clear:both;float:none;"></div>
                         </div> 
@@ -813,7 +838,7 @@
                     <div class="slideBoxHead">Harsh Cornering</div>
                     <div class="slideBoxValue" id="slideBoxValue4" name="slideBoxValue4">20 Alerts</div>
                         <div style="width: 100%;">
-                            <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider4" name="slider4" rel="4" data-bind="slider: $data.sliderValues()[4], sliderOptions: {min: 0, max: 21, range: 'min', step: 1}">
+                            <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div><div class="slider" id="slider4" name="slider4" rel="4" data-bind="slider: $data.sliderValues()[4], sliderOptions: {min: 0, max: 100, range: 'min', step: 1}">
                             </div><div class='colorblue slideplus' data-bind="click: slideoneup">+</div>
                             <div style="clear:both;float:none;"></div>
                         </div>  
@@ -824,7 +849,7 @@
                     <div class="slideBoxValue" id="slideBoxValue5" name="slideBoxValue5">0-15 days</div>
                         <div style="width: 100%;">
                             <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div>
-                            <div class="slider" id="slider5" name="slider5" rel="5" data-bind="slider: $data.sliderValues()[5], sliderOptions: {min: 0, max: 31, range: 'min', step: 1}"  ></div>
+                            <div class="slider" id="slider5" name="slider5" rel="5" data-bind="slider: $data.sliderValues()[5], sliderOptions: {min: 0, max: 100, range: 'min', step: 1}"  ></div>
                             <div class='colorblue slideplus' data-bind="click: slideoneup">+</div>
                             <div style="clear:both;float:none;"></div>
                         </div>  
@@ -834,7 +859,7 @@
                     <div class="slideBoxValue" id="slideBoxValue6" name="slideBoxValue6">11PM-04AM</div>
                         <div style="width: 100%;">
                             <div class='colorblue slideminus'  data-bind="click: slideonedown">-</div>
-                            <div class="slider" id="slider6" name="slider6" rel="6" data-bind="slider: $data.sliderValues()[6], sliderOptions: {min: 0, max: 24, range: 'min', step: 1}"  ></div>
+                            <div class="slider" id="slider6" name="slider6" rel="6" data-bind="slider: $data.sliderValues()[6], sliderOptions: {min: 0, max: 100, range: 'min', step: 1}"  ></div>
                             <div class='colorblue slideplus' data-bind="click: slideoneup">+</div>
                             <div style="clear:both;float:none;"></div>
                         </div>

@@ -80,7 +80,7 @@ function gettrips(vehicle) {
 
     var url = PATH + Application.masterVM.vmProfile.netstarkey() + '/trips/' + vehicle + "/" + from + "/" + to;
 
-    url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/trips?vehicleId=" + vehicle + "&fromDate=" + from + "&toDate=" + to;
+    url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/trips?vehicleId=" + Application.masterVM.vmProfile.vehicleid() + "&fromDate=" + from + "&toDate=" + to;
 
 
     $.ajax({
@@ -150,11 +150,11 @@ function gettripdetail(tripid) {
                 tripobj[i]['geoaddress'] = tripdetail[i].GeoAddress;*/
                 var speeding = 0;
 
-                if (tripdetail[i].EventId == 69 || tripdetail[i].EventId == 53 || tripdetail[i].EventId == 51 || tripdetail[i].EventId == 49 || tripdetail[i].EventId == 55 || tripdetail[i].EventId == 56 || tripdetail[i].EventId == 58 || tripdetail[i].EventId == 59)
+                if ( tripdetail[i].EventId == 53 || tripdetail[i].EventId == 51 || tripdetail[i].EventId == 49 || tripdetail[i].EventId == 55 || tripdetail[i].EventId == 56 || tripdetail[i].EventId == 58 || tripdetail[i].EventId == 59)
                     speeding = { "speed": tripdetail[i].Speed, "roadspeed": tripdetail[i].RoadSpeed };
                 tripobj[i] = { "lat": tripdetail[i].Latitude, "lon": tripdetail[i].Longitude, "geoaddress": tripdetail[i].GeoAddress, "datetime": tripdetail[i].PositionDate, "speeding": speeding };
 
-                if (tripdetail[i].EventId == 69  || tripdetail[i].EventId == 53 || tripdetail[i].EventId == 51 || tripdetail[i].EventId == 49 || tripdetail[i].EventId == 55 || tripdetail[i].EventId == 56 || tripdetail[i].EventId == 58 || tripdetail[i].EventId == 59) {
+                if (tripdetail[i].EventId == 53 || tripdetail[i].EventId == 51 || tripdetail[i].EventId == 49 || tripdetail[i].EventId == 55 || tripdetail[i].EventId == 56 || tripdetail[i].EventId == 58 || tripdetail[i].EventId == 59) {
                     alertcount = alertcount + 1;
                     alerttemplate.find('.alerttime').html(formatdate(tripdetail[i].DateTime));
                     alerttemplate.find('.alertdescription').html(tripdetail[i].EventDescription);
@@ -265,9 +265,9 @@ function tripsCallback(callbackData, container){
 
 function getlastposition(vehicle, container) {
    // netstar_login('colossusadmin', 'c0l0ssus');
-    var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/VehicleLastPosition/" + vehicle;
+   // var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/VehicleLastPosition/" + vehicle;
 
-    url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/latestlocation?vehicleId=" + vehicle;
+    url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/latestlocation?vehicleId="  + Application.masterVM.vmProfile.vehicleid();
 
 
    // callProxyPHP(url, 'GET', " ",
@@ -320,7 +320,6 @@ function getlastposition(vehicle, container) {
 
 function getstatus(vehicle, container) {
    // netstar_login('colossusadmin', 'c0l0ssus');
-
     //var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/vehicles?$filter=" + (encodeURIComponent("AssetId eq guid'" + vehicle + "'").replace(/'/g, "%27"));
     //var url = PATH + Application.masterVM.vmProfile.netstarkey() + "/VehicleLastPosition/" + vehicle;
 
@@ -333,7 +332,7 @@ function getstatus(vehicle, container) {
 
             //speeds.push(returnedtripdata[i].MaxSpeed);
             //Sum = Sum + returnedtripdata[i].MaxSpeed;
-            speeds.push(returnedtripdata[i].Start.Speed);
+            speeds.push(returnedtripdata[i].MaxSpeed);
             Sum = Sum + 100;
 
         }
@@ -547,8 +546,8 @@ function showtrip(tripobj) {
 
     
 
-   // console.log("tripbobj");
-   // console.log(tripobj);
+    console.log("tripbobj");
+    console.log(tripobj);
 
     var routeCriteria = new deCarta.Core.RouteCriteria();
     console.log("routeCriteria");

@@ -2,6 +2,7 @@
 var swipebutton="1";
 var template = "";
 var selectedvehicle = 1;
+var HOST = "http://www.stardriveapi.mobi";
 
 $(document).ready(function () {
 
@@ -45,7 +46,8 @@ $(document).ready(function () {
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('latestalert'));
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('alerttotal'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('msgtotal')); 
-
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('latestTrip'));    
+   
     //bindings for user address edit screens
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('page-homeaddress'));
 
@@ -234,24 +236,29 @@ function APPMANAGER() {
         Application.masterVM.vmMessages.pullMessages();
     }
     APPMANAGER.prototype.gotoPage = function (pageName) {
+        console.log("current page:", pageName);
+        /* change title alignment in different sessions */
         //CLOSE ALL WINDOWS
         this.closePages();
         $("#menu").hide('slide', {direction: 'right'}, 300);
         //SHOW THE SELECTED WINDOW        
         if(pageName == "page-profile"){ $("#profile-footer").show(); }
         else{ $("#profile-footer").hide(); }
+        if(pageName == "page-login"){
+            $("div #pageheader span#title.title").css({"text-align":"center"});   
+        }else{
+            $("div #pageheader span#title.title").css({"text-align":"left"});   
+        }
         this.showpage(pageName);
-       //var mySwiper = new Swiper('.vehicleslide');
-    //var mySwiper = $('.vehicleslide').swiper({
-    //Your options here:
-   // mode:'horizontal',
-   // loop: true,
-   // grabCursor: true
-    //etc..
-  //});
-       //reinitSwiper(mySwiper);
-
- 
+        //var mySwiper = new Swiper('.vehicleslide');
+        //var mySwiper = $('.vehicleslide').swiper({
+        //Your options here:
+        // mode:'horizontal',
+        // loop: true,
+        // grabCursor: true
+        //etc..
+        //});
+        //reinitSwiper(mySwiper);
 
    if($("#" + pageName).attr('title') == "StarSight"){
        $("#demo").dragend({
@@ -376,12 +383,19 @@ function setTripLogBook(element){
     var loObject = $(element);
     if (loObject.text() == "B"){
         loObject.text("P");
+        Application.masterVM.vmProfile.LastTrips()[0].triptype() = "false";
+        Application.masterVM.vmProfile.setTripStatus();
+
     }
     else {
         loObject.text("B");
+        Application.masterVM.vmProfile.LastTrips()[0].triptype() = "true";
+        Application.masterVM.vmProfile.setTripStatus();
+
     }
 
 }
+
 
 function showmsgcontrol(element) {
         //alert();
@@ -522,7 +536,9 @@ function swipeaction(self){
                 //console.log(Application.masterVM.vmProfile.netstarkey());
                 //console.log($(this.activeElement).attr("rel") +  " **** " + this.page +" %%% " + swipebutton);
                
-                gettrips($(self.activeElement).attr("rel"));
+               setTimeout(gettrips($(self.activeElement).attr("rel")), 2000);
+                
+                
                 setTimeout(getstatus($(self.activeElement).attr("rel"), self.activeElement), 1000);
 
                 //console.log(this.activeElement);

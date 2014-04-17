@@ -1,4 +1,7 @@
-﻿ko.async = {
+﻿var urlpath = "http://localhost:81/stardrivewebhg";
+var netstarpath = "http://infaz-dev-tfs.cloudapp.net/PublicApi/";
+
+ko.async = {
     callbackParam: function (options) {
         this.delegate = function () { };
         this.completedSynchronously = false;
@@ -77,10 +80,17 @@ ko.asyncComputed = function (evaluatorFunction, target) {
 
 ///*********************************
 
+/* check existing paths */
+function UrlExists(url) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status != 404;
+}
 function LoginViewModel() {
 
-    this.LoginName = ko.observable("robinfourie@gmail.com");
-    this.UserPassword = ko.observable("123456");
+    this.LoginName = ko.observable("cafenite@gmail.com");
+    this.UserPassword = ko.observable("online1");
     this.LoginFail = ko.observable(false);
     this.LoginData = ko.observable();
     this.RememberMe = ko.observable(0);
@@ -99,24 +109,30 @@ function LoginViewModel() {
         Application.masterVM.vmProfile.WorkAddress('');
         Application.masterVM.vmProfile.HomeAddresstext('');
         Application.masterVM.vmProfile.WorkAddresstext('');
-        Application.gotoPage('page-intro');
+        Application.gotoPage('page-login');
     }
 
     this.doLogin = function () {
         //Do a login
-        console.log("login url :", login_url);
-        var login_url = 'http://stardrive.cloudapp.net/stardriveusers/loginMobile.json?username=' + this.LoginName() + '&password=' + this.UserPassword();
+        //console.log("login url :", login_url);
+        //console.log("Host :", HOST);
+        $('#preloader').show();
+        var login_url = HOST + '/stardriveusers/loginMobile.json?username=' + this.LoginName() + '&password=' + this.UserPassword();
         console.log("logging in :", login_url);
         var self = this;
         $.ajax({
             url: login_url,
             data: { username: this.LoginName(), password: this.UserPassword() },
             success: function (data) {
-                console.log(data);
+                console.log("login callback :", data);
                 Application.masterVM.vmProfile.FirstName(data.Stardriveuser.username);
                 Application.masterVM.vmProfile.Surname(data.Stardriveuser.surname);
                 Application.masterVM.vmProfile.UserId(data.Stardriveuser.id);
-                Application.masterVM.vmProfile.Image("http://stardrive.cloudapp.net/" + data.Stardriveuser.userimage);
+                var profile_image = HOST + "/" + data.Stardriveuser.userimage;
+                if (!UrlExists(profile_image)) {
+                    profile_image = "images/account_btn.png";
+                }
+                Application.masterVM.vmProfile.Image(profile_image);
                 //Application.masterVM.vmProfile.Password(data[0].Stardriveuser.username);
                 Application.masterVM.vmProfile.Email(data.Stardriveuser.emailaddress);
                 Application.masterVM.vmProfile.HomeAddress(data.Stardriveuser.homeaddresscords);
@@ -125,38 +141,44 @@ function LoginViewModel() {
                 Application.masterVM.vmProfile.HomeAddresstext(data.Stardriveuser.homeaddress1);
                 Application.masterVM.vmProfile.WorkAddresstext(data.Stardriveuser.workaddress1);
                 Application.masterVM.vmProfile.stardrivekey(data.key);
-
+                console.log("subs id : ", data.Stardriveuser.subscriberid);
+                Application.masterVM.vmProfile.subscriberid(data.Stardriveuser.subscriberid);
+                Application.masterVM.vmProfile.vehicleid(data.Stardriveuser.vehicle_id);
                 /*          for (var i = 0; i < data.Vehicle.length; i++) {
                 vehicleid = data.Vehicle[i].id;
                 description = data.Vehicle[i].description;
                 status = data.Vehicle[i].status;
-                avatar = "http://stardrive.cloudapp.net/img/" + data.Vehicle[i].photo;
+                avatar = HOST+"/img/" + data.Vehicle[i].photo;
                 registration = data.Vehicle[i].registration;
                 Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
                 }
 
                 */
+                
+                GetOwnerId();
                 if ($('#rememberme').val() == 1) {
-
                     self.RememberMe(1);
                     window.localStorage.setItem("remembereduser", ko.toJSON(Application.masterVM.vmProfile));
-
                 }
                 console.log("remembereduser");
                 console.log(window.localStorage.getItem("remembereduser"));
 
                 setcurrentlocation();
 
+<<<<<<< local
+=======
+                Application.masterVM.vmProfile.getLastTrip();
 
+>>>>>>> other
                 Application.masterVM.vmProfile.pullVehicles();
                 Application.masterVM.vmWeather.pullWeather();
                 Application.masterVM.vmMessages.pullMessages();
                 Application.masterVM.vmAlerts.pullAlerts();
                 Application.masterVM.vmFriends.pullFriends();
                 Application.masterVM.vmStarRating.pullRatings(7);
-                netstar_login('colossusadmin', 'c0l0ssus');
+                //netstar_login('colossusadmin', 'c0l0ssus');
+                $('#preloader').hide();
                 Application.gotoPage('page-profile');
-
             },
             dataType: 'json',
             crossDomain: true
@@ -183,7 +205,6 @@ function LoginViewModel() {
         }*/
     }
 }
-
 function ProfileViewModel() {
     self = this;
     self.FirstName = ko.observable().extend({ reset: true }) ;
@@ -197,8 +218,13 @@ function ProfileViewModel() {
     self.HomeAddresstext = ko.observable().extend({ reset: true });
     self.WorkAddresstext = ko.observable().extend({ reset: true });
     self.Vehicles = ko.observableArray();
+    self.LastTrips = ko.observableArray();
+
     self.netstarkey = ko.observableArray('');
     self.stardrivekey = ko.observableArray('');
+    self.subscriberid = ko.observableArray('');
+    self.ownerid = ko.observableArray('');
+    self.vehicleid = ko.observableArray('');
     
     self.FullName = ko.computed(function () {
         return self.FirstName() + " " + self.Surname();
@@ -216,7 +242,7 @@ function ProfileViewModel() {
         
         $.ajax({
 
-            url: 'http://stardrive.cloudapp.net/stardriveusers/setWorkAddress.json?home_address=' + this.HomeAddresstext() + '&key=' + this.stardrivekey(),
+            url: HOST+'/stardriveusers/setWorkAddress.json?home_address=' + this.HomeAddresstext() + '&key=' + this.stardrivekey(),
                 data: {},
                 success: function (data) {
                     Application.gotoPage('page-account');
@@ -236,7 +262,7 @@ function ProfileViewModel() {
 
         $.ajax({
 
-            url: 'http://stardrive.cloudapp.net/stardriveusers/setWorkAddress.json?work_address=' + this.WorkAddresstext() + '&key=' + this.stardrivekey(),
+            url: HOST+'/stardriveusers/setWorkAddress.json?work_address=' + this.WorkAddresstext() + '&key=' + this.stardrivekey(),
             data: {},
             success: function (data) {
                 Application.gotoPage('page-account');
@@ -250,8 +276,8 @@ function ProfileViewModel() {
         // var key = Application.masterVM.vmProfile.stardrivekey();
         key = "979";
 
-        var url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/vehiclesowner?ownerId=" + key;
-        console.log("get messages :", url);
+        var url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/vehicles?ownerId=" + key;
+        console.log("get vehicles :", url);
         $.ajax({
             url: url,
             data: {},
@@ -263,7 +289,7 @@ function ProfileViewModel() {
                     vehicleid = data[i].Id;
                     description = data[i].Registration;
                     status = "0";
-                    avatar = "http://stardrive.cloudapp.net/img/vehicle_profile/e8572636c795307b7ef59d522ee02e46.jpg";
+                    avatar = HOST+"/img/vehicle_profile/e8572636c795307b7ef59d522ee02e46.jpg";
                     registration = data[i].Registration;
                     Application.masterVM.vmProfile.Vehicles.push(new Vehicle(vehicleid, description, status, avatar, registration));
                 }
@@ -272,7 +298,43 @@ function ProfileViewModel() {
         });
     }
 
+    self.setTripStatus = function () {
+     
+        var url = netstarpath + "/updatetripinfo";
+        var lastTripId = Application.masterVM.vmProfile.LastTrips()[0].tripid();
+        var lastTripStatus = Application.masterVM.vmProfile.LastTrips()[0].triptype();
+        var tripdata = {
+            tripId: lastTripId,
+            isBusiness: lastTripStatus
+        }
+        console.log(tripdata);
 
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: tripdata,
+            success: function (data) {
+
+            },
+            dataType: 'json'
+        });
+    }
+
+    self.getLastTrip = function () {
+        var url = netstarpath +"trips?vehicleId=9&fromDate=2014-03-28T00:00:00.0620867Z&toDate=2014-04-16T15:27:00.0620867Z";
+
+        $.ajax({
+            url: url,
+            data: {},
+            success: function (data) {
+                tripid = data[0].Id;
+                tripdate = data[0].Start.DateTime;
+                Application.masterVM.vmProfile.LastTrips.push(new LastTrip(tripid, data[0].Start.GeoAddress, 9, 3, tripdate));
+
+            },
+            dataType: 'json'
+        });
+    } 
 
 
 }
@@ -322,10 +384,14 @@ function MessagesViewModel() {
         //$('.friendModal').dialog('close');
         Application.gotoPage('page-messages');
     }
+    self.clearReply = function () {
+        Application.gotoPage('page-starsocial');
+    }
+
     self.delmessage = function () {
         var msg_id = this.msgid();
         var key = Application.masterVM.vmProfile.stardrivekey();
-        var del_msg_url = "http://stardrive.cloudapp.net/stardriveusers/deleteMobileMessage.json?message_id=" + msg_id + "&key=" + key;
+        var del_msg_url = HOST + "/stardriveusers/deleteMobileMessage.json?message_id=" + msg_id + "&key=" + key;
         console.log("del", del_msg_url);
         var self = this;
         $.ajax({
@@ -335,6 +401,9 @@ function MessagesViewModel() {
                 console.log("message deleted", data);
                 if (data.code == 200) {
                     //alert("message deleted");
+                    var numInbox = parseInt($("#inbox").text());
+                    numInbox = numInbox - 1;
+                    $("#inbox").text(numInbox)
                     Application.masterVM.vmMessages.allmessages.remove(self);
                 }
             },
@@ -349,7 +418,7 @@ function MessagesViewModel() {
         var to = mydata.fromid();
         var message = $("#newmessage").val();
         var header = this.subject();
-        var msg_url = "http://stardrive.cloudapp.net/stardriveusers/sendMobileMessage.json?key=" + key + "&to=" + to + "&heading=" + header + "&message=" + message;
+        var msg_url = HOST+"/stardriveusers/sendMobileMessage.json?key=" + key + "&to=" + to + "&heading=" + header + "&message=" + message;
         //console.log("message url :", msg_url);
         $.ajax({
             url: msg_url,
@@ -367,7 +436,7 @@ function MessagesViewModel() {
     }
     self.pullMessages = function () {
         var key = Application.masterVM.vmProfile.stardrivekey();
-        var msg_url = "http://stardrive.cloudapp.net/stardriveusers/getMobileMessages.json?key=" + key;
+        var msg_url = HOST + "/stardriveusers/getMobileMessages.json?key=" + key;
         console.log("get messages :", msg_url);
         $.ajax({
             url: msg_url,
@@ -376,19 +445,23 @@ function MessagesViewModel() {
                 console.log("message server data :", data);
                 $("div .message-sub-header #inbox").text(data.length);
                 $("#allmessages").empty();
+                Application.masterVM.vmMessages.allmessages.removeAll();
                 for (var i = 0; i < data.length; i++) {
 
+                    console.log("Inner server data :", data[i]);
                     var msgid = data[i].Message.id;
                     var fromid = data[i].Message.from;
 
-                    var fromname = data[i].From.username + " " + data[i].From.surname;
-                    var toid = data[i].Message.to;
-                    var toname = data[i].To.username + " " + data[i].To.surname;
+                    var fromname = data[i].User.username + " " + data[i].User.surname;
+                    var toid = ""; //data[i].Message.to;
+                    var toname = "To Nmae"; // data[i].To.username + " " + data[i].To.surname;
                     var subject = data[i].Message.heading;
                     var message = data[i].Message.message;
                     var msgdate = data[i].Message.time_sent;
-                    var fromimg = "http://stardrive.cloudapp.net/" + data[i].From.userimage
+                    var fromimg = HOST + "/" + data[i].User.userimage
+                    console.log("data : " + msgdate);
                     msgdate = msgdate.split("-");
+
                     msgdate = new Date(msgdate[0], msgdate[1], msgdate[2]);
 
                     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -399,9 +472,7 @@ function MessagesViewModel() {
                     if (data[i].Message.reminder_id != "0") {
                         fromname = "Reminder";
                     }
-
                     Application.masterVM.vmMessages.allmessages.push(new Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg));
-
                 }
                 console.log("all messages ", Application.masterVM.vmMessages.allmessages());
 
@@ -432,15 +503,17 @@ function WeatherViewModel() {
             data: {},
             success: function (data) {
                 //console.log(data.main.temp);
-                Application.masterVM.vmWeather.pic("http://openweathermap.org/img/w/" + data.weather[0].icon);
-                Application.masterVM.vmWeather.town("Cape Town");
-                Application.masterVM.vmWeather.degree(Math.round(data.main.temp * 10) / 10 + " &deg;C ");
-                Application.masterVM.vmWeather.description(data.weather[0].description);
+                if (typeof (data.weather) != 'undefined') {
+                    Application.masterVM.vmWeather.pic("http://openweathermap.org/img/w/" + data.weather[0].icon);
+                    Application.masterVM.vmWeather.town("Cape Town");
+                    Application.masterVM.vmWeather.degree(Math.round(data.main.temp * 10) / 10 + " &deg;C ");
+                    Application.masterVM.vmWeather.description(data.weather[0].description);
+                }
             },
             dataType: 'json'
-        });        
-    
-    
+        });
+
+
     }
 
 }
@@ -465,8 +538,7 @@ function Alert(alert_id, alert_type, alert_location, alert_description, alert_da
         deCarta.Core.Configuration.defaultHiResConfig = 'tomtom';
         deCarta.Core.Configuration.url = 'http://ws.mapit.co.za/openls/JSON';
         deCarta.Core.Configuration.clientPassword = 'e35613cbc0f797747787ba1d936617a0';
-      
-        //console.log("before geocode");
+        console.log("before geocode : ", self.alert_location());
         //console.log(pinobj);
         var start_loc;
         deCarta.Core.Geocoder.reverseGeocode(
@@ -479,7 +551,7 @@ function Alert(alert_id, alert_type, alert_location, alert_description, alert_da
 			     if (start_loc.Address.countrySubdivision) {
 			         start_loc = start_loc.Address.countrySubdivision;
 			         alert(start_loc.Address.countrySubdivision + " - " + start_loc.Address.municipality + ' ' + start_loc.Address.municipalitySubdivision);
-			         console.log(start_loc);
+			         console.log("start loc : ",start_loc);
 			         // return start_loc.Address.countrySubdivision;
 			        
 			     } else {
@@ -498,13 +570,23 @@ function Alert(alert_id, alert_type, alert_location, alert_description, alert_da
 
 
 }
-
+function GetOwnerId(){
+    var subscriberid = Application.masterVM.vmProfile.subscriberid();
+    var url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/qualifyingvehicles?subscriberId=" + subscriberid;
+    $.ajax({
+        url: url,
+        async: false,
+        data: {},
+        success: function (data) {
+            console.log("OwnerId : ", data);
+            Application.masterVM.vmProfile.ownerid(data[0].OwnerId);
+        },
+        dataType: 'json'
+    });
+}
 function AlertsViewModel() {
     var self = this;
     self.allalerts = ko.observableArray();
-
-
-
     /*
     ko.bindingHandlers.reversegeocode = {
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -531,28 +613,44 @@ function AlertsViewModel() {
     }
 
     self.pullAlerts = function () {
+        var DAYS = 20;
+        var date = new Date();
+        var newdate = new Date(date);
+        newdate.setDate(newdate.getDate() - DAYS);
 
+        var fromDate = new Date(newdate);
+        var toDate = new Date();
+
+        fromDate = fromDate.getFullYear() + "-" + ("0" + (fromDate.getMonth() + 1)).slice(-2) + "-" + (("0" + fromDate.getDate()).slice(-2)) + "T00:00:00.000Z";
+        toDate = toDate.getFullYear() + "-" + ("0" + (toDate.getMonth() + 1)).slice(-2) + "-" + (("0" + toDate.getDate()).slice(-2)) + "T00:00:00.000Z";
+        var ownerId = Application.masterVM.vmProfile.ownerid();
+        var url = "http://infaz-dev-tfs.cloudapp.net/PublicApi/notificationhistory?ownerId="+ownerId+"&fromDate=" + fromDate + "&toDate=" + toDate;
+        console.log("notifications :", url);
         $.ajax({
-            url: window.location.pathname + '/../json/getalerts.js',
+            url: url,
             data: {},
             success: function (data) {
-                console.log(data);
+                console.log("user alerts : ", data);
+                Application.masterVM.vmAlerts.allalerts.removeAll();
                 for (var i = 0; i < data.length; i++) {
 
-                    var alert_id = data[i].Useralert.id;
-                    var alert_type = data[i].Useralert.alert_type;
+                    var alert_id = data[i].Id;
+                    var alert_type = data[i].Location.EventDescription;
 
-                    var alert_location = data[i].Alertcords[0] + " , " + data[i].Alertcords[1];
+                    var alert_location = data[i].Location.Latitude + " , " + data[i].Location.Longitude;
                     Date.prototype.addHours = function (h) {
                         this.setHours(this.getHours() + h);
                         return this;
                     }
 
-                    var alert_date = new Date().addHours(-3);
+                    var alert_date_tmp = data[i].DateTime.split("T");
+                    var alert_date = alert_date_tmp[0];
+                    var alert_time = alert_date_tmp[1].split(".");
+                    alert_date = alert_date + " " + alert_time[0];
 
                     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-                    alert_date = monthNames[alert_date.getMonth()] + " " + alert_date.getMonth() + ', ' + alert_date.getUTCFullYear() + " " + data[i].Alerttime+":00 AM";
+                    //alert_date = monthNames[alert_date.getMonth()] + " " + alert_date.getMonth() + ', ' + alert_date.getUTCFullYear() + " " + data[i].Alerttime + ":00 AM";
 
                     var alert_description = "";
                     switch (alert_type) {
@@ -569,29 +667,20 @@ function AlertsViewModel() {
                             alert_description = "Vehicle registration: " + data[i].Vehicle.registration + " exceeding time rule";
                             break;
                         case "Geo-fencing":
-                            alert_description = "Vehicle registration: <span class='colorblue'>" + data[i].Vehicle.registration + "</span><br/>" + data[i].Useralert.zone_type + ": <span class='colorblue'>" + data[i].Zone.zonename+"</span>";
+                            alert_description = "Vehicle registration: <span class='colorblue'>" + data[i].Vehicle.registration + "</span><br/>" + data[i].Useralert.zone_type + ": <span class='colorblue'>" + data[i].Zone.zonename + "</span>";
                             break;
                         case "Impact":
                             alert_description = "Vehicle with registration " + data[i].Vehicle.registration + " had an Impact";
                             break;
-
                     }
-
-
+                    console.log("alerts : ", alert_id, "-", alert_type, "-", alert_location, "-", alert_description, "-", alert_date);
                     Application.masterVM.vmAlerts.allalerts.push(new Alert(alert_id, alert_type, alert_location, alert_description, alert_date));
-
-
-
                 }
                 console.log(Application.masterVM.vmMessages.allmessages);
-
             },
             dataType: 'json'
         });
-
     };
-
-
 }
 
 function Friend(friendid, friend_name, friend_img) {
@@ -606,25 +695,21 @@ function FriendsViewModel() {
     var self = this;
     self.allfriends = ko.observableArray();
     self.showAddFriend = function () {
-        Application.gotoPage("page-addfriend");
+        console.log("showing friends screen");
+        //Application.gotoPage("page-addfriend");
     }
 
     self.addfriend = function () {
         //Send friend request
         console.log("adding friend");
     }
-
     self.delfriend = function () {
-
-
         Application.masterVM.vmFriends.allfriends.remove(this);
-    
-    
     };
 
     self.pullFriends = function () {
         var key = Application.masterVM.vmProfile.stardrivekey();
-        var friend_url = "http://stardrive.cloudapp.net/stardriveusers/getMobileFriends.json?key=" + key;
+        var friend_url = HOST + "/stardriveusers/getMobileFriends.json?key=" + key;
         //var demo_url = window.location.pathname + '/../json/getfriends.js';
         $.ajax({
             url: friend_url,
@@ -855,25 +940,28 @@ function StarRatingViewModel() {
     self.pullRatings = function (numdays) {
 
         $.ajax({
-            url: window.location.pathname + '/../json/' + numdays + 'dayrating.js',
+            //url: window.location.pathname + '/../json/' + numdays + 'dayrating.js',
+            url: netstarpath + "driverscore?vehicleId=" + Application.masterVM.vmProfile.vehicleid() + "&lastNoOfDay=" + numdays,
             data: {},
             success: function (data) {
-                var rating = data.rating;
-                var speeding10 = data.speeding10;
-                var speeding15 = data.speeding15;
-                var speeding20 = data.speeding20;
-                var braking = data.braking;
-                var lanechanges = data.lanechanges;
-                var accidents = data.accidents;
-                var acceleration = data.acceleration;
-                var cornering = data.cornering;
-                var frequency = data.frequency;
-                var time = data.time;
-                var age = data.age;
-                var make = data.make;
-                var color = data.color;
-                var ratingchangecount = data.ratingchangecount;
-                var ratingchange = data.ratingchange;
+                console.log(data);
+
+                var rating = data.Score;
+                var speeding10 = data.Categories[3].Score;
+                var speeding15 = "0";
+                var speeding20 = "0";
+                var braking = data.Categories[1].Score;
+                var lanechanges = data.Categories[4].Score;
+                var accidents = data.Categories[7].Score;
+                var acceleration = data.Categories[2].Score;
+                var cornering = data.Categories[0].Score;
+                var frequency = data.Categories[6].Score;
+                var time = data.Categories[5].Score;
+                var age = "35";
+                var make = "2014";
+                var color = "10";
+                var ratingchangecount = data.Incidents.length;
+                var ratingchange = data.Incidents;
                 self.sevendayrating(new StarRating(rating, speeding10, speeding15, speeding20, braking, lanechanges, accidents, acceleration, cornering, frequency, time, age, make, color, ratingchangecount, ratingchange));
 
 
@@ -890,7 +978,7 @@ function StarRatingViewModel() {
                 }
                 $("#currentscore").html(rating);
                 $("#headingrating").html(rating);
-                $("#profilerating").html(rating);
+                $("#profilescore").html(rating);
                 self.calculateRiskProfile(data);
                 console.log("options");
                 console.log(self.pieOptions);
@@ -906,28 +994,32 @@ function StarRatingViewModel() {
 
     self.setsliders = function (data) {
 
-        self.sliderValues([data.speeding10, data.accidents, data.acceleration, data.braking, data.cornering, data.frequency, data.time]);
+        self.sliderValues([data.Categories[3].Score, data.Categories[7].Score, data.Categories[2].Score, data.Categories[1].Score, data.Categories[0].Score, data.Categories[6].Score, data.Categories[5].Score]);
 
-     
+
 
     }
+
+
+
+
 
     self.slideoneup = function (data, event) {
 
         var selectedslider = ($(event.target).prev().attr('id')).replace('slider', '');
 
-        if (parseInt(self.sliderValues()[selectedslider]) < 21) {
+        if (parseInt(self.sliderValues()[selectedslider]) < 100) {
             self.sliderValues()[selectedslider] += 1;
 
             $(event.target).prev().slider('value', $(event.target).prev().slider('value') + $(event.target).prev().slider("option", "step")); ;
             self.calculateRiskProfile();
 
-            $("#slideBoxValue" + selectedslider).html((21 - self.sliderValues()[selectedslider]) + " Alerts");
-            $(event.target).prev().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 21 * 100) + "%");
+            $("#slideBoxValue" + selectedslider).html((100 - self.sliderValues()[selectedslider]) + " Alerts");
+            $(event.target).prev().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 100 * 100) + "%");
 
         }
 
-        if (selectedslider == 5) {
+        if (selectedslider == 50) {
 
             if (parseInt(self.sliderValues()[selectedslider]) < 31) {
 
@@ -957,7 +1049,7 @@ function StarRatingViewModel() {
 
         }
 
-        if (selectedslider == 6) {
+        if (selectedslider == 60) {
 
             if (parseInt(self.sliderValues()[selectedslider]) < 24) {
 
@@ -993,11 +1085,11 @@ function StarRatingViewModel() {
             self.sliderValues()[selectedslider] -= 1;
             $(event.target).next().slider('value', $(event.target).next().slider('value') - $(event.target).next().slider("option", "step")); ;
             self.calculateRiskProfile();
-            $("#slideBoxValue" + selectedslider).html((21 - self.sliderValues()[selectedslider]) + " Alerts");
-            $(event.target).next().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 21 * 100) + "%");
+            $("#slideBoxValue" + selectedslider).html((100 - self.sliderValues()[selectedslider]) + " Alerts");
+            $(event.target).next().find(".ui-slider-handle").html(Math.round(self.sliderValues()[selectedslider] / 100 * 100) + "%");
 
 
-            if (selectedslider == 5) {
+            if (selectedslider == 50) {
 
                 if (parseInt(self.sliderValues()[selectedslider]) > 0) {
                     self.sliderValues()[selectedslider] -= 1;
@@ -1026,7 +1118,7 @@ function StarRatingViewModel() {
 
 
 
-            if (selectedslider == 6) {
+            if (selectedslider == 60) {
 
                 if (parseInt(self.sliderValues()[selectedslider]) > 0) {
 
@@ -1065,6 +1157,10 @@ function StarRatingViewModel() {
     self.calculateRiskProfile = function (data) {
         //alert(self.sliderValues()[0]);
         //static values. will be gotten from the profile.
+
+
+
+
         var _speeding10 = 0.75;
         var _speeding15 = 3.75;
         var _speeding20 = 15;
@@ -1081,7 +1177,7 @@ function StarRatingViewModel() {
         var vehicleMake = (self.sevendayrating().make()) ? self.sevendayrating().make() : data.make;
         var vehicleColour = (self.sevendayrating().color()) ? self.sevendayrating().color() : data.color;
         //variable values. changed on the sliders.
-        var speeding10 = 15 - (self.sliderValues()[0] - 1) * _speeding10;
+        var speeding10 = 15 - (self.sliderValues()[0]) * _speeding10;
         //var speeding15 = 15-(sliderValues[1] -1) * _speeding15;
         //var speeding20 = 15-(sliderValues[2] -1) * _speeding20;
         //var speeding = 15-(speeding10+speeding15+speeding20);
@@ -1089,14 +1185,15 @@ function StarRatingViewModel() {
         if (speeding < 0) {
             speeding = 0;
         }
-        var harshAcceleration = (self.sliderValues()[2] - 1) * _acceleration;
-        var harshBraking = (self.sliderValues()[3] - 1) * _braking;
-        var harshCornering = (self.sliderValues()[4] - 1) * _cornering;
-        var frequency = _frequency[(self.sliderValues()[5] - 1)];
-        var time = _time[(self.sliderValues()[6] - 1)];
+        var harshAcceleration = (self.sliderValues()[2]) * _acceleration;
+        var harshBraking = (self.sliderValues()[3]) * _braking;
+        var harshCornering = (self.sliderValues()[4]) * _cornering;
+        //var frequency = _frequency[self.sliderValues()[5]];
+        var frequency = self.sliderValues()[5];
+        var time = self.sliderValues()[6];
 
-        var laneChanges = (self.sliderValues()[2] - 1) * 25; //worthless
-        var accidents = (self.sliderValues()[1] - 1); 	//worthless
+        var laneChanges = (self.sliderValues()[2]) * 25; //worthless
+        var accidents = (self.sliderValues()[1]); 	//worthless
 
         //risk calculations
         var lc = laneChanges * 0;
@@ -1105,15 +1202,21 @@ function StarRatingViewModel() {
         var vm = vehicleMake * 15 / 100;
         var vc = vehicleColour * 5 / 100;
 
-        riskTotal = (frequency + time + harshAcceleration + harshBraking + harshCornering + age + speeding + vm + vc);
+        riskTotal = (frequency + accidents + time + harshAcceleration + harshBraking + harshCornering + age + speeding + vm + vc);
+
+
+        console.log("slidervalues");
+        console.log(frequency + " - " + time + " - " + harshAcceleration + " - " + harshBraking + " - " + harshCornering + " - " + age + " - " + speeding + " - " + vm + " - " + vc);
+
+
         $("#projectedscore").html(Math.floor(riskTotal)).show();
         $("#projectedscore").prev().show();
         $("#headingscore").html('65');
-        $("#profilescore").html('65'); 
+        $("#profilescore").html(this.sevendayrating.rating);
         //riskTotal = (frequency );
         //alert(( harshAcceleration + harshBraking + harshCornering + age + speeding + vm + vc));
-        //console.log("%%%");
-        //console.log(sliderValues[7] + " - "+time);
+        console.log("%%%");
+        console.log(self.sliderValues[7] + " - " + time);
 
         //alert(self.pieOptions()[0]);
 
@@ -1124,6 +1227,13 @@ function StarRatingViewModel() {
 
 
     self.drawplotgraph = function (data) {
+
+
+        console.log("incidents");
+        console.log(data.Incidents);
+
+
+
         var cata = [];
         var chartSeriesData = [{
             name: 'Star Rating',
@@ -1134,101 +1244,101 @@ function StarRatingViewModel() {
         var pointcolor;
         console.log("sdf");
         console.log(data);
-        for (var i = 0; i < data.ratingchangecount; i++) {
-           // console.log("njkl");
-            cata.push(data.ratingchange[i].rating);
+
+
+        var myrate = data.Score;
+        var prevscore = myrate;
+
+        for (var i = data.Incidents.length - 1; i >= 0; i--) {
+            // console.log("njkl");
+            //cata.push(data.ratingchange[i].rating);
             //if (i != 1 && i != 2) {
-            
-            if (i > 0) {
-                if (data.ratingchange[i].rating > data.ratingchange[i - 1].rating) {
-            sym = 'url(../img/1up.png)';
-            pointcolor = "#00FF00";
-            } else {
-            sym = 'url(../img/1down.png)';
-            pointcolor = "#FF0000";
-            }
-            } else {
-            sym = 'url(../img/1up.png)';
-            pointcolor = "#00FF00";
-            }
+            if (data.Incidents[i].Deduction)
+                myrate = myrate + data.Incidents[i].Deduction;
+            else
+                myrate = myrate - data.Incidents[i].Deduction;
+
+
 
             //chartSeriesData[0].data.push({y:starRate.ratingchange[i].rating,marker:{symbol:sym}});
-            if (i != data.ratingchangecount - 1) {
-                chartSeriesData[0].data.push({ y: data.ratingchange[i].rating });
-            } else {
-                //chartSeriesData[0].data.push({y:starRate.ratingchange[i].rating,marker:{fillColor:pointcolor, radius: 17, states: { hover :{enabled: false}}}});
-                chartSeriesData[0].data.push({ y: data.ratingchange[i].rating, marker: { symbol: "url(/images/star_orange_icon.png)"} });
-                //url(http://highcharts.com/demo/gfx/sun.png)
-            }
-            
+            //if (i != data.Incidents.length - 1) {
+            chartSeriesData[0].data.push({ y: myrate });
+            //} else {
+            //chartSeriesData[0].data.push({y:starRate.ratingchange[i].rating,marker:{fillColor:pointcolor, radius: 17, states: { hover :{enabled: false}}}});
+            //url(http://highcharts.com/demo/gfx/sun.png)
+            //}
+
 
             //}
         }
 
+        chartSeriesData[0].data.reverse();
+        chartSeriesData[0].data.push({ y: data.Score, marker: { symbol: "url(/images/star_orange_icon.png)"} });
 
 
-         $('#plotGraphContainer').highcharts({				
-                        title: { text: "" },
-                        legend: { enabled: false },
-                        credits: { enabled: false },
-                        tooltip: { enabled: false },
-                        exporting: { enabled: false },
-                        xAxis: {labels: {
-                        enabled: false
-                    }//,
-                       //     categories: cata
-                        },
-                        yAxis: {
-                            title: {
+
+        $('#plotGraphContainer').highcharts({
+            title: { text: "" },
+            legend: { enabled: false },
+            credits: { enabled: false },
+            tooltip: { enabled: false },
+            exporting: { enabled: false },
+            xAxis: { labels: {
+                enabled: false
+            }//,
+                //     categories: cata
+            },
+            yAxis: {
+                title: {
+                    enabled: false
+                },
+                gridLineColor: '#E6E6E6'
+            },
+            series: chartSeriesData,
+            plotOptions: {
+                series: {
+                    marker: {
+                        states: {
+                            hover: {
                                 enabled: false
-                            },		    
-                            gridLineColor: '#E6E6E6'
-                        },
-                        series: chartSeriesData,
-				        plotOptions: {
-								        series: {
-                        marker: {
-                            states: {
-                                hover: {
-                                    enabled: false
-                                }
                             }
                         }
                     }
-				        }
+                }
+            }
 
-            });
+        });
 
 
 
-            $('#pieGraphContainer').highcharts({
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false
-                },
-                credits: { enabled: false },
-                title: { text: "" },
-                tooltip: { enabled: true, formatter: function () {
-                    return '<b>' + this.point.name +
+        $('#pieGraphContainer').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            credits: { enabled: false },
+            title: { text: "" },
+            tooltip: { enabled: true, formatter: function () {
+                return '<b>' + this.point.name +
                     '</b> is <b>' + Math.floor(this.y) + '</b>';
-                } 
-                },
-                exporting: { enabled: false },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: false,
-                        dataLabels: { enabled: false },
-                        showInLegend: true
-                    }
-                },
-                legend: {
-                    verticalAlign: 'top'
-                },
-                series: [{
-                    type: 'pie',
-                    name: 'Star Rating Composition',
-                    data: [
+            }
+            },
+            exporting: { enabled: false },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    dataLabels: { enabled: false },
+                    showInLegend: true
+                }
+            },
+            legend: {
+                verticalAlign: 'top'
+            },
+            series: [{
+                type: 'pie',
+                name: 'Star Rating Composition',
+                data: [
 					['Speeding', self.pieOptions()[0]],
 					['Acceleration', self.pieOptions()[1]],
 					['Braking', self.pieOptions()[2]],
@@ -1237,86 +1347,40 @@ function StarRatingViewModel() {
 					['Time', self.pieOptions()[5]],
 					['Impacts', self.pieOptions()[6]]
 				]
-                }]
+            }]
+        });
+
+    }
+
+
+    ko.bindingHandlers.slider = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            console.log(self.sliderValues());
+            //alert(self.sliderValues()[$(element).attr("rel")]);
+            var options = allBindingsAccessor().sliderOptions || {};
+            $(element).slider(options);
+            $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 100 * 100) + "%");
+            ko.utils.registerEventHandler(element, "slidechange", function (event, ui) {
+
+                var observable = valueAccessor();
+                //observable(ui.value);
+                //Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
+                // Application.masterVM.vmStarRating.calculateRiskProfile();
             });
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element).slider("destroy");
+            });
+            ko.utils.registerEventHandler(element, "slide", function (event, ui) {
+                //var observable = valueAccessor();
+                //observable(ui.value);
+                self.sliderValues()[$(element).attr("rel")] = (ui.value);
+                self.calculateRiskProfile();
+                //if ($(element).attr("rel") != 5 && $(element).attr("rel") != 6) {
+                $("#slideBoxValue" + $(element).attr("rel")).html(100 - ui.value + " Alerts");
+                $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 100 * 100) + "%");
+                //}
 
-        }
-
-
-        ko.bindingHandlers.slider = {
-            init: function (element, valueAccessor, allBindingsAccessor) {
-                console.log(self.sliderValues());
-                //alert(self.sliderValues()[$(element).attr("rel")]);
-                var options = allBindingsAccessor().sliderOptions || {};
-                $(element).slider(options);
-                $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 21 * 100) + "%");
-                ko.utils.registerEventHandler(element, "slidechange", function (event, ui) {
-
-                    var observable = valueAccessor();
-                    //observable(ui.value);
-                    //Application.masterVM.vmStarRating.sliderValues()[event.data.c] = (ui.value);
-                    // Application.masterVM.vmStarRating.calculateRiskProfile();
-                });
-                ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                    $(element).slider("destroy");
-                });
-                ko.utils.registerEventHandler(element, "slide", function (event, ui) {
-                    //var observable = valueAccessor();
-                    //observable(ui.value);
-                    self.sliderValues()[$(element).attr("rel")] = (ui.value);
-                    self.calculateRiskProfile();
-                    if ($(element).attr("rel") != 5 && $(element).attr("rel") != 6) {
-                        $("#slideBoxValue" + $(element).attr("rel")).html(21 - ui.value + " Alerts");
-                        $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 21 * 100) + "%");
-                    }
-
-                    if ($(element).attr("rel") == 5) {
-                        $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 31 * 100) + "%");
-                        $("#slideBoxValue" + $(element).attr("rel")).html(31 - self.sliderValues()[$(element).attr("rel")] + " Alerts");
-
-
-                        switch (true) {
-                            case self.sliderValues()[$(element).attr("rel")] >= 16:
-                                $("#slideBoxValue" + $(element).attr("rel")).html("23-31 days");
-                                break;
-                            case self.sliderValues()[$(element).attr("rel")] <= 15 && (self.sliderValues()[$(element).attr("rel")] >= 10):
-                                $("#slideBoxValue" + $(element).attr("rel")).html("16-22 days");
-                                break;
-                            case self.sliderValues()[$(element).attr("rel")] <= 10:
-                                $("#slideBoxValue" + $(element).attr("rel")).html("0-15 days");
-                                break;
-                        }
-                    }
-
-                    if ($(element).attr("rel") == 6) {
-                        $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 24 * 100) + "%");
-
-
-                        switch (true) {
-                            case self.sliderValues()[$(element).attr("rel")] >= 16:
-                                $("#slideBoxValue" + $(element).attr("rel")).html("04AM-11PM");
-                                break;
-                            case self.sliderValues()[$(element).attr("rel")] <= 15:
-                                $("#slideBoxValue" + $(element).attr("rel")).html("11PM-04AM");
-                                break;
-                        }
-                    }
-
-
-                });
-            },
-            update: function (element, valueAccessor) {
-                var value = ko.utils.unwrapObservable(valueAccessor());
-                if (isNaN(value)) value = 0;
-                $(element).slider("value", value);
-
-                if ($(element).attr("rel") != 5 && $(element).attr("rel") != 6) {
-                    $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 21 * 100) + "%");
-                    $("#slideBoxValue" + $(element).attr("rel")).html(21 - self.sliderValues()[$(element).attr("rel")] + " Alerts");
-                }
-
-
-                if ($(element).attr("rel") == 5) {
+                if ($(element).attr("rel") == 50) {
                     $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 31 * 100) + "%");
                     $("#slideBoxValue" + $(element).attr("rel")).html(31 - self.sliderValues()[$(element).attr("rel")] + " Alerts");
 
@@ -1332,12 +1396,9 @@ function StarRatingViewModel() {
                             $("#slideBoxValue" + $(element).attr("rel")).html("0-15 days");
                             break;
                     }
-
-
-
                 }
 
-                if ($(element).attr("rel") == 6) {
+                if ($(element).attr("rel") == 60) {
                     $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 24 * 100) + "%");
 
 
@@ -1352,12 +1413,61 @@ function StarRatingViewModel() {
                 }
 
 
-                //Application.masterVM.vmStarRating.calculateRiskProfile();
+            });
+        },
+        update: function (element, valueAccessor) {
+            //  alert("p");
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            if (isNaN(value)) value = 0;
+            $(element).slider("value", value);
+
+            //if ($(element).attr("rel") != 5 && $(element).attr("rel") != 6) {
+            $(element).find(".ui-slider-handle").html((self.sliderValues()[$(element).attr("rel")] / 100 * 100) + "%");
+            $("#slideBoxValue" + $(element).attr("rel")).html(100 - self.sliderValues()[$(element).attr("rel")] + " Alerts");
+            //}
+
+
+            if ($(element).attr("rel") == 50) {
+                $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 31 * 100) + "%");
+                $("#slideBoxValue" + $(element).attr("rel")).html(31 - self.sliderValues()[$(element).attr("rel")] + " Alerts");
+
+
+                switch (true) {
+                    case self.sliderValues()[$(element).attr("rel")] >= 16:
+                        $("#slideBoxValue" + $(element).attr("rel")).html("23-31 days");
+                        break;
+                    case self.sliderValues()[$(element).attr("rel")] <= 15 && (self.sliderValues()[$(element).attr("rel")] >= 10):
+                        $("#slideBoxValue" + $(element).attr("rel")).html("16-22 days");
+                        break;
+                    case self.sliderValues()[$(element).attr("rel")] <= 10:
+                        $("#slideBoxValue" + $(element).attr("rel")).html("0-15 days");
+                        break;
+                }
+
+
+
             }
-        };
 
-    }
+            if ($(element).attr("rel") == 60) {
+                $(element).find(".ui-slider-handle").html(Math.round(self.sliderValues()[$(element).attr("rel")] / 24 * 100) + "%");
 
+
+                switch (true) {
+                    case self.sliderValues()[$(element).attr("rel")] >= 16:
+                        $("#slideBoxValue" + $(element).attr("rel")).html("04AM-11PM");
+                        break;
+                    case self.sliderValues()[$(element).attr("rel")] <= 15:
+                        $("#slideBoxValue" + $(element).attr("rel")).html("11PM-04AM");
+                        break;
+                }
+            }
+
+
+            //Application.masterVM.vmStarRating.calculateRiskProfile();
+        }
+    };
+
+}
 function Vehicle(vehicleid, description, status, avatar, registration, trips) {
         var self = this;
         self.VehicleId = ko.observable(vehicleid);
@@ -1392,7 +1502,14 @@ function Vehicle(vehicleid, description, status, avatar, registration, trips) {
         };
 
     }
-
+    function LastTrip(tripid, startposition, registration, triptype, tripdate) {
+        var self = this;
+        self.tripid = ko.observable(tripid);
+        self.startposition = ko.observable(startposition);
+        self.triptype = ko.observable(triptype);
+        self.registration = ko.observable(registration);
+        self.tripdate = ko.observable(tripdate);
+    }
 function Trip(VehicleId, tripid, drivetime, endtime, idletime, maxspeed, startdate, startometer, totaldistance, triptime) {
         var self = this;
         self.VehicleId = ko.observable(VehicleId);
@@ -1414,6 +1531,5 @@ function StarsightViewModel() {
         self.tripstoshow = ko.observableArray();
 
     
-    
-    
+       
     }
