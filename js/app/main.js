@@ -2,6 +2,7 @@
 var swipebutton="1";
 var template = "";
 var selectedvehicle = 1;
+var HOST = "http://www.stardrive.cloudapp.net";
 
 $(document).ready(function () {
 
@@ -45,7 +46,8 @@ $(document).ready(function () {
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('latestalert'));
     ko.applyBindings(Application.masterVM.vmAlerts, document.getElementById('alerttotal'));
     ko.applyBindings(Application.masterVM.vmMessages, document.getElementById('msgtotal')); 
-
+    ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('latestTrip'));    
+   
     //bindings for user address edit screens
     ko.applyBindings(Application.masterVM.vmProfile, document.getElementById('page-homeaddress'));
 
@@ -234,24 +236,29 @@ function APPMANAGER() {
         Application.masterVM.vmMessages.pullMessages();
     }
     APPMANAGER.prototype.gotoPage = function (pageName) {
+        console.log("current page:", pageName);
+        /* change title alignment in different sessions */
         //CLOSE ALL WINDOWS
         this.closePages();
         $("#menu").hide('slide', {direction: 'right'}, 300);
         //SHOW THE SELECTED WINDOW        
         if(pageName == "page-profile"){ $("#profile-footer").show(); }
         else{ $("#profile-footer").hide(); }
+        if(pageName == "page-login"){
+            $("div #pageheader span#title.title").css({"text-align":"center"});   
+        }else{
+            $("div #pageheader span#title.title").css({"text-align":"left"});   
+        }
         this.showpage(pageName);
-       //var mySwiper = new Swiper('.vehicleslide');
-    //var mySwiper = $('.vehicleslide').swiper({
-    //Your options here:
-   // mode:'horizontal',
-   // loop: true,
-   // grabCursor: true
-    //etc..
-  //});
-       //reinitSwiper(mySwiper);
-
- 
+        //var mySwiper = new Swiper('.vehicleslide');
+        //var mySwiper = $('.vehicleslide').swiper({
+        //Your options here:
+        // mode:'horizontal',
+        // loop: true,
+        // grabCursor: true
+        //etc..
+        //});
+        //reinitSwiper(mySwiper);
 
    if($("#" + pageName).attr('title') == "StarSight"){
        $("#demo").dragend({
@@ -376,12 +383,55 @@ function setTripLogBook(element){
     var loObject = $(element);
     if (loObject.text() == "B"){
         loObject.text("P");
+        Application.masterVM.vmProfile.LastTrips()[0].triptype() = "false";
+        Application.masterVM.vmProfile.setTripStatus();
+
     }
     else {
         loObject.text("B");
+        Application.masterVM.vmProfile.LastTrips()[0].triptype() = "true";
+        Application.masterVM.vmProfile.setTripStatus();
+
     }
 
 }
+
+
+function setTripLogBookbyid(element, id){
+
+var TripStatus;
+
+    var loObject = $(element);
+    if (loObject.text() == "B"){
+        loObject.text("P");
+        TripStatus = "true";
+    }
+    else {
+        loObject.text("B");
+        TripStatus = "false";
+    }
+        var url = netstarpath + "/updatetripinfo";
+
+        var tripdata = {
+            tripId: id,
+            isBusiness: TripStatus
+        }
+        //console.log(tripdata);
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: tripdata,
+            success: function (data) {
+
+            },
+            dataType: 'json'
+        });
+
+
+}
+
+
 
 function showmsgcontrol(element) {
         //alert();
@@ -522,8 +572,19 @@ function swipeaction(self){
                 //console.log(Application.masterVM.vmProfile.netstarkey());
                 //console.log($(this.activeElement).attr("rel") +  " **** " + this.page +" %%% " + swipebutton);
                
-                gettrips($(self.activeElement).attr("rel"));
-                setTimeout(getstatus($(self.activeElement).attr("rel"), self.activeElement), 1000);
+               setTimeout(gettrips($(self.activeElement).attr("rel")), 2000);
+                
+                
+                setTimeout(
+                
+                function(){
+
+                    getstatus($(self.activeElement).attr("rel"), self.activeElement);
+                
+                }
+                
+                
+                , 30000);
 
                 //console.log(this.activeElement);
                 //console.log($(this.activeElement).attr("rel"));            
@@ -541,7 +602,7 @@ function swipeaction(self){
                                                 console.log("thistrip");
                                                 console.log(thistrip);
                                                 
-                                                gettripdetail(thistrip.Id);
+                                                gettripdetail(thistrip);
 
                                             }
                                 
@@ -578,10 +639,13 @@ function swipeaction(self){
                           // $('#preloader').hide();
                 }, 1000);
                 
-
+                /*
             setTimeout(function(){
             
                     $(".busprivbut").click(function () {
+
+                        alert("clicked");
+
                     <!-- a comment -->
                         if ($(this).html() == "B") {
                             $(this).html("P");
@@ -593,7 +657,7 @@ function swipeaction(self){
               //  $('#preloader').hide();
             
             
-            }, 15000);
+            }, 10000);*/
 
 
 
