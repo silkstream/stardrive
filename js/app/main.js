@@ -2,7 +2,7 @@
 var swipebutton="1";
 var template = "";
 var selectedvehicle = 1;
-var HOST = "http://www.stardrive.cloudapp.net";
+var HOST = "http://stardrive.cloudapp.net";
 
 $(document).ready(function () {
 

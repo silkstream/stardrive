@@ -318,7 +318,7 @@ function ProfileViewModel() {
     }
 
     self.getLastTrip = function () {
-        var url = netstarpath +"trips?vehicleId=9&fromDate=2014-03-28T00:00:00.0620867Z&toDate=2014-04-16T15:27:00.0620867Z";
+        var url = netstarpath + "trips?vehicleId=9&fromDate=2014-03-28T00:00:00.0620867Z&toDate=2014-04-16T15:27:00.0620867Z";
 
         $.ajax({
             url: url,
@@ -326,8 +326,8 @@ function ProfileViewModel() {
             success: function (data) {
                 tripid = data[0].Id;
                 tripdate = data[0].Start.DateTime;
-                Application.masterVM.vmProfile.LastTrips.push(new LastTrip(tripid, data[0].Start.GeoAddress, 9, 3, tripdate));
-
+                tripdate = formatDateTime(tripdate);
+                Application.masterVM.vmProfile.LastTrips.push(new LastTrip(tripid, data[0].Start.GeoAddress, 9, 3, "("+tripdate+")"));
             },
             dataType: 'json'
         });
@@ -335,7 +335,12 @@ function ProfileViewModel() {
 
 
 }
-
+function formatDateTime(date_time) {
+    var date_tmp = date_time.split("T");
+    var date     = date_tmp[0];
+    var time     = date_tmp[1].split(".");
+    return (date + " " + time[0]);
+}
 function Message(msgid, fromid, fromname, toid, toname, subject, message, msgdate, reminder, fromimg) {
     var self = this;
     self.msgid = ko.observable(msgid);
